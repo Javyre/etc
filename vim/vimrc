@@ -1,0 +1,94 @@
+" Obey XDG standards - The last feature vim will probably copy from neovim {{{
+set undodir=$XDG_CACHE_HOME/vim/undo
+set directory=$XDG_CACHE_HOME/vim/swap,~/,/tmp
+set backupdir=$XDG_CACHE_HOME/vim/backup,~/,/tmp
+set viminfo+='1000,n$XDG_CACHE_HOME/vim/viminfo
+set runtimepath=$XDG_CONFIG_HOME/vim,$VIMRUNTIME,$XDG_CONFIG_HOME/vim/after
+"}}}
+
+" Plug {{{
+" Auto-install vimplug if non-existant {{{
+if empty(glob('$XDG_CONFIG_HOME/vim/autoload/plug.vim'))
+  silent execute "!curl -fLo $XDG_CONFIG_HOME/vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
+" }}}
+
+call plug#begin('$XDG_DATA_HOME/vim/plugged')
+
+Plug 'tomasr/molokai'
+Plug 'NLKNguyen/papercolor-theme'
+
+Plug 'airblade/vim-gitgutter'
+Plug 'itchyny/lightline.vim'
+Plug 'scrooloose/nerdtree'
+
+" Should-be-default-vim
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'junegunn/vim-easy-align'
+
+" Missing langs (mostly for syn highlighting & indentation)
+Plug 'sheerun/vim-polyglot'
+
+call plug#end()
+" }}}
+
+" Options {{{
+filetype plugin on
+syntax on
+set termguicolors
+
+set tabstop=4     " ts
+set softtabstop=4 " sts
+set expandtab     " et
+set shiftwidth=4  " sw
+
+set incsearch  " search while typing
+set hlsearch   " highlight search
+set splitbelow " open below instead of above
+set mouse=a    " mouse movement
+set modeline
+set clipboard=unnamedplus
+
+augroup indent
+    au!
+    au FileType go       setl noet
+    au FileType asm      setl noet ts=6 sw=6 sts=0
+    au FileType make     setl noet ts=8 sw=8 sts=0
+    au FileType *tex     setl tw=72 ts=2 sts=2 sw=2
+    au FileType context  setl tw=72 ts=2 sts=2 sw=2
+    au FileType markdown setl tw=72
+    au FileType yaml     setl ts=2 sts=2 sw=2
+    au FileType scheme   setl ts=2 sts=2 sw=2
+    au FileType dart     setl ts=2 sts=2 sw=2 cino=m1
+    au FileType haskell  setl formatprg=stylish-haskell
+augroup END
+
+" Lightline {{{
+let g:lightline = {
+    \ 'colorscheme': 'molokai',
+    \ }
+" }}}
+" }}}
+
+" Mappings {{{
+    :tnoremap <Esc> <C-\><C-n>
+"}}}
+
+" Colors {{{
+colorscheme molokai
+hi Normal    ctermbg=None guibg=None
+
+" Stolen from sickill/vim-monokai {{{
+hi IncSearch term=reverse cterm=reverse ctermfg=193 ctermbg=16 gui=reverse guifg=#C4BE89 guibg=#000000
+hi Search    term=reverse cterm=None    ctermfg=231 ctermbg=24 gui=None    guifg=#f8f8f2 guibg=#204a87
+
+hi VertSplit ctermfg=241 ctermbg=None cterm=None guifg=#3c3e3f guibg=None gui=None
+
+" }}}
+
+" }}}
+
+
+" vim:foldmethod=marker:filetype=vim

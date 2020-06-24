@@ -1,0 +1,15 @@
+#!/bin/sh
+sv start dbus
+
+echo Service Start...
+
+# jack promiscuous var must be set with same value on all clients to be
+# able to connect to this server and clients must be run with audio group privs
+
+JACK_NO_AUDIO_RESERVATION=1   \
+JACK_PROMISCUOUS_SERVER=audio \
+    exec \
+        jackd -d alsa       \
+        -d hw:Generic 2>&1
+
+    # exec chpst -u javyre:javyre    \

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+sv start jackd
+
+echo Service Start...
+bindir="/home/javyre/.local/src/dev/Jamyx"
+
+RUST_BACKTRACE=1 \
+JACK_PROMISCUOUS_SERVER=audio \
+    exec \
+        "$bindir/target/debug/jam" -c "$bindir/config.json" #1>/tmp/jamyx.log 2>&1
+
+    # exec chpst -u javyre:javyre \

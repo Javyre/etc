@@ -1,0 +1,4 @@
+#!/bin/sh
+logdir="/var/log/$1"
+mkdir "$logdir"
+exec svlogd "$logdir"
