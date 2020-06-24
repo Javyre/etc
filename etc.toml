@@ -10,7 +10,8 @@ deps = ['env']
 links = [['$XDGC/nvim', 'nvim'],
          ['$XDGC/vim', 'vim'],
          ['$XDGC/shell', 'shell'],
-         ['$XDGC/root', 'root']]
+         ['$XDGC/root', 'root'],
+         ['$XDGC/X11', 'X11']]
 
 [tasks.cfg__xps15]
 deps = ['cfg__common']
