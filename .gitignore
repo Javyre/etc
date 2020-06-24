@@ -1,3 +1,4 @@
 /.bin
 /vim/autoload/
+/vim/.netrwhist
 /shell/rc.d/00-wallpaper-env.sh
