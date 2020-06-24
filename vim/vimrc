@@ -7,29 +7,40 @@ set runtimepath=$XDG_CONFIG_HOME/vim,$VIMRUNTIME,$XDG_CONFIG_HOME/vim/after
 "}}}
 
 " Plug {{{
-" Auto-install vimplug if non-existant {{{
+" Auto-install vimplug if non-existant
 if empty(glob('$XDG_CONFIG_HOME/vim/autoload/plug.vim'))
-  silent execute "!curl -fLo $XDG_CONFIG_HOME/vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-  autocmd VimEnter * PlugInstall | source $MYVIMRC
+  silent !curl -fLo $XDG_CONFIG_HOME/vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC 
 endif
-" }}}
 
-call plug#begin('$XDG_DATA_HOME/vim/plugged')
+call plug#begin(stdpath('data') . '/plugged')
 
-Plug 'tomasr/molokai'
 Plug 'NLKNguyen/papercolor-theme'
-
-Plug 'airblade/vim-gitgutter'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'itchyny/lightline.vim'
-Plug 'scrooloose/nerdtree'
-
+Plug 'lambdalisue/fern.vim'
+Plug 't9md/vim-choosewin'
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+" Git
+Plug 'tpope/vim-fugitive'
+Plug 'rbong/vim-flog'
+Plug 'sodapopcan/vim-twiggy'
+" Markdown utils
+Plug 'plasticboy/vim-markdown'
 " Should-be-default-vim
+Plug 'tpope/vim-repeat' 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'junegunn/vim-easy-align'
-
+Plug 'troydm/zoomwintab.vim'
 " Missing langs (mostly for syn highlighting & indentation)
 Plug 'sheerun/vim-polyglot'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'mattn/vim-lsp-settings'
 
 call plug#end()
 " }}}
@@ -44,41 +55,57 @@ set softtabstop=4 " sts
 set expandtab     " et
 set shiftwidth=4  " sw
 
+set ignorecase " ignorecase in search
 set incsearch  " search while typing
 set hlsearch   " highlight search
+set autochdir  " chdir to buffer
 set splitbelow " open below instead of above
 set mouse=a    " mouse movement
+set diffopt+=indent-heuristic,algorithm:histogram " smarter diff
 set modeline
 set clipboard=unnamedplus
 
+set errorformat+=%f(%l\\,%c):\ %m " dmd compiler
+
 augroup indent
     au!
-    au FileType go       setl noet
-    au FileType asm      setl noet ts=6 sw=6 sts=0
-    au FileType make     setl noet ts=8 sw=8 sts=0
-    au FileType *tex     setl tw=72 ts=2 sts=2 sw=2
-    au FileType context  setl tw=72 ts=2 sts=2 sw=2
-    au FileType markdown setl tw=72
-    au FileType yaml     setl ts=2 sts=2 sw=2
-    au FileType scheme   setl ts=2 sts=2 sw=2
-    au FileType dart     setl ts=2 sts=2 sw=2 cino=m1
-    au FileType haskell  setl formatprg=stylish-haskell
+    au FileType go          setl noet
+    au FileType asm         setl noet ts=6 sw=6 sts=0
+    au FileType make        setl noet ts=8 sw=8 sts=0
+    au FileType *tex        setl tw=72 ts=2 sts=2 sw=2
+    au FileType context     setl tw=72 ts=2 sts=2 sw=2
+    au FileType markdown    setl tw=72
+    au FileType yaml        setl ts=2 sts=2 sw=2
+    au FileType scheme      setl ts=2 sts=2 sw=2
+    au FileType dart        setl ts=2 sts=2 sw=2 cino=m1
+    au FileType haskell     setl formatprg=stylish-haskell
+    au FileType d           setl makeprg=dub\ build\ -q
+    au FileType javascript* setl ts=2 sts=2 sw=2 formatprg=npx\ prettier\ --parser=babel
+    au FileType typescript* setl ts=2 sts=2 sw=2 formatprg=npx\ prettier\ --parser=typescript
 augroup END
 
-" Lightline {{{
-let g:lightline = {
-    \ 'colorscheme': 'molokai',
-    \ }
-" }}}
-" }}}
+let g:clap_layout = { 'relative': 'editor' }
 
-" Mappings {{{
-    :tnoremap <Esc> <C-\><C-n>
-"}}}
+let g:lsp_signs_enabled = 0
+let g:lsp_highlight_references_enabled = 1
+let g:lightline = {
+      \ 'colorscheme': 'dracula',
+      \ }
+
+augroup customTwiggy
+    au!
+    au FileType twiggy setl winfixwidth
+    au FileType twiggy nmap <buffer> Fm .merge --ff-only<CR>
+augroup end
+
+" }}}
 
 " Colors {{{
-colorscheme molokai
-hi Normal    ctermbg=None guibg=None
+" colorscheme molokai
+" colorscheme PaperColor
+" hi Normal    ctermbg=None guibg=None
+
+colorscheme dracula
 
 " Stolen from sickill/vim-monokai {{{
 hi IncSearch term=reverse cterm=reverse ctermfg=193 ctermbg=16 gui=reverse guifg=#C4BE89 guibg=#000000
@@ -87,6 +114,45 @@ hi Search    term=reverse cterm=None    ctermfg=231 ctermbg=24 gui=None    guifg
 hi VertSplit ctermfg=241 ctermbg=None cterm=None guifg=#3c3e3f guibg=None gui=None
 
 " }}}
+
+" }}}
+
+" Map {{{
+nmap <expr> <Tab> (foldlevel('.') ? 'za' : '<Tab>')
+vmap <Tab> zf
+
+nmap <M-;> <Cmd>Commentary<CR>
+" vmap <M-;> <Cmd>'<,'>Commentary<CR>
+vmap <M-;> gcgv
+
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
+nmap <Space> <Leader>
+nmap <Leader>bb <Cmd>Clap buffers<CR>
+nmap <Leader>ff <Cmd>Clap filer<CR>
+nmap <Leader>pf <Cmd>Clap git_files<CR>
+nmap <Leader>ps <Cmd>Clap grep2<CR>
+nmap <Leader>sk <Cmd>Clap yanks<CR>
+nmap <Leader>ss <Cmd>Clap blines<CR>
+
+nmap <Leader>la <Cmd>LspCodeAction<CR>
+nmap <Leader>lr <Cmd>LspRename<CR>
+nmap <Leader>le <Cmd>LspDocumentDiagnostics<CR>
+nmap <Leader>ld <Cmd>LspDefinition<CR>
+nmap <Leader>lD <Cmd>LspDeclaration<CR>
+nmap <Leader>ll <Cmd>LspCodeLens<CR>
+nmap <Leader>lf <Cmd>LspDocumentFormat<CR>
+
+nmap <Leader>gf <Cmd>Git fetch<CR>
+nmap <Leader>gF <Cmd>Git pull --rebase<CR>
+nmap <Leader>gs <Cmd>vertical Git<CR>
+nmap <Leader>gl <Cmd>Flog -all -format=[%h]\ (%ar)\ %s%d\ {%an}<CR>
+nmap <Leader>gt <Cmd>Twiggy<CR>
+
+nmap <Leader>tt <Cmd>Fern . -drawer -toggle -reveal=%<CR>
+
+nmap <Leader>fs <Cmd>write<CR>
 
 " }}}
 
