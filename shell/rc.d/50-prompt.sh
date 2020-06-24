@@ -53,8 +53,16 @@ min_path() {
 esc="" # escape character
 bld="$(esc "$esc[1m")"
 blu="$(esc "$esc[34m")"
+red="$(esc "$esc[31m")"
 rst="$(esc "$esc[00m")"
 
-export PS1='$(min_path "$PWD") '"$bld$blu$(whoami)$rst"' -> ' # colors added in shell's rc
+export PS1='$(
+    exit_stat=$?
+    printf "%s '"$bld"'%s%s'"$rst"' -> "                                \
+        "$(min_path "$PWD")"                                            \
+        "$([ $exit_stat -eq 0 ] && echo "'"$blu"'" || echo "'"$red"'")" \
+        "$(whoami)"
+)'
 
-unset ESC CLR_BLU CLR_RST
+unset -v esc bld blu red rst
+unset -f esc

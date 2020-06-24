@@ -9,3 +9,7 @@ bind '"\C-o":"lfcd\C-m"'
 export CLICOLOR=1
 
 PS1='[\u@\h \W]\$ '
+
+if command -v exa >/dev/null; then
+    alias ls=exa
+fi
