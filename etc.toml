@@ -1,6 +1,6 @@
 # ==== ENV ==== #
 [tasks.env__xps15]
-envs = [['XDGC', '.config']]
+envs = [['XDGC', '.local/etc']]
 [tasks.env__FyrePC]
 envs = [['XDGC', '.local/etc']]
 
@@ -8,14 +8,15 @@ envs = [['XDGC', '.local/etc']]
 [tasks.cfg__common]
 deps = ['env']
 links = [['$XDGC/nvim', 'nvim'],
-         ['$XDGC/vim', 'vim']]
+         ['$XDGC/vim', 'vim'],
+         ['$XDGC/shell', 'shell'],
+         ['$XDGC/root', 'root']]
 
 [tasks.cfg__xps15]
 deps = ['cfg__common']
 
 [tasks.cfg__FyrePC]
 deps = ['cfg__common']
-links = [['$XDGC/root', 'root']]
 
 # ==== DFT ==== #
 [tasks.default]

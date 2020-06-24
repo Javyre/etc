@@ -1,0 +1,1 @@
+export PATH="$CARGO_HOME/bin:$PATH"

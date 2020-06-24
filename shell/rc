@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# does not work :c
+# script_dir() {
+#     dirname "$(readlink -f "$0")"
+# }
+
+is_interactive() {
+    case $- in
+        *i*) return 0;;
+        *) return 1;;
+    esac
+}
+
+rc_dir="$HOME/.local/etc/shell"
+
+if [ -d "$rc_dir/rc.d/" ]; then
+    for f in "$rc_dir"/rc.d/*.sh; do
+	[ -r "$f" ] && . "$f"
+    done
+    unset f
+fi
