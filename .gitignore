@@ -1,2 +1,3 @@
 /.bin
 /vim/autoload/
+/shell/rc.d/00-wallpaper-env.sh
