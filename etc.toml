@@ -11,6 +11,7 @@ links = [['$XDGC/nvim', 'nvim'],
          ['$XDGC/vim', 'vim'],
          ['$XDGC/shell', 'shell'],
          ['$XDGC/root', 'root'],
+         ['$XDGC/i3', 'i3'],
          ['$XDGC/X11', 'X11']]
 
 [tasks.cfg__xps15]
