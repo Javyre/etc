@@ -14,6 +14,7 @@ links = [['$XDGC/nvim', 'nvim'],
          ['$XDGC/i3', 'i3'],
          ['$XDGC/compton', 'compton'],
          ['$XDGC/polybar', 'polybar'],
+         ['$XDGC/rofi', 'rofi'],
          ['$XDGC/X11', 'X11']]
 
 [tasks.cfg__xps15]

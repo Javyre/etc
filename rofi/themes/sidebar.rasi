@@ -1,0 +1,169 @@
+
+* {
+    orange:    #eb5e28;
+    yellow:    #f5bb00;
+    white:     #ffffff;
+    grey:      #333f48;
+    dark-blue: #1c3144;
+    purle:     #504867;
+    cyan:      #6cdcf7;
+
+    emphasis:  @purle;
+
+    fg:        @white;
+    fg-uns:    #ffffffaa;
+
+    bg:        @grey;
+    /* bg-trans:  #333f48dd; */
+    bg-trans:  #222e37dd;
+
+    normal-bg: transparent;
+    normal-fg: @fg-uns;
+    urgent-bg: transparent;
+    urgent-fg: #f42b03cc;
+    /* urgent-fg: #eb4e28cc; */
+    active-bg: transparent;
+    active-fg: #3396e8cc;
+
+    selected-normal-bg: @bg;
+    selected-normal-fg: @fg;
+    selected-urgent-bg: #f42b03;
+    selected-urgent-fg: @white;
+    /* selected-urgent-fg: #eb4e28cc; */
+    selected-active-bg: #239cff;
+    selected-active-fg: @white;
+
+    background-color: transparent;
+    text-color: @fg;
+    spacing: 0;
+}
+
+#configuration {
+    sidebar-mode:   true;
+}
+
+window {
+    transparency: "real";
+
+    height: 100%;
+    width:  50ch;
+    location: east;
+    anchor: east;
+    /* background-color: #504867dd; */
+    background-color: @bg-trans;
+
+    children: [ mainbox ];
+}
+
+mainbox {
+    spacing: 0em;
+    children: [ mode-switcher, inputbar, message, listview ];
+}
+
+button {
+    border: 2 0 0 0;
+    margin: 0 0 0 0;
+    padding: 3;
+    background-color: @normal-bg;
+    text-color:       @normal-fg;
+}
+
+button selected {
+    /* border-color: rgba(255, 255, 255, 0.2); */
+    border-color: @orange;
+    background-color: @selected-normal-bg;
+    text-color:       @selected-normal-fg;
+}
+
+inputbar {
+    background-color: @bg;
+    children: [ prompt-container, entry]; /* , ci ]; */
+}
+
+
+prompt {
+    expand: true;
+}
+
+textbox-colon-sep {
+    expand: false;
+    str: ":";
+}
+
+entry {
+    padding: 5;
+}
+
+prompt-container {
+    padding: 5;
+    background-color: @orange;
+    orientation: horizontal;
+    expand: false;
+    spacing: 0;
+
+    children: [ prompt, textbox-colon-sep ];
+}
+
+
+message {
+    margin: 7 5 0 5;
+    padding: 5px;
+    border-radius: 3px;
+    background-color: @bg;
+    border: 1px;
+    border-color: @cyan;
+}
+
+listview {
+    margin: 7 0 0 0;
+}
+
+element {
+    margin: 0 5 0 5;
+    padding: 2 0 2 0;
+    highlight: bold;
+}
+
+element normal,
+element alternate,
+element selected.normal {
+    highlight: bold #eb5e28ff;
+}
+element selected {
+    border-radius: 7px;
+}
+
+
+/* -- Element Colors --- */
+element normal.normal,
+element alternate.normal
+{
+    background-color: @normal-bg;
+    text-color:       @normal-fg;
+}
+element normal.urgent,
+element alternate.urgent
+{
+    background-color: @urgent-bg;
+    text-color:       @urgent-fg;
+}
+element normal.active,
+element alternate.active
+{
+    background-color: @active-bg;
+    text-color:       @active-fg;
+}
+
+element selected.normal {
+    background-color: @selected-normal-bg;
+    text-color:       @selected-normal-fg;
+}
+element selected.urgent {
+    background-color: @selected-urgent-bg;
+    text-color:       @selected-urgent-fg;
+}
+element selected.active {
+    background-color: @selected-active-bg;
+    text-color:       @selected-active-fg;
+}
+
