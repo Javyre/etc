@@ -16,8 +16,10 @@ endif
 
 call plug#begin(stdpath('data') . '/plugged')
 
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'dracula/vim', { 'as': 'dracula' }
+" Plug 'NLKNguyen/papercolor-theme'
+" Plug 'dracula/vim', { 'as': 'dracula' }
+" Plug 'ChrisKempson/Tomorrow-Theme', { 'rtp': 'vim' }
+Plug 'tomasr/molokai'
 Plug 'itchyny/lightline.vim'
 Plug 'lambdalisue/fern.vim'
 Plug 't9md/vim-choosewin'
@@ -89,7 +91,7 @@ let g:clap_layout = { 'relative': 'editor' }
 let g:lsp_signs_enabled = 0
 let g:lsp_highlight_references_enabled = 1
 let g:lightline = {
-      \ 'colorscheme': 'dracula',
+      \ 'colorscheme': 'molokai',
       \ }
 
 augroup customTwiggy
@@ -98,15 +100,30 @@ augroup customTwiggy
     au FileType twiggy nmap <buffer> Fm .merge --ff-only<CR>
 augroup end
 
+function! s:ToggleGstatus() abort
+    let l:none_open = 1
+	for l:winnr in range(1, winnr('$'))
+		if !empty(getwinvar(l:winnr, 'fugitive_status')) && &filetype == 'fugitive'
+			execute l:winnr.'close'
+            let l:none_open = 0
+		endif
+	endfor
+    if l:none_open
+        31vsplit
+        0Git
+        setl winfixwidth
+    endif
+endfunction
+
 " }}}
 
 " Colors {{{
-" colorscheme molokai
+" colorscheme dracula
+colorscheme molokai
 " colorscheme PaperColor
-" hi Normal    ctermbg=None guibg=None
+" colorscheme Tomorrow-Night-Bright
 
-colorscheme dracula
-
+hi Normal    ctermbg=None guibg=None
 " Stolen from sickill/vim-monokai {{{
 hi IncSearch term=reverse cterm=reverse ctermfg=193 ctermbg=16 gui=reverse guifg=#C4BE89 guibg=#000000
 hi Search    term=reverse cterm=None    ctermfg=231 ctermbg=24 gui=None    guifg=#f8f8f2 guibg=#204a87
@@ -146,7 +163,7 @@ nmap <Leader>lf <Cmd>LspDocumentFormat<CR>
 
 nmap <Leader>gf <Cmd>Git fetch<CR>
 nmap <Leader>gF <Cmd>Git pull --rebase<CR>
-nmap <Leader>gs <Cmd>vertical Git<CR>
+nmap <Leader>gs <Cmd>call <SID>ToggleGstatus()<CR>
 nmap <Leader>gl <Cmd>Flog -all -format=[%h]\ (%ar)\ %s%d\ {%an}<CR>
 nmap <Leader>gt <Cmd>Twiggy<CR>
 
