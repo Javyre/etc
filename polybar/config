@@ -27,7 +27,25 @@ primary = #ffb52a
 secondary = #ccff0000
 alert = #bd2c40
 
+[bar/dark-i3-small]
+monitor = DVI-D-1
+inherit = bar/dark-i3
+height = 18
+font-0 = Sans:pixelsize=10;2
+font-1 = emoji:scale=9;2
+font-2 = Font Awesome 5 Free Solid:pixelsize=12;3
+
+[bar/dark-i3-small-secondary]
+monitor = DVI-I-0
+inherit = bar/dark-i3
+height = 18
+font-0 = Sans:pixelsize=10;2
+font-1 = emoji:scale=9;2
+font-2 = Font Awesome 5 Free Solid:pixelsize=12;3
+modules-right = date
+
 [bar/dark-i3]
+monitor = eDP1
 inherit = bar/dark
 wm-restack = i3
 scroll-up = i3wm-wsnext
@@ -35,7 +53,6 @@ scroll-down = i3wm-wsprev
 modules-left = xbacklight i3 
 
 [bar/dark]
-monitor = eDP1
 width = 100%
 height = 27
 fixed-center = false
@@ -160,7 +177,7 @@ index-sort = true
 wrapping-scroll = false
 
 ; Only show workspaces on the same output as the bar
-;pin-workspaces = true
+pin-workspaces = true
 
 label-mode-padding = 2
 label-mode-foreground = #000

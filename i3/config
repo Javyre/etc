@@ -206,7 +206,7 @@ bindsym $mod+n mode "leader"
 # finds out, if available)
 bar {
         # status_command i3status
-        i3bar_command pkill polybar; polybar -c "$XDG_CONFIG_HOME/polybar/config" dark-i3 &
+        i3bar_command pkill polybar; "$XDG_CONFIG_HOME/i3/run_polybar" &
 }
 
 # class                 border  backgr. text    indicator child_border

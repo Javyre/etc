@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ "$(hostname)" = 'FyrePC' ]; then
+    polybar -c "$XDG_CONFIG_HOME/polybar/config" dark-i3-small &
+    polybar -c "$XDG_CONFIG_HOME/polybar/config" dark-i3-small-secondary &
+elif [ "$(hostname)" = 'xps15' ]; then
+    polybar -c "$XDG_CONFIG_HOME/polybar/config" dark-i3 &
+else
+    echo "undefined host $(hostname)!" >&2
+    exit 1
+fi
+
