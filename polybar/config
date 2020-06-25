@@ -33,7 +33,8 @@ inherit = bar/dark-i3
 height = 18
 font-0 = Sans:pixelsize=10;2
 font-1 = emoji:scale=9;2
-font-2 = Font Awesome 5 Free Solid:pixelsize=12;3
+font-2 = Font Awesome 5 Free Solid:pixelsize=8;2
+tray-position = none
 
 [bar/dark-i3-small-secondary]
 monitor = DVI-I-0
@@ -41,8 +42,10 @@ inherit = bar/dark-i3
 height = 18
 font-0 = Sans:pixelsize=10;2
 font-1 = emoji:scale=9;2
-font-2 = Font Awesome 5 Free Solid:pixelsize=12;3
-modules-right = date
+font-2 = Font Awesome 5 Free Solid:pixelsize=8;2
+modules-right = mpd date
+padding-right = 1
+tray-position = right
 
 [bar/dark-i3]
 monitor = eDP1
@@ -210,13 +213,23 @@ label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
 [module/mpd]
 type = internal/mpd
-format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+host = 127.0.0.1
+port = 6600
+password =
+interval = 1
 
-icon-prev = 
-icon-stop = 
-icon-play = 
-icon-pause = 
-icon-next = 
+format-online = <label-time> <label-song> <icon-prev> <icon-stop> <toggle> <icon-next> 
+
+icon-play = 
+icon-pause = 
+icon-stop = 
+icon-prev = 
+icon-next = 
+
+bar-progress-width = 25
+bar-progress-indicator = |
+bar-progress-fill = ─
+bar-progress-empty = ─
 
 label-song-maxlen = 25
 label-song-ellipsis = true
