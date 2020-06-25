@@ -23,6 +23,7 @@ Plug 'tomasr/molokai'
 Plug 'itchyny/lightline.vim'
 Plug 'lambdalisue/fern.vim'
 Plug 't9md/vim-choosewin'
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 " Git
 Plug 'tpope/vim-fugitive'
@@ -87,12 +88,13 @@ augroup indent
 augroup END
 
 let g:clap_layout = { 'relative': 'editor' }
-
-let g:lsp_signs_enabled = 0
-let g:lsp_highlight_references_enabled = 1
+let g:tmux_navigator_no_mappings = 1
 let g:lightline = {
       \ 'colorscheme': 'molokai',
       \ }
+
+let g:lsp_signs_enabled = 0
+let g:lsp_highlight_references_enabled = 1
 
 augroup customTwiggy
     au!
@@ -118,6 +120,9 @@ endfunction
 " }}}
 
 " Colors {{{
+if has("termguicolors")
+    set termguicolors
+endif
 " colorscheme dracula
 colorscheme molokai
 " colorscheme PaperColor
@@ -131,12 +136,38 @@ hi Search    term=reverse cterm=None    ctermfg=231 ctermbg=24 gui=None    guifg
 hi VertSplit ctermfg=241 ctermbg=None cterm=None guifg=#3c3e3f guibg=None gui=None
 
 " }}}
-
+" Term colors sync with st colors {{{
+let g:terminal_color_0  = '#000000'
+let g:terminal_color_1  = '#d54e53'
+let g:terminal_color_2  = '#b9ca4a'
+let g:terminal_color_3  = '#e6c547'
+let g:terminal_color_4  = '#7aa6da'
+let g:terminal_color_5  = '#c397d8'
+let g:terminal_color_6  = '#70c0ba'
+let g:terminal_color_7  = '#ffffff'
+let g:terminal_color_8  = '#666666'
+let g:terminal_color_9  = '#ff3334'
+let g:terminal_color_10 = '#9ec400'
+let g:terminal_color_11 = '#e7c547'
+let g:terminal_color_12 = '#7aa6da'
+let g:terminal_color_13 = '#b77ee0'
+let g:terminal_color_14 = '#54ced6'
+let g:terminal_color_15 = '#ffffff'
+" }}}
 " }}}
 
 " Map {{{
 nmap <expr> <Tab> (foldlevel('.') ? 'za' : '<Tab>')
 vmap <Tab> zf
+
+map <A-h> <Cmd>TmuxNavigateLeft<CR>
+map <A-j> <Cmd>TmuxNavigateDown<CR>
+map <A-k> <Cmd>TmuxNavigateUp<CR>
+map <A-l> <Cmd>TmuxNavigateRight<CR>
+tmap <A-h> <C-\><C-n><Cmd>TmuxNavigateLeft<CR>
+tmap <A-j> <C-\><C-n><Cmd>TmuxNavigateDown<CR>
+tmap <A-k> <C-\><C-n><Cmd>TmuxNavigateUp<CR>
+tmap <A-l> <C-\><C-n><Cmd>TmuxNavigateRight<CR>
 
 nmap <M-;> <Cmd>Commentary<CR>
 " vmap <M-;> <Cmd>'<,'>Commentary<CR>
