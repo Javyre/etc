@@ -1,4 +1,4 @@
 xsetroot -cursor_name left_ptr &
-feh "$WALLPAPER" --bf-fill --no-fehbg &
+feh "$WALLPAPER" --bg-fill --no-fehbg &
 redshift -l45:-73 &
 exec i3
