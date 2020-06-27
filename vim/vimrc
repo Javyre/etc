@@ -37,6 +37,8 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'junegunn/vim-easy-align'
 Plug 'troydm/zoomwintab.vim'
+Plug 'kana/vim-textobj-user'
+Plug 'sgur/vim-textobj-parameter'
 " Missing langs (mostly for syn highlighting & indentation)
 Plug 'sheerun/vim-polyglot'
 Plug 'prabirshrestha/async.vim'
@@ -95,6 +97,7 @@ let g:lightline = {
 
 let g:lsp_signs_enabled = 0
 let g:lsp_highlight_references_enabled = 1
+let g:vim_textobj_parameter_mapping = 'a'
 
 augroup customTwiggy
     au!
