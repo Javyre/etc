@@ -24,7 +24,8 @@ Plug 'itchyny/lightline.vim'
 Plug 'lambdalisue/fern.vim'
 Plug 't9md/vim-choosewin'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'rbong/vim-flog'
@@ -60,10 +61,10 @@ set softtabstop=4 " sts
 set expandtab     " et
 set shiftwidth=4  " sw
 
+set notimeout  " don't timeout on key sequences
 set ignorecase " ignorecase in search
 set incsearch  " search while typing
 set hlsearch   " highlight search
-set autochdir  " chdir to buffer
 set splitbelow " open below instead of above
 set mouse=a    " mouse movement
 set diffopt+=indent-heuristic,algorithm:histogram " smarter diff
@@ -89,7 +90,25 @@ augroup indent
     au FileType typescript* setl ts=2 sts=2 sw=2 formatprg=npx\ prettier\ --parser=typescript
 augroup END
 
-let g:clap_layout = { 'relative': 'editor' }
+let $FZF_DEFAULT_OPTS = '--reverse'
+let g:fzf_colors = { 
+            \ 'fg':      ['fg', 'Normal'],
+            \ 'bg':      ['bg', 'Normal'],
+            \ 'hl':      ['fg', 'Comment'],
+            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+            \ 'hl+':     ['fg', 'Statement'],
+            \ 'info':    ['fg', 'PreProc'],
+            \ 'border':  ['fg', 'Ignore'],
+            \ 'prompt':  ['fg', 'Conditional'],
+            \ 'pointer': ['fg', 'Exception'],
+            \ 'marker':  ['fg', 'Keyword'],
+            \ 'spinner': ['fg', 'Label'],
+            \ 'header':  ['fg', 'Comment'],
+            \ 'gutter':  ['bg', 'Normal']
+            \}
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+
 let g:tmux_navigator_no_mappings = 1
 let g:lightline = {
       \ 'colorscheme': 'molokai',
@@ -180,12 +199,11 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 nmap <Space> <Leader>
-nmap <Leader>bb <Cmd>Clap buffers<CR>
-nmap <Leader>ff <Cmd>Clap filer<CR>
-nmap <Leader>pf <Cmd>Clap git_files<CR>
-nmap <Leader>ps <Cmd>Clap grep2<CR>
-nmap <Leader>sk <Cmd>Clap yanks<CR>
-nmap <Leader>ss <Cmd>Clap blines<CR>
+nmap <Leader>bb <Cmd>Buffers<CR>
+nmap <Leader>ff <Cmd>Files<CR>
+nmap <Leader>pf <Cmd>GFiles<CR>
+nmap <Leader>ps <Cmd>Rg<CR>
+nmap <Leader>ss <Cmd>BLines<CR>
 
 nmap <Leader>la <Cmd>LspCodeAction<CR>
 nmap <Leader>lr <Cmd>LspRename<CR>
