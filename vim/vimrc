@@ -215,7 +215,8 @@ nmap <Leader>lf <Cmd>LspDocumentFormat<CR>
 
 nmap <Leader>gf <Cmd>Git fetch<CR>
 nmap <Leader>gF <Cmd>Git pull --rebase<CR>
-nmap <Leader>gs <Cmd>call <SID>ToggleGstatus()<CR>
+" nmap <Leader>gs <Cmd>call <SID>ToggleGstatus()<CR>
+nmap <Leader>gs <Cmd>tab Gstatus<CR>
 nmap <Leader>gl <Cmd>Flog -all -format=[%h]\ (%ar)\ %s%d\ {%an}<CR>
 nmap <Leader>gt <Cmd>Twiggy<CR>
 
