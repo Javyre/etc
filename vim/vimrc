@@ -40,6 +40,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'troydm/zoomwintab.vim'
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
+Plug 'norcalli/nvim.lua'
 " Missing langs (mostly for syn highlighting & indentation)
 Plug 'sheerun/vim-polyglot'
 Plug 'prabirshrestha/async.vim'
@@ -113,6 +114,9 @@ let g:tmux_navigator_no_mappings = 1
 let g:lightline = {
       \ 'colorscheme': 'molokai',
       \ }
+let g:lightline.component = {
+            \ 'filename': '%{luaeval("jv_bufname()")}'
+            \ }
 
 let g:lsp_signs_enabled = 0
 let g:lsp_highlight_references_enabled = 1
@@ -139,6 +143,35 @@ function! s:ToggleGstatus() abort
     endif
 endfunction
 
+lua << EOF
+local nvim = require 'nvim'
+
+function jv_bufname()
+    local this = nvim.get_current_buf()
+    local thisname = nvim.fn.bufname(this)
+    if thisname == "" then
+        return "[No Name]"
+    end
+
+    local others = nvim.list_bufs()
+    local components = nvim.fn.split(thisname, "/\\zs")
+    local name = table.remove(components)
+
+    for i, other in ipairs(others) do
+        if other ~= this
+            and nvim.buf_is_valid(other)
+            and nvim.bo[other].buflisted then
+            local othername = nvim.fn.bufname(other)
+            while nvim.fn.matchstr(othername, name.."$") ~= ""
+                and #components > 0 do
+                name = table.remove(components) .. name
+            end
+        end
+    end
+
+    return name
+end
+EOF
 " }}}
 
 " Colors {{{
