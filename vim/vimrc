@@ -20,6 +20,7 @@ call plug#begin(stdpath('data') . '/plugged')
 " Plug 'dracula/vim', { 'as': 'dracula' }
 " Plug 'ChrisKempson/Tomorrow-Theme', { 'rtp': 'vim' }
 Plug 'tomasr/molokai'
+Plug 'norcalli/nvim-colorizer.lua'
 Plug 'itchyny/lightline.vim'
 Plug 'lambdalisue/fern.vim'
 Plug 't9md/vim-choosewin'
@@ -33,6 +34,7 @@ Plug 'sodapopcan/vim-twiggy'
 " Markdown utils
 Plug 'plasticboy/vim-markdown'
 " Should-be-default-vim
+Plug 'farmergreg/vim-lastplace'
 Plug 'tpope/vim-repeat' 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -121,6 +123,7 @@ let g:lightline.component = {
 let g:lsp_signs_enabled = 0
 let g:lsp_highlight_references_enabled = 1
 let g:vim_textobj_parameter_mapping = 'a'
+lua require'colorizer'.setup()
 
 augroup customTwiggy
     au!
