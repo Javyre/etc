@@ -116,8 +116,16 @@ let g:tmux_navigator_no_mappings = 1
 let g:lightline = {
       \ 'colorscheme': 'molokai',
       \ }
+let g:lightline.active = {
+            \ 'left': [ [ 'mode', 'paste' ],
+            \           [ 'readonly', 'filename', 'modified' ] ],
+            \ 'right': [ [], [ 'lineinfo' ], [ 'branch', 'filetype' ] ] }
+let g:lightline.inactive = {
+            \ 'left': [ [ 'filename' ] ],
+            \ 'right': [ [], [ 'lineinfo' ] ] }
 let g:lightline.component = {
-            \ 'filename': '%{luaeval("jv_bufname()")}'
+            \ 'filename': '%{luaeval("jv_bufname()")}',
+            \ 'branch': '%{FugitiveHead()}'
             \ }
 
 let g:lsp_signs_enabled = 0
