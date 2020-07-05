@@ -8,17 +8,18 @@ envs = [['XDGC', '.local/etc']]
 [tasks.cfg__common]
 deps = ['env']
 links = [
-    ['$XDGC/nvim'   , 'nvim'   ],
-    ['$XDGC/vim'    , 'vim'    ],
-    ['$XDGC/tmux'   , 'tmux'   ],
-    ['$XDGC/shell'  , 'shell'  ],
-    ['$XDGC/root'   , 'root'   ],
-    ['$XDGC/i3'     , 'i3'     ],
-    ['$XDGC/picom'  , 'picom'  ],
-    ['$XDGC/polybar', 'polybar'],
-    ['$XDGC/rofi'   , 'rofi'   ],
-    ['$XDGC/X11'    , 'X11'    ],
-    ['.local/bin/s' , 's'      ],
+    ['$XDGC/alacritty.yml' , 'alacritty.yml' ],
+    ['$XDGC/nvim'          , 'nvim'          ],
+    ['$XDGC/vim'           , 'vim'           ],
+    ['$XDGC/tmux'          , 'tmux'          ],
+    ['$XDGC/shell'         , 'shell'         ],
+    ['$XDGC/root'          , 'root'          ],
+    ['$XDGC/i3'            , 'i3'            ],
+    ['$XDGC/picom'         , 'picom'         ],
+    ['$XDGC/polybar'       , 'polybar'       ],
+    ['$XDGC/rofi'          , 'rofi'          ],
+    ['$XDGC/X11'           , 'X11'           ],
+    ['.local/bin/s'        , 's'             ],
 ]
 
 [tasks.cfg__xps15]

@@ -1,0 +1,34 @@
+window:
+  padding:
+    x: 0
+    y: 0
+
+scrolling:
+  history: 10000
+
+font: 
+  # bold, italic and the rest fallback on normal for font familly
+  normal:
+    familly: monospace
+
+  size: 9.5
+
+  offset:
+    x: 0
+    y: 0
+
+  glyph_offset:
+    x: 0
+    y: 0
+
+draw_bold_text_with_bright_colors: false
+
+background_opacity: 0.8
+
+live_config_reload: true
+
+shell:
+  program: /bin/bash
+  args:
+    - --login
+
