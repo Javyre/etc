@@ -16,9 +16,10 @@ endif
 
 call plug#begin(stdpath('data') . '/plugged')
 
-" Plug 'NLKNguyen/papercolor-theme'
+Plug 'NLKNguyen/papercolor-theme'
 " Plug 'dracula/vim', { 'as': 'dracula' }
 " Plug 'ChrisKempson/Tomorrow-Theme', { 'rtp': 'vim' }
+Plug 'lifepillar/vim-solarized8'
 Plug 'tomasr/molokai'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'itchyny/lightline.vim'
@@ -64,15 +65,19 @@ set softtabstop=4 " sts
 set expandtab     " et
 set shiftwidth=4  " sw
 
-set notimeout  " don't timeout on key sequences
-set ignorecase " ignorecase in search
-set incsearch  " search while typing
-set hlsearch   " highlight search
-set splitbelow " open below instead of above
-set mouse=a    " mouse movement
+set textwidth=80
+set colorcolumn=+1 " highlight column at textwidth+1
+set notimeout      " don't timeout on key sequences
+set ignorecase     " ignorecase in search
+set incsearch      " search while typing
+set hlsearch       " highlight search
+set splitbelow     " open below instead of above
+set mouse=a        " mouse movement
 set diffopt+=indent-heuristic,algorithm:histogram " smarter diff
 set modeline
 set clipboard=unnamedplus
+set conceallevel=2
+set concealcursor=vn
 
 set errorformat+=%f(%l\\,%c):\ %m " dmd compiler
 
@@ -113,8 +118,15 @@ let g:fzf_colors = {
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
 let g:tmux_navigator_no_mappings = 1
+let g:PaperColor_Theme_Options = {
+            \   'theme': {
+            \     'default.dark': {
+            \       'transparent_background': 1
+            \     }
+            \   }
+            \ }
 let g:lightline = {
-      \ 'colorscheme': 'molokai',
+      \ 'colorscheme': 'PaperColor',
       \ }
 let g:lightline.active = {
             \ 'left': [ [ 'mode', 'paste' ],
@@ -190,18 +202,18 @@ if has("termguicolors")
     set termguicolors
 endif
 " colorscheme dracula
-colorscheme molokai
-" colorscheme PaperColor
+" colorscheme molokai
+colorscheme PaperColor
 " colorscheme Tomorrow-Night-Bright
 
-hi Normal    ctermbg=None guibg=None
-" Stolen from sickill/vim-monokai {{{
-hi IncSearch term=reverse cterm=reverse ctermfg=193 ctermbg=16 gui=reverse guifg=#C4BE89 guibg=#000000
-hi Search    term=reverse cterm=None    ctermfg=231 ctermbg=24 gui=None    guifg=#f8f8f2 guibg=#204a87
+" hi Normal    ctermbg=None guibg=None
+" " Stolen from sickill/vim-monokai {{{
+" hi IncSearch term=reverse cterm=reverse ctermfg=193 ctermbg=16 gui=reverse guifg=#C4BE89 guibg=#000000
+" hi Search    term=reverse cterm=None    ctermfg=231 ctermbg=24 gui=None    guifg=#f8f8f2 guibg=#204a87
 
-hi VertSplit ctermfg=241 ctermbg=None cterm=None guifg=#3c3e3f guibg=None gui=None
+" hi VertSplit ctermfg=241 ctermbg=None cterm=None guifg=#3c3e3f guibg=None gui=None
 
-" }}}
+" " }}}
 " Term colors sync with st colors {{{
 let g:terminal_color_0  = '#000000'
 let g:terminal_color_1  = '#d54e53'
