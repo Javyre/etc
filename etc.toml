@@ -19,6 +19,7 @@ links = [
     ['$XDGC/polybar'       , 'polybar'       ],
     ['$XDGC/rofi'          , 'rofi'          ],
     ['$XDGC/X11'           , 'X11'           ],
+    ['$XDGC/git'           , 'git'           ],
     ['.local/bin/s'        , 's'             ],
 ]
 
