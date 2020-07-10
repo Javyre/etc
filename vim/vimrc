@@ -28,6 +28,9 @@ Plug 't9md/vim-choosewin'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'rbong/vim-flog'
@@ -125,6 +128,7 @@ let g:PaperColor_Theme_Options = {
             \     }
             \   }
             \ }
+let g:limelight_conceal_guifg = '#555555'
 let g:lightline = {
       \ 'colorscheme': 'PaperColor',
       \ }
