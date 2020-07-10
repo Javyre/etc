@@ -31,9 +31,9 @@ Plug 'junegunn/fzf.vim'
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'rbong/vim-flog'
-Plug 'sodapopcan/vim-twiggy'
 " Markdown utils
-Plug 'plasticboy/vim-markdown'
+" Plug 'plasticboy/vim-markdown'
+Plug 'vimwiki/vimwiki'
 " Should-be-default-vim
 Plug 'farmergreg/vim-lastplace'
 Plug 'tpope/vim-repeat' 
@@ -145,12 +145,6 @@ let g:lsp_highlight_references_enabled = 1
 let g:vim_textobj_parameter_mapping = 'a'
 lua require'colorizer'.setup()
 
-augroup customTwiggy
-    au!
-    au FileType twiggy setl winfixwidth
-    au FileType twiggy nmap <buffer> Fm .merge --ff-only<CR>
-augroup end
-
 function! s:ToggleGstatus() abort
     let l:none_open = 1
 	for l:winnr in range(1, winnr('$'))
@@ -164,6 +158,13 @@ function! s:ToggleGstatus() abort
         0Git
         setl winfixwidth
     endif
+endfunction
+
+function! s:SwitchBranch()
+    call fzf#run(fzf#wrap({
+                \ 'source': 'git branch -a --format ''%(refname:short)''',
+                \ 'sink': 'G checkout',
+                \ }))
 endfunction
 
 lua << EOF
@@ -201,6 +202,14 @@ EOF
 if has("termguicolors")
     set termguicolors
 endif
+
+hi! link VimwikiHeader1 htmlH1
+hi! link VimwikiHeader2 htmlH2
+hi! link VimwikiHeader3 htmlH3
+hi! link VimwikiHeader4 htmlH4
+hi! link VimwikiHeader5 htmlH5
+hi! link VimwikiHeader6 htmlH6
+
 " colorscheme dracula
 " colorscheme molokai
 colorscheme PaperColor
@@ -269,12 +278,12 @@ nmap <Leader>lD <Cmd>LspDeclaration<CR>
 nmap <Leader>ll <Cmd>LspCodeLens<CR>
 nmap <Leader>lf <Cmd>LspDocumentFormat<CR>
 
-nmap <Leader>gf <Cmd>Git fetch<CR>
+nmap <Leader>gf <Cmd>echo 'Fetching...'<CR><Cmd>Git fetch<CR><Cmd>echo 'Done.'<CR>
 nmap <Leader>gF <Cmd>Git pull --rebase<CR>
 " nmap <Leader>gs <Cmd>call <SID>ToggleGstatus()<CR>
 nmap <Leader>gs <Cmd>tab Gstatus<CR>
 nmap <Leader>gl <Cmd>Flog -all -format=[%h]\ (%ar)\ %s%d\ {%an}<CR>
-nmap <Leader>gt <Cmd>Twiggy<CR>
+nmap <Leader>gb <Cmd>call <SID>SwitchBranch()<CR>
 
 nmap <Leader>tt <Cmd>Fern . -drawer -toggle -reveal=%<CR>
 
