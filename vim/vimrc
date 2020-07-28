@@ -35,8 +35,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'rbong/vim-flog'
 " Markdown utils
-" Plug 'plasticboy/vim-markdown'
-Plug 'vimwiki/vimwiki'
+Plug 'plasticboy/vim-markdown'
 " Should-be-default-vim
 Plug 'farmergreg/vim-lastplace'
 Plug 'tpope/vim-repeat' 
@@ -101,6 +100,11 @@ augroup indent
     au FileType typescript* setl ts=2 sts=2 sw=2 formatprg=npx\ prettier\ --parser=typescript
 augroup END
 
+let g:vim_markdown_math = 1
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_strikethrough = 1
+let g:vim_markdown_no_extensions_in_markdown = 1
+
 let $FZF_DEFAULT_OPTS = '--reverse'
 let g:fzf_colors = { 
             \ 'fg':      ['fg', 'Normal'],
@@ -123,9 +127,13 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 let g:tmux_navigator_no_mappings = 1
 let g:PaperColor_Theme_Options = {
             \   'theme': {
+            \     'default': {
+            \       'allow_bold': 1,
+            \       'allow_italic': 1,
+            \     },
             \     'default.dark': {
             \       'transparent_background': 1
-            \     }
+            \     },
             \   }
             \ }
 let g:limelight_conceal_guifg = '#555555'
@@ -292,6 +300,11 @@ nmap <Leader>gb <Cmd>call <SID>SwitchBranch()<CR>
 nmap <Leader>tt <Cmd>Fern . -drawer -toggle -reveal=%<CR>
 
 nmap <Leader>fs <Cmd>write<CR>
+
+augroup md_map
+    au!
+    au FileType markdown nmap gO <Cmd>Toch<CR>
+augroup END
 
 " }}}
 
