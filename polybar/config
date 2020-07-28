@@ -47,6 +47,10 @@ modules-right = mpd date
 padding-right = 1
 tray-position = right
 
+[bar/dark-i3-big]
+monitor = DisplayPort-0
+inherit = bar/dark-i3
+
 [bar/dark-i3]
 monitor = eDP1
 inherit = bar/dark

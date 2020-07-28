@@ -7,8 +7,10 @@ envs = [['XDGC', '.local/etc']]
 # ==== CFG ==== #
 [tasks.cfg__common]
 deps = ['env']
-links = [
+templates = [
     ['$XDGC/alacritty.yml' , 'alacritty.yml' ],
+]
+links = [
     ['$XDGC/nvim'          , 'nvim'          ],
     ['$XDGC/vim'           , 'vim'           ],
     ['$XDGC/tmux'          , 'tmux'          ],

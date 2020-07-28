@@ -11,7 +11,11 @@ font:
   normal:
     familly: monospace
 
+{{ if eq .Env.HM_VARIANT "FyrePC" }}
+  size: 10.5
+{{ else }}
   size: 9.5
+{{ end }}
 
   offset:
     x: 0

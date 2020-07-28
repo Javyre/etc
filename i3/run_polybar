@@ -1,8 +1,7 @@
 #!/bin/sh
 
 if [ "$(hostname)" = 'FyrePC' ]; then
-    polybar -c "$XDG_CONFIG_HOME/polybar/config" dark-i3-small &
-    polybar -c "$XDG_CONFIG_HOME/polybar/config" dark-i3-small-secondary &
+    polybar -c "$XDG_CONFIG_HOME/polybar/config" dark-i3-big &
 elif [ "$(hostname)" = 'xps15' ]; then
     polybar -c "$XDG_CONFIG_HOME/polybar/config" dark-i3 &
 else

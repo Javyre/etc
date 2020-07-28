@@ -1,4 +1,7 @@
 xsetroot -cursor_name left_ptr &
 feh "$WALLPAPER" --bg-fill --no-fehbg &
 redshift -l45:-73 &
+if [ "$(hostname)" = FyrePC ]; then
+    radeon-profile &
+fi
 exec i3
