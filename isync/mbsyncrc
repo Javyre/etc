@@ -1,0 +1,34 @@
+IMAPAccount gmail
+# Address to connect to
+Host imap.gmail.com
+User javi.po.123@gmail.com
+# Pass ***************
+# To store the password in an encrypted file use PassCmd instead of Pass
+PassCmd "pass accounts.google.com/javi.po.123@gmail.com"
+#
+# Use SSL
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+#CertificateFile ~/.cert/imap.gmail.com.pem
+#CertificateFile ~/.cert/Equifax_Secure_CA.pem
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+Subfolders Verbatim
+# The trailing "/" is important
+Path ~/{{ .Env.XDGD }}/mail/gmail/
+Inbox ~/{{ .Env.XDGD }}/mail/gmail/Inbox
+
+Channel gmail
+Master :gmail-remote:
+Slave :gmail-local:
+# Exclude everything under the internal [Gmail] folder, except the interesting folders
+Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"
+# Or include everything
+#Patterns *
+# Automatically create missing mailboxes, both locally and on the server
+Create Both
+# Save the synchronization state files in the relevant directory
+SyncState *

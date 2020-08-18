@@ -1,14 +1,17 @@
 # ==== ENV ==== #
 [tasks.env__xps15]
-envs = [['XDGC', '.local/etc']]
+envs = [['XDGC', '.local/etc'],
+        ['XDGD', '.local/share']]
 [tasks.env__FyrePC]
-envs = [['XDGC', '.local/etc']]
+envs = [['XDGC', '.local/etc'],
+        ['XDGD', '.local/share']]
 
 # ==== CFG ==== #
 [tasks.cfg__common]
 deps = ['env']
 templates = [
-    ['$XDGC/alacritty.yml' , 'alacritty.yml' ],
+    ['$XDGC/alacritty.yml'  , 'alacritty.yml'  ],
+    ['$XDGC/isync/mbsyncrc' , 'isync/mbsyncrc' ],
 ]
 links = [
     ['$XDGC/nvim'          , 'nvim'          ],
