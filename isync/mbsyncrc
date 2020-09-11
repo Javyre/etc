@@ -4,7 +4,7 @@ Host imap.gmail.com
 User javi.po.123@gmail.com
 # Pass ***************
 # To store the password in an encrypted file use PassCmd instead of Pass
-PassCmd "pass accounts.google.com/javi.po.123@gmail.com"
+PassCmd "gpg -q --for-your-eyes-only --no-tty -d ~/{{ .Env.XDGC }}/isync/mbsyncpass-gmail.gpg"
 #
 # Use SSL
 SSLType IMAPS

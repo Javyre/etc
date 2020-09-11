@@ -1,10 +1,12 @@
 # ==== ENV ==== #
 [tasks.env__xps15]
 envs = [['XDGC', '.local/etc'],
-        ['XDGD', '.local/share']]
+        ['XDGD', '.local/share'],
+        ['XDG_RUNTIME_DIR', '/tmp/javier']]
 [tasks.env__FyrePC]
 envs = [['XDGC', '.local/etc'],
-        ['XDGD', '.local/share']]
+        ['XDGD', '.local/share'],
+        ['XDG_RUNTIME_DIR', '/tmp/javyre']]
 
 # ==== CFG ==== #
 [tasks.cfg__common]
@@ -12,8 +14,11 @@ deps = ['env']
 templates = [
     ['$XDGC/alacritty.yml'  , 'alacritty.yml'  ],
     ['$XDGC/isync/mbsyncrc' , 'isync/mbsyncrc' ],
+    ['$XDGC/msmtp/config'   , 'msmtp/config'   ],
 ]
 links = [
+    ['$XDGC/isync/mbsyncpass-gmail.gpg' , 'isync/mbsyncpass-gmail.gpg' ],
+
     ['$XDGC/nvim'          , 'nvim'          ],
     ['$XDGC/vim'           , 'vim'           ],
     ['$XDGC/tmux'          , 'tmux'          ],

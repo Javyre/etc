@@ -1,0 +1,17 @@
+# Set default values for all following accounts.
+defaults
+auth           on
+tls            on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+logfile        {{ .Env.XDG_RUNTIME_DIR }}/msmtp.log
+
+# Gmail
+account        gmail
+host           smtp.gmail.com
+port           587
+from           javi.po.123@gmail.com
+user           javi.po.123
+passwordeval   "pass accounts.google.com/javi.po.123@gmail.com"
+
+# default account
+account default : gmail
