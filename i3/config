@@ -194,6 +194,11 @@ mode "leader" {
         bindsym s       exec s scrot   ; mode "default"
         bindsym Shift+s exec s scrot -u; mode "default"
 
+        # keyboard layouts
+        bindsym f       exec setxkbmap ca; mode "default"
+        bindsym e       exec setxkbmap us; mode "default"
+        bindsym g       exec setxkbmap de; mode "default"
+
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
         bindsym Escape mode "default"
