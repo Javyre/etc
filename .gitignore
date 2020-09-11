@@ -2,3 +2,14 @@
 /vim/autoload/
 /vim/.netrwhist
 /shell/rc.d/00-wallpaper-env.sh
+/emacs/.cache/
+/emacs/.emacs.desktop
+/emacs/bbdb
+/emacs/bookmarks
+/emacs/elpa/
+/emacs/places
+/emacs/projectile-bookmarks.*
+/emacs/recentf
+/emacs/straight/
+/emacs/transient/
+/emacs/.lsp-session*
