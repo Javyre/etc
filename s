@@ -9,6 +9,28 @@ upload(){
 scrot_upload() { maim -s "$@" | upload | xclip -sel clip;     }
 scrot()        { maim -s "$@" | xclip -sel clip -t image/png; }
 
+# Screen record
+screc() {
+    if [ -z "$1" ]; then
+        out=/tmp/demo.mp4
+    else
+        out="$1"
+    fi
+
+    slop -f "%wx%h +%x,%y" | {
+        read -r size ofs
+
+        echo "$size"
+
+        ffmpeg -y                  \
+               -f x11grab          \
+               -framerate 25       \
+               -video_size "$size" \
+               -i :0.0"$ofs"       \
+               "$out"
+    }
+}
+
 case "$1" in
     imgur) upload ;;
     scrot)
@@ -21,6 +43,10 @@ case "$1" in
             fi
             scrot "$@"
         fi
+        ;;
+    screc)
+        shift
+        screc "$@"
         ;;
     *)
         echo "Invalid command: $1" >&2
