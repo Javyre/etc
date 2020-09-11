@@ -19,6 +19,7 @@ templates = [
 links = [
     ['$XDGC/isync/mbsyncpass-gmail.gpg' , 'isync/mbsyncpass-gmail.gpg' ],
 
+    ['$XDGC/emacs'         , 'emacs'         ],
     ['$XDGC/nvim'          , 'nvim'          ],
     ['$XDGC/vim'           , 'vim'           ],
     ['$XDGC/tmux'          , 'tmux'          ],
