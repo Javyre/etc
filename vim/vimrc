@@ -16,6 +16,8 @@ endif
 
 call plug#begin(stdpath('data') . '/plugged')
 
+Plug 'sonph/onehalf', {'rtp': 'vim/'}
+" Plug 'jacoborus/tender.vim'
 Plug 'NLKNguyen/papercolor-theme'
 " Plug 'dracula/vim', { 'as': 'dracula' }
 " Plug 'ChrisKempson/Tomorrow-Theme', { 'rtp': 'vim' }
@@ -38,9 +40,10 @@ Plug 'rbong/vim-flog'
 Plug 'plasticboy/vim-markdown'
 " Should-be-default-vim
 Plug 'farmergreg/vim-lastplace'
-Plug 'tpope/vim-repeat' 
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'machakann/vim-sandwich'
 Plug 'junegunn/vim-easy-align'
 Plug 'troydm/zoomwintab.vim'
 Plug 'kana/vim-textobj-user'
@@ -70,9 +73,10 @@ set shiftwidth=4  " sw
 set textwidth=80
 set colorcolumn=+1 " highlight column at textwidth+1
 set notimeout      " don't timeout on key sequences
-set ignorecase     " ignorecase in search
+set infercase      " infer case in search
 set incsearch      " search while typing
 set hlsearch       " highlight search
+set gdefault       " global substitution by default (no need for /g flag)
 set splitbelow     " open below instead of above
 set mouse=a        " mouse movement
 set diffopt+=indent-heuristic,algorithm:histogram " smarter diff
@@ -80,6 +84,8 @@ set modeline
 set clipboard=unnamedplus
 set conceallevel=2
 set concealcursor=vn
+set fillchars=fold:\ ,diff:\ 
+set inccommand=split
 
 set errorformat+=%f(%l\\,%c):\ %m " dmd compiler
 
@@ -91,6 +97,7 @@ augroup indent
     au FileType *tex        setl tw=72 ts=2 sts=2 sw=2
     au FileType context     setl tw=72 ts=2 sts=2 sw=2
     au FileType markdown    setl tw=72
+    au FileType rust        setl tw=80
     au FileType yaml        setl ts=2 sts=2 sw=2
     au FileType scheme      setl ts=2 sts=2 sw=2
     au FileType dart        setl ts=2 sts=2 sw=2 cino=m1
@@ -124,6 +131,13 @@ let g:fzf_colors = {
             \}
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
+" ignore filenames in search
+command! -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
+  \   1,
+  \   {'options': '--delimiter : --nth 2..'})
+
 let g:tmux_navigator_no_mappings = 1
 let g:PaperColor_Theme_Options = {
             \   'theme': {
@@ -138,7 +152,7 @@ let g:PaperColor_Theme_Options = {
             \ }
 let g:limelight_conceal_guifg = '#555555'
 let g:lightline = {
-      \ 'colorscheme': 'PaperColor',
+      \ 'colorscheme': 'molokai',
       \ }
 let g:lightline.active = {
             \ 'left': [ [ 'mode', 'paste' ],
@@ -223,11 +237,12 @@ hi! link VimwikiHeader5 htmlH5
 hi! link VimwikiHeader6 htmlH6
 
 " colorscheme dracula
-" colorscheme molokai
-colorscheme PaperColor
+colorscheme molokai
+" colorscheme PaperColor
+" colorscheme onehalfdark
 " colorscheme Tomorrow-Night-Bright
 
-" hi Normal    ctermbg=None guibg=None
+hi Normal    ctermbg=None guibg=None
 " " Stolen from sickill/vim-monokai {{{
 " hi IncSearch term=reverse cterm=reverse ctermfg=193 ctermbg=16 gui=reverse guifg=#C4BE89 guibg=#000000
 " hi Search    term=reverse cterm=None    ctermfg=231 ctermbg=24 gui=None    guifg=#f8f8f2 guibg=#204a87
@@ -304,6 +319,7 @@ nmap <Leader>fs <Cmd>write<CR>
 augroup md_map
     au!
     au FileType markdown nmap gO <Cmd>Toch<CR>
+    au FileType markdown nmap <Leader>fm <Cmd>w<CR><Cmd>silent make notes.pdf<CR>
 augroup END
 
 " }}}
