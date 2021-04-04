@@ -51,6 +51,7 @@ Plug 'sgur/vim-textobj-parameter'
 Plug 'norcalli/nvim.lua'
 " Missing langs (mostly for syn highlighting & indentation)
 Plug 'sheerun/vim-polyglot'
+Plug 'HarnoRanaivo/vim-mipssyntax'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
