@@ -1,0 +1,105 @@
+{
+    "layer": "top",
+    "position": "bottom",
+    "height": 24,
+    "modules-left": ["clock", "sway/mode", "sway/window"],
+    "modules-center": ["sway/workspaces"],
+    "modules-right": ["tray", "idle_inhibitor", "memory", "cpu", "custom/ping", "network", "pulseaudio", "battery"],
+    "sway/window": {
+        "max-length": 50
+    },
+    "sway/mode": {
+        "tooltip": false
+    },
+    "sway/workspaces": {
+        "all-outputs": true,
+        "persistent_workspaces": {
+        // "1": [],
+        // "2": [],
+        // "3": [],
+        // "4": [],
+        // "5": [],
+        // "6": [],
+        // "7": [],
+        // "8": [],
+        // "9": []
+        }
+    },
+    "custom/ping": {
+        "exec": "s ping",
+        "interval": 3,
+        "tooltip": false,
+        "format": "{} ms 龍"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "tooltip": false,
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "cpu": {
+        "format": "{usage}% ",
+        "interval": "1",
+        "tooltip": false
+    },
+    "memory": {
+        "interval": 30,
+        "format": "{}% ",
+        "max-length": 10
+    },
+    "custom/kernel": {
+        "exec": "uname -r",
+        "interval": "once",
+        "tooltip": false
+    },
+    "tray": {
+        "spacing": 5,
+        "icon-size": 14,
+        "tooltip": false
+    },
+    "battery": {
+        "states": {
+            // "good": 95,
+            "warning": 20,
+            "critical": 10
+        },
+        "format": "{capacity}% ",
+        "format-charging": "{capacity}% ",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        //"format-icons": [" ", " ", " ", " ", " ", " ", " ", " "],
+        "tooltip": false,
+	"on-click": "footclient htop"
+    },
+    "clock": {
+        "format": " {:%a, %d %b %H:%M}",
+        "tooltip": false,
+	"on-click": "footclient calcurse"
+    },
+    "pulseaudio": {
+        //"scroll-step": 1,
+        "format": "{volume}% {icon}",
+        "format-bluetooth": "{volume}% {icon}",
+        "format-muted": "",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", ""]
+        },
+        "tooltip": false,
+        "on-click": "pavucontrol"
+    },
+    "network": {
+        "format-wifi": "{signalStrength}% ",
+        "format-ethernet": "Wired ",
+        "format-disconnected": " ⚠",
+        "tooltip": false,
+	"on-click": "footclient nmtui"
+    }
+}
