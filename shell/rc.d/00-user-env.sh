@@ -1,3 +1,8 @@
 export EDITOR=nvim
-export LAUNCHER='rofi -show run'
-export TERMINAL=alacritty
+if [ -n "$WAYLAND_DISPLAY" ] || [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    export LAUNCHER='bemenu-run -bil 20'
+    export TERMINAL=foot
+else
+    export LAUNCHER='rofi -show run'
+    export TERMINAL=alacritty
+fi
