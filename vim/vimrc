@@ -53,10 +53,19 @@ Plug 'norcalli/nvim.lua'
 Plug 'sheerun/vim-polyglot'
 Plug 'HarnoRanaivo/vim-mipssyntax'
 Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'mattn/vim-lsp-settings'
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'prabirshrestha/asyncomplete.vim'
+" Plug 'prabirshrestha/asyncomplete-lsp.vim'
+" Plug 'mattn/vim-lsp-settings'
+
+" nvim 0.5
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'neovim/nvim-lspconfig'
+Plug 'kabouzeid/nvim-lspinstall'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/nvim-compe'
+Plug 'RishabhRD/popfix'
+Plug 'RishabhRD/nvim-lsputils'
 
 call plug#end()
 " }}}
@@ -223,7 +232,159 @@ function jv_bufname()
     return name
 end
 EOF
-" }}}
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+    ensure_installed = "all",
+    ignore_install = { },
+        highlight = {
+        enable = true,
+        disable = { },
+    },
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+            init_selection = "gnn",
+            node_incremental = "grn",
+            scope_incremental = "grc",
+            node_decremental = "grm",
+        },
+    },
+    indent = {
+        enable = true
+    }
+}
+EOF
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+
+lua <<EOF
+local nvim_lsp = require('lspconfig')
+function jv_on_lsp_attach(client, bufnr)
+    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+    -- Mappings.
+    local opts = { noremap=true, silent=true }
+    buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+    buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+    buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+    buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+    buf_set_keymap('n', '<space>lr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    buf_set_keymap('n', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    buf_set_keymap('n', '<space>le', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+    buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+    buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+    buf_set_keymap('n', '<space>lq', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+
+    -- Set some keybinds conditional on server capabilities
+    if client.resolved_capabilities.document_formatting then
+        buf_set_keymap("n", "<space>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+    end
+    if client.resolved_capabilities.document_range_formatting then
+        buf_set_keymap("v", "<space>lf", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+    end
+
+    -- Set autocommands conditional on server_capabilities
+    if client.resolved_capabilities.document_highlight then
+        vim.api.nvim_exec([[
+            hi def link LspReferenceText CursorLine
+            hi def link LspReferenceWrite CursorLine
+            hi def link LspReferenceRead CursorLine
+
+            augroup lsp_document_highlight
+                autocmd! * <buffer>
+                autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+                autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+            augroup END
+        ]], false)
+    end
+end
+
+-- -- local servers = { "pyright", "rust_analyzer", "tsserver" }
+-- local servers = require'lspinstall'.installed_servers()
+-- for _, lsp in ipairs(servers) do
+--     nvim_lsp[lsp].setup { on_attach = on_attach }
+-- end
+
+local function setup_servers()
+    require'lspinstall'.setup()
+    local servers = require'lspinstall'.installed_servers()
+    for _, server in pairs(servers) do
+        require'lspconfig'[server].setup{on_attach = jv_on_lsp_attach}
+    end
+end
+
+setup_servers()
+require'lspconfig'.jdtls.setup{
+    on_attach = jv_on_lsp_attach,
+    cmd = {'jdtls'},
+    -- root_dir = require('jdtls.setup').find_root({'gradle.build', 'pom.xml', '.project', '.git'})})
+    root_dir = function(fname)
+        local root = require('lspconfig').util.root_pattern('gradle.build', '.project', '.git')(fname)
+        if root then 
+            return root
+        else
+            return vim.fn.getcwd()
+        end
+    end
+}
+
+-- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
+require'lspinstall'.post_install_hook = function ()
+    setup_servers() -- reload installed servers
+    vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
+end
+EOF
+
+
+lua <<EOF
+require'compe'.setup {
+    enabled = true;
+    autocomplete = true;
+    debug = false;
+    min_length = 1;
+    preselect = 'enable';
+    throttle_time = 80;
+    source_timeout = 200;
+    incomplete_delay = 400;
+    max_abbr_width = 100;
+    max_kind_width = 100;
+    max_menu_width = 100;
+    documentation = true;
+
+    source = {
+        path = true;
+        buffer = true;
+        calc = true;
+        nvim_lsp = true;
+        nvim_lua = true;
+        vsnip = true;
+    };
+}
+EOF
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
+lua << EOF
+vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
+vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
+vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+EOF
 
 " Colors {{{
 if has("termguicolors")
@@ -298,13 +459,13 @@ nmap <Leader>pf <Cmd>GFiles<CR>
 nmap <Leader>ps <Cmd>Rg<CR>
 nmap <Leader>ss <Cmd>BLines<CR>
 
-nmap <Leader>la <Cmd>LspCodeAction<CR>
-nmap <Leader>lr <Cmd>LspRename<CR>
-nmap <Leader>le <Cmd>LspDocumentDiagnostics<CR>
-nmap <Leader>ld <Cmd>LspDefinition<CR>
-nmap <Leader>lD <Cmd>LspDeclaration<CR>
-nmap <Leader>ll <Cmd>LspCodeLens<CR>
-nmap <Leader>lf <Cmd>LspDocumentFormat<CR>
+" nmap <Leader>la <Cmd>LspCodeAction<CR>
+" nmap <Leader>lr <Cmd>LspRename<CR>
+" nmap <Leader>le <Cmd>LspDocumentDiagnostics<CR>
+" nmap <Leader>ld <Cmd>LspDefinition<CR>
+" nmap <Leader>lD <Cmd>LspDeclaration<CR>
+" nmap <Leader>ll <Cmd>LspCodeLens<CR>
+" nmap <Leader>lf <Cmd>LspDocumentFormat<CR>
 
 nmap <Leader>gf <Cmd>echo 'Fetching...'<CR><Cmd>Git fetch<CR><Cmd>echo 'Done.'<CR>
 nmap <Leader>gF <Cmd>Git pull --rebase<CR>
