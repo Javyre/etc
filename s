@@ -97,6 +97,7 @@ case "$1" in
         shift
         (
             export XDG_SESSION_TYPE=wayland
+            export XDG_CURRENT_DESKTOP=Wayfire
             . "$XDG_CONFIG_HOME/shell/rc"
             dbus-launch wayfire 2>&1 >"$XDG_RUNTIME_DIR/wayfire.$(date +%F).log"
         )
