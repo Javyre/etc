@@ -3,20 +3,26 @@
 envs = [['USER', 'javier'],
         ['XDGC', '.local/etc'],
         ['XDGD', '.local/share'],
+        ['LOGH', '.local/var/log'],
+        ['XDGCACHE', '.local/var/cache'],
         ['XDG_RUNTIME_DIR', '/tmp/javier']]
 [tasks.env__FyrePC]
 envs = [['USER', 'javyre'],
         ['XDGC', '.local/etc'],
         ['XDGD', '.local/share'],
+        ['LOGH', '.local/var/log'],
+        ['XDGCACHE', '.local/var/cache'],
         ['XDG_RUNTIME_DIR', '/tmp/javyre']]
 
 # ==== CFG ==== #
 [tasks.cfg__common]
 deps = ['env']
 templates = [
-    ['$XDGC/alacritty.yml'  , 'alacritty.yml'  ],
-    ['$XDGC/isync/mbsyncrc' , 'isync/mbsyncrc' ],
-    ['$XDGC/msmtp/config'   , 'msmtp/config'   ],
+    ['$XDGC/alacritty.yml'      , 'alacritty.yml'       ],
+    ['$XDGC/isync/mbsyncrc'     , 'isync/mbsyncrc'      ],
+    ['$XDGC/msmtp/config'       , 'msmtp/config'        ],
+    ['$XDGC/shell/rc'           , 'shell/rc'            ],
+    ['$XDGC/shell/base-dirs.sh' , 'shell/base-dirs.sh'  ],
     
     # See ./make for actual installing of these files
     ['$HM_SRC/root/etc/bash/bashrc.d/rc-$USER.sh' , 'root/rc-user.sh'         ],
@@ -30,7 +36,7 @@ links = [
     ['$XDGC/nvim'          , 'nvim'          ],
     ['$XDGC/vim'           , 'vim'           ],
     ['$XDGC/tmux'          , 'tmux'          ],
-    ['$XDGC/shell'         , 'shell'         ],
+    ['$XDGC/shell/rc.d'    , 'shell/rc.d'    ],
     ['$XDGC/sv'            , 'sv'            ],
     ['$XDGC/i3'            , 'i3'            ],
     ['$XDGC/wayfire.ini'   , 'wayfire.ini'   ],

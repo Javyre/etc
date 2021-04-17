@@ -3,12 +3,10 @@
 export USER="{{ .Env.USER }}"
 export HOME="/home/$USER"
 
-groups="$(id -Gn "$USER" | tr ' ' ':')"
-svdir="$HOME/{{ .Env.XDGC }}/sv/enabled"
-
 . "$HOME/{{ .Env.XDGC }}/shell/rc"
-
-mkdir "$XDG_RUNTIME_DIR"
 chown javyre "$XDG_RUNTIME_DIR"
+
+groups="$(id -Gn "$USER" | tr ' ' ':')"
+svdir="$XDG_CONFIG_HOME/sv/enabled"
 
 exec chpst -u "$USER:$groups" runsvdir "$svdir"
