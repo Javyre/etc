@@ -1,7 +1,7 @@
 (module util
-  {require {core   aniseed.core
-            nvim   aniseed.nvim
-            nu     aniseed.nvim.util}})
+  {require {a       aniseed.core
+            nvim    aniseed.nvim
+            nu      aniseed.nvim.util}})
 
 ;; Keymap
 
@@ -15,7 +15,7 @@
     :function (let [ident (match (type ident)
                             :function (ident)
                             _ ident)]
-                (core.assoc *targ-fns* ident f)
+                (a.assoc *targ-fns* ident f)
                 (string.format "lua require'%s'['*targ-fns*']['%s']()"
                                *module-name* ident))
     :string   f))
@@ -38,20 +38,20 @@
   "Sets a global mapping with opts.
   
   TO can be a string mapping or a lua function"
-  (let [bufnr (core.get opts :buffer)
+  (let [bufnr (a.get opts :buffer)
         buffer-local (= (type bufnr) :number)
         to (-> to
                (func-to-keys mode from bufnr buffer-local)
                (wrap-cmd))]
     (if buffer-local
       (nvim.buf_set_keymap
-        bufnr mode from to (core.assoc (vim.deepcopy opts) :buffer nil))
+        bufnr mode from to (a.assoc (vim.deepcopy opts) :buffer nil))
       (nvim.set_keymap
         mode from to (or opts {})))))
 
 (defn noremap [mode from to opts]
   "Sets a global mapping with {:noremap true}."
-  (let [opts (core.assoc (or (vim.deepcopy opts) {}) :noremap true)]
+  (let [opts (a.assoc (or (vim.deepcopy opts) {}) :noremap true)]
     (map mode from to opts)))
 
 (defn map* [mode opts binds]

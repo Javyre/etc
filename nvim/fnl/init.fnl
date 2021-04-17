@@ -284,6 +284,7 @@
        (util.map* 
            :n {:noremap true}
            {:<Leader>ff      #(builtin.find_files (dd))
+            :<Leader>fF      #(builtin.file_browser (dd))
             :<Leader>pf      #(builtin.git_files  (dd))
             :<Leader>ss      #(builtin.current_buffer_fuzzy_find (dd))
             :<Leader>ps      #(builtin.live_grep  (dd))
