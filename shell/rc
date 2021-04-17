@@ -12,7 +12,9 @@ is_interactive() {
     esac
 }
 
-rc_dir="$HOME/.local/etc/shell"
+. "$HOME/{{ .Env.XDGC }}/shell/base-dirs.sh"
+
+rc_dir="$XDG_CONFIG_HOME/shell"
 
 if [ -d "$rc_dir/rc.d/" ]; then
     for f in "$rc_dir"/rc.d/*.sh; do
