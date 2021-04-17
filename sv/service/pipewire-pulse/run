@@ -1,0 +1,7 @@
+#!/bin/sh
+exec 2>&1
+SVDIR="$XDG_CONFIG_HOME/sv/enabled" sv start pipewire
+
+# FIXME: chrt fails here due to insufficent permissions
+chrt -r -p 80 $$
+exec dbus-launch pipewire -c pipewire-pulse.conf

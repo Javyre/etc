@@ -1,0 +1,6 @@
+#!/bin/sh
+exec 2>&1
+
+# FIXME: chrt fails here due to insufficent permissions
+chrt -r -p 80 $$
+exec dbus-launch pipewire

@@ -1,0 +1,3 @@
+#!/bin/sh
+mkdir -p "$XDG_CACHE_HOME/log-sv/mopidy"
+exec svlogd -tt "$XDG_CACHE_HOME/log-sv/mopidy"

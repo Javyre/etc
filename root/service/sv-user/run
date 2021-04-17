@@ -1,0 +1,11 @@
+#!/bin/sh
+
+export USER="{{ .Env.USER }}"
+export HOME="/home/$USER"
+
+groups="$(id -Gn "$USER" | tr ' ' ':')"
+svdir="$HOME/{{ .Env.XDGC }}/sv/enabled"
+
+. "$HOME/{{ .Env.XDGC }}/shell/rc"
+
+exec chpst -u "$USER:$groups" runsvdir "$svdir"

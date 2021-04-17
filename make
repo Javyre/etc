@@ -13,6 +13,11 @@ bootstrap() {
 
 sync() {
     .bin/homemaker -variant="$(hostname)" "$@" etc.toml .
+
+    echo "Copying root files..."
+    chmod a+x root/etc/sv/*/run
+    sudo cp -r root/etc/sv/sv-* /etc/sv/
+    sudo cp root/etc/bash/bashrc.d/rc-*.sh /etc/bash/bashrc.d/
 }
 
 bootstrap
