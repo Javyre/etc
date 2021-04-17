@@ -249,7 +249,7 @@
 (use [:tpope/vim-fugitive
       :rbong/vim-flog]
      (util.map* :n {}
-        {:<Leader>gs ":tab Gstatus"
+        {:<Leader>gs ":tab Git"
          :<Leader>gl ":Flog -all -format=[%h]\\ (%ar)\\ %s%d\\ {%an}"}))
 (use :lambdalisue/fern.vim
      (util.noremap :n :<Leader>tt ":Fern . -drawer -toggle -reveal=%"))
