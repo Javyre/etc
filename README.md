@@ -1,6 +1,6 @@
 # Javyre/etc
 
-To link files to the proper places:
+To link and generate the files to the proper places:
 ```sh
 ./make
 ```
@@ -18,10 +18,3 @@ For other options:
 
 - `$XDG_CONFIG_HOME` is semi-hardcoded in the configs for now. Run a
     quick `rg \.local/etc` to get an idea of it.
-
-# TODO
-
-- Use go templates with homemaker to get `$XDG_CONFIG_HOME` in places
-    where it must be hardcoded (chicken-egg problems like `root/custom-rc.sh`).
-
-- Use homemaker to replace `root/install.sh`
