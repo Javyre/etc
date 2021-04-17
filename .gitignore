@@ -1,6 +1,7 @@
 /.bin
 /vim/autoload/
 /vim/.netrwhist
+/nvim/lua/
 /shell/rc.d/00-wallpaper-env.sh
 /emacs/.cache/
 /emacs/.emacs.desktop
@@ -13,3 +14,15 @@
 /emacs/straight/
 /emacs/transient/
 /emacs/.lsp-session*
+/emacs/.emacs.desktop.lock
+/emacs/.org-id-locations
+/emacs/auto-save-list/
+/emacs/eln-cache/
+/emacs/eshell/
+/emacs/network-security.data
+/emacs/tramp
+/emacs/url/
+/emacs/var/
+/root/etc/
+/sv/enabled/
+/sv/service/**/supervise/
