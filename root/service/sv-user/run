@@ -8,4 +8,7 @@ svdir="$HOME/{{ .Env.XDGC }}/sv/enabled"
 
 . "$HOME/{{ .Env.XDGC }}/shell/rc"
 
+mkdir "$XDG_RUNTIME_DIR"
+chown javyre "$XDG_RUNTIME_DIR"
+
 exec chpst -u "$USER:$groups" runsvdir "$svdir"
