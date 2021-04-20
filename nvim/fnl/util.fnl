@@ -54,10 +54,10 @@
   (let [opts (a.assoc (or (vim.deepcopy opts) {}) :noremap true)]
     (map mode from to opts)))
 
-(defn map* [mode opts binds]
-  "Set multiple bindings"
-  (each [from to (pairs binds)]
-    (map mode from to opts)))
+; (defn map* [mode opts binds]
+;   "Set multiple bindings"
+;   (each [from to (pairs binds)]
+;     (map mode from to opts)))
 
 (defn augroup [name ...]
   (nvim.ex.augroup name)
@@ -66,3 +66,29 @@
     (let [cmd (func-to-cmd cmd #(.. name event pat))]
       (nvim.ex.autocmd event pat cmd)))
   (nvim.ex.augroup :END))
+
+(defonce- *lsp-defer* {})
+(defonce *lsp-defer-pre* #nil)
+
+(defn defer-lsp-setup [serv filetypes opts]
+  (augroup (.. "jv_lsp_defer_" serv)
+    [[:FileType (table.concat filetypes ",") 
+      #(when (a.nil? (. *lsp-defer* serv))
+        (print *lsp-defer-pre*)
+        (print *lsp-defer*.-defer-pre)
+        (when (a.nil? *lsp-defer*.-defer-pre)
+          (set *lsp-defer*.-defer-pre true)
+          (*module*.*lsp-defer-pre*))
+        (let [lsp (. (require :lspconfig) serv)]
+          (a.assoc *lsp-defer* serv true)
+          (lsp.setup opts)
+          (lsp.manager.try_add)))]]))
+(require :lspconfig)
+
+(defn run-hook [hook ...]
+  (a.pr hook)
+  (each [fun _ (pairs hook)]
+    (fun ...)))
+
+(defn add-hook [hook fun]
+  (a.assoc hook fun true))

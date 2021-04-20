@@ -7,6 +7,19 @@
               paq  paq-nvim}
      require-macros [macros]})
 
+; (macro map* [mode opts binds]
+;  (let [util (gensym)
+;        binds (icollect [from to (pairs binds)]
+;                `((. ,util :map) ,mode ,from ,to ,opts))]
+;    `(let [,util (require :util)]
+;      ,(values (unpack binds)))))
+
+; (defn map* [mode opts binds]
+;   "Set multiple bindings"
+;   (each [from to (pairs binds)]
+;     (util.map mode from to opts)))
+(time
+
 ;; Nvim
 (set nvim.g.mapleader " ")
 (set nvim.g.maplocalleader ",")
@@ -72,7 +85,7 @@
 (use [:sheerun/vim-polyglot
       :HarnoRanaivo/vim-mipssyntax])
 
-;; Tree-Sitter
+;; Tree-Sitter (kinda slow: ~2ms)
 (use (:nvim-treesitter/nvim-treesitter {:run (fn [] (nvim.ex.TSUpdate))})
      (local tree-sitter (require :nvim-treesitter.configs))
      (tree-sitter.setup 
@@ -89,88 +102,77 @@
      (set nvim.wo.foldmethod :expr)
      (set nvim.wo.foldexpr "nvim_treesitter#foldexpr()"))
 
+(defonce- *lsp-attach-hook* {})
 ;; LSP (using builtin)
 (use [:neovim/nvim-lspconfig
       :kabouzeid/nvim-lspinstall
       :hrsh7th/vim-vsnip
       :hrsh7th/nvim-compe
-      :RishabhRD/popfix
-      :RishabhRD/nvim-lsputils]
-     (let [lsp-config (require :lspconfig)
-           lsp-install (require :lspinstall)]
-         (defn- on-lsp-attach [client bufnr]
-             ;; Mappings.
-             (local opts {:noremap true :silent true :buffer bufnr})
-             (util.map*
-               :n opts
-               {:gD    #(vim.lsp.buf.declaration)
-                :gd    #(vim.lsp.buf.definition)
-                :gr    #(vim.lsp.buf.references)
-                :K     #(vim.lsp.buf.hover)
-                :gi    #(vim.lsp.buf.implementation)
-                :<C-k> #(vim.lsp.buf.signature_help)
-                "[d" #(vim.lsp.diagnostic.goto_prev)
-                "]d" #(vim.lsp.diagnostic.goto_next)
-                :<LocalLeader>wa #(vim.lsp.buf.add_workspace_folder)
-                :<LocalLeader>wr #(vim.lsp.buf.remove_workspace_folder)
-                :<LocalLeader>wl #(a.pr (vim.lsp.buf.list_workspace_folders))
-                :<LocalLeader>D  #(vim.lsp.buf.type_definition)
-                :<LocalLeader>lr #(vim.lsp.buf.rename)
-                :<LocalLeader>la #(vim.lsp.buf.code_action)
-                :<LocalLeader>le #(vim.lsp.diagnostic.show_line_diagnostics)
-                :<LocalLeader>lq #(vim.lsp.diagnostic.set_loclist)})
+      :RishabhRD/popfix]
+     (defn- on-lsp-attach [client bufnr]
+         ;; Mappings.
+         (local opts {:noremap true :silent true :buffer bufnr})
+         (map*
+           :n opts
+           {:gD    #(vim.lsp.buf.declaration)
+            :gd    #(vim.lsp.buf.definition)
+            :gr    #(vim.lsp.buf.references)
+            :K     #(vim.lsp.buf.hover)
+            :gi    #(vim.lsp.buf.implementation)
+            :<C-k> #(vim.lsp.buf.signature_help)
+            "[d" #(vim.lsp.diagnostic.goto_prev)
+            "]d" #(vim.lsp.diagnostic.goto_next)
+            :<LocalLeader>wa #(vim.lsp.buf.add_workspace_folder)
+            :<LocalLeader>wr #(vim.lsp.buf.remove_workspace_folder)
+            :<LocalLeader>wl #(a.pr (vim.lsp.buf.list_workspace_folders))
+            :<LocalLeader>D  #(vim.lsp.buf.type_definition)
+            :<LocalLeader>lr #(vim.lsp.buf.rename)
+            :<LocalLeader>la #(vim.lsp.buf.code_action)
+            :<LocalLeader>le #(vim.lsp.diagnostic.show_line_diagnostics)
+            :<LocalLeader>lq #(vim.lsp.diagnostic.set_loclist)})
 
-             ;; Set some keybinds conditional on server capabilities
-             (if client.resolved_capabilities.document_formatting
-               (util.map :n :<LocalLeader>lf #(vim.lsp.buf.formatting) opts))
-             (if client.resolved_capabilities.document_range_formatting
-               (util.map :v :<LocalLeader>lf #(vim.lsp.buf.range_formatting) opts))
+         ;; Set some keybinds conditional on server capabilities
+         (if client.resolved_capabilities.document_formatting
+           (util.map :n :<LocalLeader>lf #(vim.lsp.buf.formatting) opts))
+         (if client.resolved_capabilities.document_range_formatting
+           (util.map :v :<LocalLeader>lf #(vim.lsp.buf.range_formatting) opts))
 
-             ;; Set autocommands conditional on server_capabilities
-             (if client.resolved_capabilities.document_highlight
-               (vim.api.nvim_exec
-                 "hi def link LspReferenceText CursorLine
-                 hi def link LspReferenceWrite CursorLine
-                 hi def link LspReferenceRead CursorLine
+         ;; Set autocommands conditional on server_capabilities
+         (if client.resolved_capabilities.document_highlight
+           (vim.api.nvim_exec
+             "hi def link LspReferenceText CursorLine
+             hi def link LspReferenceWrite CursorLine
+             hi def link LspReferenceRead CursorLine
 
-                 augroup lsp_document_highlight
-                   autocmd! * <buffer>
-                   autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-                   autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-                 augroup END" false)))
+             augroup lsp_document_highlight
+               autocmd! * <buffer>
+               autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+               autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+             augroup END" false))
+         
+         (util.run-hook *lsp-attach-hook* client bufnr))
 
-         (defn- setup-servers []
-           (let [lsp-install (require :lspinstall)]
-             (lsp-install.setup)
-             (let [servers (lsp-install.installed_servers)]
-                 (a.run! (fn [server]
-                                ((a.get-in lsp-config [server :setup]) 
-                                 {:on_attach on-lsp-attach})
-                                servers)))))
-         (setup-servers)
-         (lsp-config.jdtls.setup 
-           {:on_attach on-lsp-attach
-            :cmd ["jdtls"]
-            :root_dir #(or ((lsp-config.util.root_pattern
-                              "gradle.build" ".project" ".git") $1)
-                           (vim.fn.getcwd))})
-         (lsp-config.cpp.setup {:on_attach on-lsp-attach})
-         (set lsp-install.post_install_hook #((setup-servers)
-                                              (nvim.ex.bufdo "e"))))
+     ;; We have to initialize lsp-install to access the installed server configs
+     ;; in lspconfig.
+     (set util.*lsp-defer-pre*
+       #(let [lsp-install (require :lspinstall)]
+         (lsp-install.setup)))
 
-     (let [coda (require :lsputil.codeAction)
-           loca (require :lsputil.locations)
-           symb (require :lsputil.symbols)
-           hs vim.lsp.handlers]
-         (set hs.textDocument/codeAction     coda.code_action_handler)
-         (set hs.textDocument/references     loca.references_handler)
-         (set hs.textDocument/definition     loca.definition_handler)
-         (set hs.textDocument/declaration    loca.declaration_handler)
-         (set hs.textDocument/typeDefinition loca.typeDefinition_handler)
-         (set hs.textDocument/implementation loca.implementation_handler)
-         (set hs.textDocument/documentSymbol symb.document_handler)
-         (set hs.workspace/symbol            symb.workspace_handler))
+     (util.defer-lsp-setup
+       :jdtls ["java"]
+       {:on_attach on-lsp-attach
+        :cmd ["jdtls"]
+        :root_dir #(let [lsp-config (require :lspconfig)]
+                     (or ((lsp-config.util.root_pattern
+                            "gradle.build" ".project" ".git") $1)
+                         (vim.fn.getcwd)))})
 
+     (util.defer-lsp-setup
+       :cpp ["c" "cpp" "objc" "objcpp"]
+       {:on_attach on-lsp-attach})
+
+     ;; TODO: check back on https://github.com/hrsh7th/nvim-compe/issues/220
+     ;; for startup performance improvements
      (let [compe (require :compe)]
        (compe.setup {:source {:path true
                               :buffer true
@@ -180,7 +182,7 @@
                               :vsnip true}}))
 
      (let [opts {:silent true :expr true :noremap true}]
-         (util.map* 
+         (map* 
              :i opts
              {:<C-Space> "compe#complete()"
               :<CR>      "compe#confirm('<CR>')"
@@ -204,10 +206,17 @@
   [[:BufWritePost "~/*/*vim/*.fnl" #(let [e (require :aniseed.env)]
                                         (e.init))]])
 
+(time
 ;; Color
+(time
 (use :norcalli/nvim-colorizer.lua
-     (let [c (require :colorizer)]
-       (c.setup)))
+     (defn- toggle-attach-colorizer [attach?]
+       (let [attach? (if (a.nil? attach?)
+                         (not nvim.b.jv-colorizer-attached)
+                         attach?)]
+           (let [c (require :colorizer)]
+             (c.setup)))))
+)
 (use :tomasr/molokai
      (nvim.ex.colorscheme :molokai)
      (nvim.ex.hi "Normal ctermbg=None guibg=None"))
@@ -244,11 +253,12 @@
                       :right [[] [:lineinfo]]}
            :component {:filename "%{JvBufname()}"
                        :branch "%{FugitiveHead()}"}}))
+)
 
 ;; Util
 (use [:tpope/vim-fugitive
       :rbong/vim-flog]
-     (util.map* :n {}
+     (map* :n {}
         {:<Leader>gs ":tab Git"
          :<Leader>gl ":Flog -all -format=[%h]\\ (%ar)\\ %s%d\\ {%an}"}))
 (use :lambdalisue/fern.vim
@@ -257,13 +267,13 @@
 ;; Tmux
 (use :christoomey/vim-tmux-navigator
      (set nvim.g.tmux_navigator_no_mappings 1)
-     (util.map*
+     (map*
          "" {:noremap true}
          {:<A-h> ":TmuxNavigateLeft"
           :<A-j> ":TmuxNavigateDown"
           :<A-k> ":TmuxNavigateUp"
           :<A-l> ":TmuxNavigateRight"})
-     (util.map*
+     (map*
          :t {:noremap true}
          {:<A-h> :<C-\><C-n><Cmd>TmuxNavigateLeft<CR>
           :<A-j> :<C-\><C-n><Cmd>TmuxNavigateDown<CR>
@@ -277,13 +287,16 @@
       (:nvim-telescope/telescope-fzy-native.nvim 
           {:run "git submodule update --init --recursive"})]
 
-     (let [tele (require :telescope)
-           builtin (require :telescope.builtin)
-           dd (a.get (require :telescope.themes) :get_dropdown)]
-       (tele.load_extension :fzy_native)
-       (util.map* 
+     (let [; tele (require :telescope)
+           builtin (lazy-require :telescope.builtin)
+           dd #((. (require :telescope.themes) :get_dropdown) $...)]
+       ;; The extension should be lazy loaded by telescope... hopefully
+       ; (tele.load_extension :fzy_native)
+       (map* 
            :n {:noremap true}
            {:<Leader>ff      #(builtin.find_files (dd))
+                             ;; #(let-mod [b :telescope.builtin]
+                             ;;   (b.find_files (dd)))
             :<Leader>fF      #(builtin.file_browser (dd))
             :<Leader>pf      #(builtin.git_files  (dd))
             :<Leader>ss      #(builtin.current_buffer_fuzzy_find (dd))
@@ -292,4 +305,25 @@
             :<Leader><Space> #(builtin.commands   (dd))
             :<Leader>hh      #(builtin.help_tags)
             :<Leader>hk      #(builtin.keymaps (dd))
-            :<Leader>gb      #(builtin.git_branches (dd))})))
+            :<Leader>gb      #(builtin.git_branches (dd))})
+       
+       (util.add-hook
+         *lsp-attach-hook*
+         #(do
+            (print "hook")
+            (map*
+                :n {:noremap true :silent true :buffer $2}
+                {:gd                 #(builtin.lsp_definitions (dd))
+                 :gr                 #(builtin.lsp_references (dd))
+                 :<LocalLeader>ls    #(builtin.lsp_document_symbols (dd))
+                 :<LocalLeader>lS    #(builtin.lsp_workspace_symbols (dd))
+                 :<LocalLeader>la    #(builtin.lsp_code_actions (dd))
+                 :<LocalLeader>le    #(builtin.lsp_document_diagnostics (dd))
+                 :<LocalLeader>lE    #(builtin.lsp_workspace_diagnostics (dd))})
+            (util.map
+                :v :<LocalLeader>la    
+                #(builtin.lsp_range_code_actions (dd))
+                {:noremap true :silent true :buffer $2})))))
+
+)
+*module*
