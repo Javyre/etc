@@ -237,6 +237,9 @@ local theme = lush(function()
     -- TelescopeNormal       { Pmenu },
     TelescopeSelection    { CursorLine },
 
+    fugitiveHash          { fg=orange },
+    FugitiveblameHash     { fugitiveHash },
+
   }
 end)
 
