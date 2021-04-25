@@ -1,26 +1,27 @@
-(module util
-  {require {a       aniseed.core
-            nvim    aniseed.nvim
-            nu      aniseed.nvim.util}})
+; vim:lispwords+=a.assoc,augroup
+
+(local a    (require :aniseed.core))
+(local nvim (require :aniseed.nvim))
+(local nu   (require :aniseed.nvim.util))
 
 ;; Keymap
 
-(defonce *targ-fns* {})
+(local *targ-fns* {})
 
-(defn- escape-vim-keys [s]
+(fn escape-vim-keys [s]
   (s:gsub "<" "<lt>"))
 
-(defn- func-to-cmd [f ident]
+(fn func-to-cmd [f ident]
   (match (type f)
     :function (let [ident (match (type ident)
                             :function (ident)
                             _ ident)]
-                (a.assoc *targ-fns* ident f)
-                (string.format "lua require'%s'['*targ-fns*']['%s']()"
-                               *module-name* ident))
+                (tset *targ-fns* ident f)
+                (string.format "lua require'%s'.targ_fns['%s']()"
+                               :util ident))
     :string   f))
 
-(defn- func-to-keys [f mode from bufnr buffer-local] 
+(fn func-to-keys [f mode from bufnr buffer-local] 
   (match (type f)
     :function (let [ident (string.format 
                             "%s-%s-%s"
@@ -29,14 +30,14 @@
                 (.. ":" (escape-vim-keys (func-to-cmd f ident))))
     :string   f))
 
-(defn- wrap-cmd [s]
+(fn wrap-cmd [s]
   (match (s:sub 1 1)
     ":" (string.format "<Cmd>%s<CR>" (s:sub 2 -1))
     _   s))
 
-(defn map [mode from to opts]
+(fn map [mode from to opts]
   "Sets a global mapping with opts.
-  
+
   TO can be a string mapping or a lua function"
   (let [bufnr (a.get opts :buffer)
         buffer-local (= (type bufnr) :number)
@@ -49,17 +50,17 @@
       (nvim.set_keymap
         mode from to (or opts {})))))
 
-(defn noremap [mode from to opts]
+(fn noremap [mode from to opts]
   "Sets a global mapping with {:noremap true}."
   (let [opts (a.assoc (or (vim.deepcopy opts) {}) :noremap true)]
     (map mode from to opts)))
 
-; (defn map* [mode opts binds]
+; (fn map* [mode opts binds]
 ;   "Set multiple bindings"
 ;   (each [from to (pairs binds)]
 ;     (map mode from to opts)))
 
-(defn augroup [name ...]
+(fn augroup [name ...]
   (nvim.ex.augroup name)
   (nvim.ex.autocmd!)
   (each [_ [event pat cmd] (ipairs ...)]
@@ -67,28 +68,39 @@
       (nvim.ex.autocmd event pat cmd)))
   (nvim.ex.augroup :END))
 
-(defonce- *lsp-defer* {})
-(defonce *lsp-defer-pre* #nil)
+;; Hooks
 
-(defn defer-lsp-setup [serv filetypes opts]
-  (augroup (.. "jv_lsp_defer_" serv)
-    [[:FileType (table.concat filetypes ",") 
-      #(when (a.nil? (. *lsp-defer* serv))
-        (print *lsp-defer-pre*)
-        (print *lsp-defer*.-defer-pre)
-        (when (a.nil? *lsp-defer*.-defer-pre)
-          (set *lsp-defer*.-defer-pre true)
-          (*module*.*lsp-defer-pre*))
-        (let [lsp (. (require :lspconfig) serv)]
-          (a.assoc *lsp-defer* serv true)
-          (lsp.setup opts)
-          (lsp.manager.try_add)))]]))
-(require :lspconfig)
-
-(defn run-hook [hook ...]
+(fn run-hook [hook ...]
   (a.pr hook)
   (each [fun _ (pairs hook)]
     (fun ...)))
 
-(defn add-hook [hook fun]
+(fn add-hook [hook fun]
   (a.assoc hook fun true))
+
+;; Lsp
+
+(local *lsp-defer* {})
+(local *lsp-init-hook* {})
+
+(fn defer-lsp-setup [serv filetypes opts]
+  (augroup (.. "jv_lsp_defer_" serv)
+    [[:FileType (table.concat filetypes ",") 
+      #(when (= (. *lsp-defer* serv) nil)
+         (when (= *lsp-defer*.-defer-init nil)
+           (set *lsp-defer*.-defer-init true)
+           (run-hook *lsp-init-hook*))
+
+         (let [lsp (. (require :lspconfig) serv)]
+           (a.assoc *lsp-defer* serv true)
+           (lsp.setup opts)
+           (lsp.manager.try_add)))]]))
+
+{:targ_fns *targ-fns*
+            : map
+            : noremap
+            : augroup
+            : run-hook
+            : add-hook
+            :lsp-init-hook *lsp-init-hook*
+            : defer-lsp-setup}
