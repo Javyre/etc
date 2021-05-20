@@ -110,7 +110,7 @@
                                        :node_incremental "grn"
                                        :scope_incremental "grc"
                                        :node_decremental "grm"}}
-     :indent {:enable true}})
+     :indent {:enable false}})
   (set nvim.wo.foldmethod :expr)
   (set nvim.wo.foldexpr "nvim_treesitter#foldexpr()"))
 
@@ -308,8 +308,11 @@
       (:nvim-telescope/telescope-fzy-native.nvim 
         {:run "git submodule update --init --recursive"})]
 
-  (let [builtin (lazy-require :telescope.builtin)
-        dd #((. (require :telescope.themes) :get_dropdown) $...)]
+  (let [opts {:follow true     ;; Follow symlinks
+              :use_regex true} ;; Don't escape regex chars in search
+        builtin (lazy-require :telescope.builtin)
+        dd #((. (require :telescope.themes) :get_dropdown)
+             (a.merge opts $...))]
     (map* :n {:noremap true}
       {:<Leader>ff      #(builtin.find_files (dd))
        :<Leader>fF      #(builtin.file_browser (dd))
