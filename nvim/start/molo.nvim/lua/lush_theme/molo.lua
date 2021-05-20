@@ -40,7 +40,7 @@ local theme = lush(function()
     DiffText     { fg=Normal.fg, bg=NonText.fg, gui='italic' }, -- diff mode: Changed text within a changed line |diff.txt|
     diffAdded    { fg=blue.lighten(30).saturate(80) }, -- fugitive inline diff
     diffRemoved  { fg=red.darken(20).desaturate(20) }, -- fugitive inline diff
-    -- EndOfBuffer  { }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
+    EndOfBuffer  { NonText }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
     -- TermCursor   { }, -- cursor in a focused terminal
     -- TermCursorNC { }, -- cursor in an unfocused terminal
     Search       { fg='black', bg=hsl('#FFE792') }, -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
