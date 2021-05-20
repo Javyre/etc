@@ -182,6 +182,11 @@
     :cpp ["c" "cpp" "objc" "objcpp"]
     {:on_attach on-lsp-attach})
 
+  (util.defer-lsp-setup
+    :typescript ["javascript" "javascriptreact" "jsx" 
+          "typescript" "typescriptreact" "tsx"]
+    {:on_attach on-lsp-attach})
+
   ;; TODO: check back on https://github.com/hrsh7th/nvim-compe/issues/220
   ;; for startup performance improvements
   (let [compe (require :compe)]
