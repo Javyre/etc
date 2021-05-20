@@ -6,7 +6,7 @@
 
 ;; Keymap
 
-(local *targ-fns* {})
+(local *targ-fns* (. (require :state) :util-targ-fns))
 
 (fn escape-vim-keys [s]
   (s:gsub "<" "<lt>"))
@@ -80,8 +80,8 @@
 
 ;; Lsp
 
-(local *lsp-defer* {})
-(local *lsp-init-hook* {})
+(local *lsp-defer*     (. (require :state) :util-lsp-defer))
+(local *lsp-init-hook* (. (require :state) :util-lsp-init-hook))
 
 (fn defer-lsp-setup [serv filetypes opts]
   (augroup (.. "jv_lsp_defer_" serv)
@@ -97,10 +97,10 @@
            (lsp.manager.try_add)))]]))
 
 {:targ_fns *targ-fns*
-            : map
-            : noremap
-            : augroup
-            : run-hook
-            : add-hook
-            :lsp-init-hook *lsp-init-hook*
-            : defer-lsp-setup}
+ : map
+ : noremap
+ : augroup
+ : run-hook
+ : add-hook
+ :lsp-init-hook *lsp-init-hook*
+ : defer-lsp-setup}

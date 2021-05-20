@@ -114,7 +114,7 @@
   (set nvim.wo.foldmethod :expr)
   (set nvim.wo.foldexpr "nvim_treesitter#foldexpr()"))
 
-(local *lsp-attach-hook* {})
+(local *lsp-attach-hook* (. (require :state) :lsp-attach-hook))
 ;; LSP (using builtin)
 (use [:neovim/nvim-lspconfig
       :kabouzeid/nvim-lspinstall
