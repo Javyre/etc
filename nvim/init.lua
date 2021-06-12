@@ -13,7 +13,7 @@ execute 'packadd paq-nvim'
 local paq = require'paq-nvim'.paq
 paq {'savq/paq-nvim', opt=true}
 
--- Bootstrap Fennel
+-- Bootstrap Moonscript
 
-paq {'Olical/aniseed'}
-vim.g['aniseed#env'] = {compile=false}
+paq {'svermeulen/nvim-moonmaker'}
+require 'init'
