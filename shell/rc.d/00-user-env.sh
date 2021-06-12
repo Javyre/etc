@@ -6,3 +6,4 @@ else
     export LAUNCHER='rofi -show run'
     export TERMINAL=alacritty
 fi
+export WALLPAPER="$HOME/Pictures/boats.jpg"
