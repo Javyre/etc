@@ -89,7 +89,8 @@ set_indent = (indent = 4) ->
     .softtabstop = indent
 
 augroup 'jv_buffer_setup', {
-  { 'FileType', { 'fennel', 'lisp', 'moon' }
+  { 'FileType',
+    { 'fennel', 'lisp', 'moon' },
     ->
       set_indent 2
       with vim.bo
@@ -97,7 +98,8 @@ augroup 'jv_buffer_setup', {
         .infercase = true -- infer case in search
         .modeline  = true
       vim.cmd 'EditorConfigReload' }
-  { 'FileType', { 'c', 'cpp', 'java', 'javascript', 'jsx', 'html', 'lua' }
+  { 'FileType',
+    { 'c', 'cpp', 'java', 'javascript', 'jsx', 'html', 'lua', 'markdown' },
     ->
       set_indent 4
       with vim.bo
@@ -106,6 +108,8 @@ augroup 'jv_buffer_setup', {
         .modeline  = true
       vim.cmd 'EditorConfigReload' }
 }
+
+vimp.nmap("<M-#{i}>", "<cmd>#{i}tabn<cr>") for i=1,9
 
 vimp.nmap '<Leader>fs', '<cmd>w<cr>'
 vimp.nmap '<Leader><Tab>', '<cmd>b#<cr>'
@@ -160,7 +164,7 @@ require'lualine'.setup {
     component_separators: '|'
   }
   sections: {
-    lualine_a: {'mode'}
+    lualine_a: {} -- 'mode'}
     lualine_b: {}
     lualine_c: {'filename'}
     lualine_x: {'filetype', 'branch'}
