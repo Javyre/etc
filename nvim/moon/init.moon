@@ -27,6 +27,7 @@ paq { 'editorconfig/editorconfig-vim' }
 -- Missing syntax
 paq { 'sheerun/vim-polyglot' }
 paq { 'HarnoRanaivo/vim-mipssyntax' }
+paq { 'vim-pandoc/vim-pandoc-syntax' }
 
 -- Tree-Sitter
 paq { 'nvim-treesitter/nvim-treesitter', run: -> vim.cmd 'TSUpdate' }
@@ -90,7 +91,7 @@ set_indent = (indent = 4) ->
 
 augroup 'jv_buffer_setup', {
   { 'FileType',
-    { 'fennel', 'lisp', 'moon' },
+    { 'fennel', 'lisp', 'moon', 'markdown', 'markdown.pandoc' },
     ->
       set_indent 2
       with vim.bo
@@ -99,7 +100,7 @@ augroup 'jv_buffer_setup', {
         .modeline  = true
       vim.cmd 'EditorConfigReload' }
   { 'FileType',
-    { 'c', 'cpp', 'java', 'javascript', 'jsx', 'html', 'lua', 'markdown' },
+    { 'c', 'cpp', 'java', 'javascript', 'jsx', 'html', 'lua' },
     ->
       set_indent 4
       with vim.bo
@@ -119,6 +120,17 @@ vimp.nmap '<Leader>wm', '<cmd>ZoomWinTabToggle<cr>'
 vimp.xmap 'ga', '<Plug>(EasyAlign)'
 vimp.nmap 'ga', '<Plug>(EasyAlign)'
 vim.g.vim_textobj_parameter_mapping = 'a'
+
+-- Disable troublesome 4-space prefixed codeblocks
+vim.g['pandoc#syntax#protect#codeblocks'] = 0
+augroup 'pandoc_syntax', {
+  { 'BufNewFile,BufFilePre,BufRead',
+    { '*.md' },
+    ->
+      vim.bo.filetype = 'markdown.pandoc'
+      vim.wo.concealcursor = 'v'
+  }
+}
 
 require'init.lsp'
 
