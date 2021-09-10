@@ -168,32 +168,87 @@ vim.cmd 'colo molo'
 
 require'nvim-web-devicons'.setup { default: true }
 
-require'lualine'.setup {
-  options: {
-    icons_enabled: true
-    theme: 'molokai'
-    section_separators: ''
-    component_separators: '|'
+local jv_tabline
+do
+  colors = {
+    black:     '#232526'
+    grey:      '#7E8E91'
+    dark_grey: '#465558'
+    white:     '#f8f8f2'
+    cyan:      '#66d9ef'
+    green:     '#a6e22e'
+    orange:    '#ef5939'
+    red:       '#f92672'
+    yellow:    '#e6db74'
+    purple:    '#AE81FF'
   }
-  sections: {
-    lualine_a: {} -- 'mode'}
-    lualine_b: {}
-    lualine_c: {'filename'}
-    lualine_x: {'filetype', 'branch'}
-    lualine_y: {}
-    lualine_z: {'location'}
+
+  vim.cmd "hi TabLineFill guibg=none    gui=none"
+  vim.cmd "hi TabLineSel  guifg=#000000 guibg=#{colors.grey} gui=bold,italic"
+  vim.cmd "hi TabLine     guifg=#000000 guibg=#{colors.dark_grey} gui=bold"
+
+  jv_tabline = (using nil)->
+    ret = ''
+    selected_tab = vim.fn.tabpagenr()
+    num_tabs = vim.fn.tabpagenr('$')
+
+    for i = 1,num_tabs
+      cwd = vim.split(vim.fn.getcwd(-1, i), '/')
+      if i == selected_tab
+        ret ..= '%#TabLineSel#'
+      else
+        ret ..= '%#TabLine#'
+      ret ..= "%#{i}T #{i} #{cwd[#cwd]}/ "
+    ret ..= '%#TabLineFill#'
+
+    ret ..= '%=%999X ✖︎ ' if num_tabs > 1
+    ret
+  vim.o.tabline = '%!luaeval(\'require"init".jv_tabline()\')'
+
+  require'lualine'.setup {
+    options: {
+      icons_enabled: false
+      theme: {
+        normal: {
+          a: {fg: colors.grey,      gui: 'bold,inverse,italic'}
+          b: {fg: colors.grey,      bg: colors.black}
+          c: {fg: colors.dark_grey, gui: 'bold'}
+          z: {fg: colors.grey,      gui: 'bold,inverse'}
+        }
+        insert:   {z: {fg: colors.green,     gui: 'bold,inverse'}}
+        visual:   {z: {fg: colors.purple,    gui: 'bold,inverse'}}
+        replace:  {z: {fg: colors.red,       gui: 'bold,inverse'}}
+        inactive: {a: {fg: colors.dark_grey, gui: 'bold,inverse'}}
+      }
+      section_separators: ''
+      component_separators: '|'
+      symbols: {
+        modified: ' ▲'
+        readonly: ' ▼'
+      }
+    }
+    sections: {
+      lualine_a: {'filename'}
+      lualine_b: {}
+      lualine_c: {}
+      lualine_x: {{'diff', colored: false, symbols: {modified: '~'}}}
+      lualine_y: {'branch'}
+      lualine_z: {'location'}
+    }
+    inactive_sections: {
+      lualine_a: {'filename'}
+      lualine_b: {}
+      lualine_c: {}
+      lualine_x: {}
+      lualine_y: {}
+      lualine_z: {}
+    }
+    tabline: {}
+    extensions: {
+      'fugitive'
+      'quickfix'
+    }
   }
-  inactive_sections: {
-    lualine_a: {}
-    lualine_b: {}
-    lualine_c: {'filename'}
-    lualine_x: {'location'}
-    lualine_y: {}
-    lualine_z: {}
-  }
-  tabline: {}
-  extensions: {}
-}
 
 vimp.nnoremap '<Leader>gs', '<cmd>tab Git<cr>'
 vimp.nnoremap '<Leader>gl', [[<cmd>Flog -all -format=[%h]\ (%ar)\ %s%d\ {%an}<cr>]]
@@ -223,4 +278,4 @@ with Fzf = require 'init.fzf'
 
 InitTimer\stop!
 
-{ :set_indent }
+{ :set_indent, :jv_tabline }
