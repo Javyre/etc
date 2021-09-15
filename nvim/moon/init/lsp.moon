@@ -79,7 +79,7 @@ Lsp\defer_setup('jdtls',
       )(fname) or vim.fn.getcwd!
   })
 
-Lsp\defer_setup('cpp', 
+Lsp\defer_setup('cpp',
   { 'c', 'cpp', 'objc', 'objcpp' },
   { on_attach: on_lsp_attach })
 
@@ -107,5 +107,23 @@ do
   vimp.inoremap opts, '<C-e>',     [[compe#close('<C-e>')]]
   vimp.inoremap opts, '<C-f>',     [[compe#scroll({ 'delta': +4 })]]
   vimp.inoremap opts, '<C-d>',     [[compe#scroll({ 'delta': -4 })]]
+
+require'trouble'.setup {
+  fold_open: '▼'
+  fold_closed: '▶︎'
+  icons: false
+}
+
+vimp.nnoremap {'silent'}, '<Leader>lq', '<cmd>TroubleToggle quickfix<cr>'
+vimp.nnoremap {'silent'}, '<Leader>ll', '<cmd>TroubleToggle loclist<cr>'
+
+Lsp.AttachHook\hook ->
+  vimp.add_buffer_maps ->
+    vimp.nnoremap {'silent'}, '<LocalLeader>ld',
+      '<cmd>TroubleToggle lsp_document_diagnostics<cr>'
+    vimp.nnoremap {'silent'}, '<LocalLeader>lD',
+      '<cmd>TroubleToggle lsp_workspace_diagnostics<cr>'
+    vimp.nnoremap {'silent'}, '<LocalLeader>lr',
+      '<cmd>TroubleToggle lsp_references<cr>'
 
 Lsp

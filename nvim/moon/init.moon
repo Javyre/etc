@@ -38,6 +38,7 @@ paq { 'kabouzeid/nvim-lspinstall' }
 paq { 'hrsh7th/vim-vsnip' }
 paq { 'hrsh7th/nvim-compe' }
 paq { 'RishabhRD/popfix' }
+paq { 'folke/trouble.nvim' }
 
 -- Misc
 paq { 'rktjmp/lush.nvim' }
