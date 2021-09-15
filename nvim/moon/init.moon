@@ -36,6 +36,8 @@ paq { 'nvim-treesitter/nvim-treesitter', run: -> vim.cmd 'TSUpdate' }
 paq { 'neovim/nvim-lspconfig' }
 paq { 'kabouzeid/nvim-lspinstall' }
 paq { 'hrsh7th/vim-vsnip' }
+paq { 'hrsh7th/vim-vsnip-integ' }
+paq { 'rafamadriz/friendly-snippets' }
 paq { 'hrsh7th/nvim-compe' }
 paq { 'RishabhRD/popfix' }
 paq { 'folke/trouble.nvim' }

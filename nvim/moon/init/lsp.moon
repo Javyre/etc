@@ -108,6 +108,21 @@ do
   vimp.inoremap opts, '<C-f>',     [[compe#scroll({ 'delta': +4 })]]
   vimp.inoremap opts, '<C-d>',     [[compe#scroll({ 'delta': -4 })]]
 
+vim.g.vsnip_filetypes = {
+  ['markdown.pandoc']: {'markdown', 'tex'}
+}
+
+vimp.imap {'expr'}, '<C-j>', [[vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>']]
+vimp.smap {'expr'}, '<C-j>', [[vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>']]
+
+vimp.imap {'expr'}, '<C-l>', [[vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>']]
+vimp.smap {'expr'}, '<C-l>', [[vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>']]
+
+vimp.imap {'expr'}, '<Tab>', [[vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>']]
+vimp.smap {'expr'}, '<Tab>', [[vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>']]
+vimp.imap {'expr'}, '<S-Tab>', [[vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>']]
+vimp.smap {'expr'}, '<S-Tab>', [[vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>']]
+
 require'trouble'.setup {
   fold_open: '▼'
   fold_closed: '▶︎'
