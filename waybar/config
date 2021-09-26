@@ -1,52 +1,32 @@
 {
     "layer": "top",
     "position": "bottom",
-    "height": 24,
-    "modules-left": ["clock", "sway/mode", "sway/window"],
-    "modules-center": ["sway/workspaces"],
-    "modules-right": ["tray", "idle_inhibitor", "memory", "cpu", "custom/ping", "network", "pulseaudio", "battery"],
-    "sway/window": {
-        "max-length": 50
-    },
-    "sway/mode": {
-        "tooltip": false
-    },
-    "sway/workspaces": {
-        "all-outputs": true,
-        "persistent_workspaces": {
-        // "1": [],
-        // "2": [],
-        // "3": [],
-        // "4": [],
-        // "5": [],
-        // "6": [],
-        // "7": [],
-        // "8": [],
-        // "9": []
-        }
-    },
+    "height": 22,
+    "modules-left": ["clock", "custom/clock2"],
+    // "modules-center": ["wlr/taskbar"],
+    "modules-right": ["idle_inhibitor", "memory", "cpu", "custom/ping", "network", "tray", "pulseaudio", "battery"],
     "custom/ping": {
         "exec": "s ping",
         "interval": 3,
         "tooltip": false,
-        "format": "{} ms 龍"
+        "format": "{}MS"
     },
     "idle_inhibitor": {
         "format": "{icon}",
         "tooltip": false,
         "format-icons": {
-            "activated": "",
-            "deactivated": ""
+            "activated": "!I",
+            "deactivated": "I"
         }
     },
     "cpu": {
-        "format": "{usage}% ",
+        "format": "C{usage}",
         "interval": "1",
         "tooltip": false
     },
     "memory": {
         "interval": 30,
-        "format": "{}% ",
+        "format": "M{}",
         "max-length": 10
     },
     "custom/kernel": {
@@ -71,17 +51,23 @@
         // "format-full": "",
         //"format-icons": [" ", " ", " ", " ", " ", " ", " ", " "],
         "tooltip": false,
-	"on-click": "footclient htop"
+        "on-click": "footclient htop"
     },
     "clock": {
-        "format": " {:%a, %d %b %H:%M}",
+        "format": "{:%H:%M}",
         "tooltip": false,
-	"on-click": "footclient calcurse"
+        "on-click": "foot calcurse"
+    },
+    "custom/clock2": {
+        "exec": "date +'%^a %d %^b'",
+        "interval": 60,
+        "tooltip": false,
+        "format": "{}"
     },
     "pulseaudio": {
         //"scroll-step": 1,
-        "format": "{volume}% {icon}",
-        "format-bluetooth": "{volume}% {icon}",
+        "format": "{icon}{volume}",
+        "format-bluetooth": "{icon}{volume}",
         "format-muted": "",
         "format-icons": {
             "headphones": "",
@@ -90,16 +76,24 @@
             "phone": "",
             "portable": "",
             "car": "",
-            "default": ["", ""]
+            "default": ["v", "V"]
         },
         "tooltip": false,
         "on-click": "pavucontrol"
     },
     "network": {
-        "format-wifi": "{signalStrength}% ",
-        "format-ethernet": "Wired ",
+        "format-wifi": "WIFI {signalStrength}",
+        "format-ethernet": "ETH",
         "format-disconnected": " ⚠",
         "tooltip": false,
-	"on-click": "footclient nmtui"
+        // "on-click": "footclient nmtui",
+    },
+    "wlr/taskbar": {
+        "format": "{icon}",
+        "icon-size": 16,
+        "tooltip-format": "{title}",
+        "on-click": "activate",
+        "on-click-right": "maximize",
+        "on-click-middle": "minimize-raise"
     }
 }
