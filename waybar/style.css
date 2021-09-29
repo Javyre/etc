@@ -20,17 +20,21 @@ window#waybar {
   font-weight: bold;
 }
 
-#network, #tray {
+#network, #tray, #battery {
   padding: 0px 8px;
   background-color: @bg_dim;
   color: @fg_dim;
 }
 
-#clock, #pulseaudio, #battery {
+#backlight, #clock, #pulseaudio {
   padding: 0px 8px;
   background-color: @fg_dim;
   color: @bg;
   font-weight: bold;
+}
+
+#backlight {
+  padding-right: 0;
 }
 
 /* #taskbar button { */

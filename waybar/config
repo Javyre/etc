@@ -2,9 +2,19 @@
     "layer": "top",
     "position": "bottom",
     "height": 22,
-    "modules-left": ["clock", "custom/clock2"],
+    "modules-left": ["backlight", "clock", "custom/clock2"],
     // "modules-center": ["wlr/taskbar"],
-    "modules-right": ["idle_inhibitor", "memory", "cpu", "custom/ping", "network", "tray", "pulseaudio", "battery"],
+    "modules-right": [
+        "idle_inhibitor", "memory", "cpu", "custom/ping", "network", "battery",
+        "tray", "pulseaudio"
+    ],
+    "backlight": {
+        "format": "B{percent} |",
+        "format-icons": ["bl", "Bl", "BL"],
+        "on-scroll-up": "xbacklight +1",
+        "on-scroll-down": "xbacklight -1",
+        "smooth-scrolling-threshold": 3
+    },
     "custom/ping": {
         "exec": "s ping",
         "interval": 3,
@@ -45,11 +55,12 @@
             "warning": 20,
             "critical": 10
         },
-        "format": "{capacity}% ",
+        "format": "{icon} {capacity}",
         "format-charging": "{capacity}% ",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
-        //"format-icons": [" ", " ", " ", " ", " ", " ", " ", " "],
+        // "format-icons": [" ", " ", " ", " ", " ", " ", " ", " "],
+        "format-icons": ["...", "..t", ".at ", "bat", "Bat", "BAt", "BAT"],
         "tooltip": false,
         "on-click": "footclient htop"
     },
