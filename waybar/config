@@ -68,18 +68,21 @@
         //"scroll-step": 1,
         "format": "{icon}{volume}",
         "format-bluetooth": "{icon}{volume}",
-        "format-muted": "",
+        "format-muted": "!v",
         "format-icons": {
-            "headphones": "",
-            "handsfree": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
+            "headphone": ["h", "H"],
+            "speaker": ["s", "S"],
+            // "handsfree": "",
+            // "headset": "",
+            // "phone": "",
+            // "portable": "",
+            // "car": "",
             "default": ["v", "V"]
         },
         "tooltip": false,
-        "on-click": "pavucontrol"
+        "on-click": "pavucontrol",
+        "on-click-right": "s switch-sink",
+        "on-click-middle": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
     },
     "network": {
         "format-wifi": "WIFI {signalStrength}",

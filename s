@@ -103,6 +103,17 @@ case "$1" in
         )
         ;;
 
+    switch-sink)
+        shift
+        current="$(pactl info | grep Default\ Sink | cut -d' ' -f3)"
+        sinks="$(pactl list sinks short | grep -vi hdmi | cut -f2)"
+        for sink in $sinks; do
+            if ! [ "$sink" = "$current" ]; then
+                pactl set-default-sink "$sink"
+                break
+            fi
+        done
+        ;;
     *)
         echo "Invalid command: $1" >&2
 esac 
