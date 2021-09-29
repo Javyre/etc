@@ -72,6 +72,11 @@ case "$1" in
         screc "$@"
         ;;
 
+    ixio) 
+        shift
+        curl -F 'f:1=<-' ix.io | copy_text
+        ;;
+
     audio-init)
         shift
         xdgtmux() {
