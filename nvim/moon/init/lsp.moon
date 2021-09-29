@@ -111,6 +111,7 @@ do
 vim.g.vsnip_filetypes = {
   ['markdown.pandoc']: {'markdown', 'tex'}
 }
+vim.g.vsnip_snippet_dir = vim.fn.stdpath('config')..'/vsnip'
 
 vimp.imap {'expr'}, '<C-j>', [[vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>']]
 vimp.smap {'expr'}, '<C-j>', [[vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>']]

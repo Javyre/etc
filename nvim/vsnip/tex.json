@@ -1,0 +1,12 @@
+{
+	"delta star": {
+		"prefix": ["@d*"],
+		"body": ["\\delta^*(${1:s_0}, $2)$0"],
+		"description": "state of machine after processing word"
+	},
+	"environment": {
+		"prefix": ["\\begin"],
+		"body": ["\\begin{${1}}\n    $0\n\\end{${1}}"],
+		"description": "a latex environment block"
+	}
+}
