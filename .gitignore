@@ -1,7 +1,6 @@
 /.bin
 /vim/autoload/
 /vim/.netrwhist
-/nvim/lua/
 /shell/rc.d/00-wallpaper-env.sh
 /emacs/.cache/
 /emacs/.emacs.desktop

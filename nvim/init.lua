@@ -1,19 +1,29 @@
+Timer = {
+    start = function()
+        return {
+            start_time = vim.loop.hrtime(),
+            stop = function(self)
+                local time = (vim.loop.hrtime() - self.start_time) / 1000000
+                vim.schedule(function()
+                    print(string.format('Elapsed time: %f msecs', time))
+                end)
+            end
+        }
+    end
+}
+
+local InitTimer = Timer.start()
+
 -- Bootstrap Paq
+local paqs_path = vim.fn.stdpath('data') .. '/site/pack/paqs'
+do
+    local install_path = paqs_path .. '/start/paq-nvim'
 
-local execute = vim.api.nvim_command
-local fn = vim.fn
-
-local install_path = fn.stdpath('data')..'/site/pack/paqs/opt/paq-nvim'
-
-if fn.empty(fn.glob(install_path)) > 0 then
-    execute('!git clone https://github.com/savq/paq-nvim '..install_path)
+    if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+        vim.cmd('!git clone https://github.com/savq/paq-nvim ' .. install_path)
+    end
 end
-execute 'packadd paq-nvim'
 
-local paq = require'paq-nvim'.paq
-paq {'savq/paq-nvim', opt=true}
-
--- Bootstrap Moonscript
-
-paq {'svermeulen/nvim-moonmaker'}
 require 'init'
+
+InitTimer:stop()
