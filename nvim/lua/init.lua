@@ -220,7 +220,7 @@ map('n', '<Leader>rr', function()
     require 'init'
 end)
 
-vim.cmd('colo molo')
+vim.cmd('colo toni')
 local jv_tabline
 do
     local colors = {
