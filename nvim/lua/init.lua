@@ -12,6 +12,7 @@ paq {
     --
     -- Should-be-default
     --
+    'antoinemadec/FixCursorHold.nvim', --
     {
         'luafun/luafun',
         run = function()
@@ -82,6 +83,8 @@ paq {
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
+vim.g.do_filetype_lua = 1
+vim.g.did_load_filetypes = 0
 
 vim.o.mouse = 'a'
 vim.o.timeout = false
@@ -99,6 +102,7 @@ vim.o.termguicolors = true
 vim.o.foldlevelstart = 99
 vim.o.path = '.,**'
 vim.o.wildmode = 'longest:full,full'
+vim.o.tabstop = 4
 
 vim.wo.colorcolumn = '+1'
 vim.wo.conceallevel = 2
@@ -333,6 +337,21 @@ do
     map('n', '<Leader>ff', Fzf.find_file)
     map('n', '<Leader>pf', function() return Fzf.find_file(true) end)
     map('n', '<Leader>bb', Fzf.switch_buff)
+end
+
+require('noom').setup()
+
+do
+    package.loaded.iedit = nil
+    local iedit = require 'iedit'
+
+    iedit.setup {}
+    map('n', '<Leader>e', function()
+        vim.keymap.set('n', '<LocalLeader>T',
+                       function() print('Hello world!') end, {buffer = true})
+        iedit.iedit {source = 'last-search'}
+    end)
+    map('n', '<Leader>E', function() iedit.stop() end)
 end
 
 return {set_indent = set_indent, jv_tabline = jv_tabline}

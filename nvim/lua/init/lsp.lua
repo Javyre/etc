@@ -110,9 +110,10 @@ Lsp:defer_setup('jdtls', {'java'}, {
     end
 })
 
-Lsp:defer_setup('sumneko_lua', {'lua'}, require'lua-dev'.setup {})
+-- Lsp:defer_setup('sumneko_lua', {'lua'}, require'lua-dev'.setup {})
 
 Lsp:defer_setup('cpp', {'c', 'cpp', 'objc', 'objcpp'})
+Lsp:defer_setup('gopls', {'go'})
 Lsp:defer_setup('svelte', {'svelte'})
 Lsp:defer_setup('cssls', {'css', 'scss', 'less'})
 Lsp:defer_setup('tsserver', {
