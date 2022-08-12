@@ -51,17 +51,30 @@ min_path() {
 }
 
 esc="" # escape character
-bld="$(esc "$esc[1m")"
-blu="$(esc "$esc[34m")"
-red="$(esc "$esc[31m")"
-rst="$(esc "$esc[00m")"
+if [ "$BASH" ]; then
+    bld="$(esc "$esc[1m")"
+    blu="$(esc "$esc[34m")"
+    red="$(esc "$esc[31m")"
+    rst="$(esc "$esc[00m")"
+elif [ "$ZSH_NAME" ]; then
+    bld="$(esc $'\e[1m')"
+    blu="$(esc $'\e[34m')"
+    red="$(esc $'\e[31m')"
+    rst="$(esc $'\e[00m')"
+fi
+
+if [ "$ZSH_NAME" ]; then
+    setopt prompt_subst
+fi
 
 export PS1='$(
     exit_stat=$?
-    printf "%s '"$bld"'%s%s'"$rst"' -> "                                \
+    printf "%s %s%s%s%s -> "                                            \
         "$(min_path "$PWD")"                                            \
+        "'"$bld"'"                                                      \
         "$([ $exit_stat -eq 0 ] && echo "'"$blu"'" || echo "'"$red"'")" \
-        "$(whoami)"
+        "$(whoami)"                                                     \
+        "'"$rst"'"
 )'
 
 unset -v esc bld blu red rst
