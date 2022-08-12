@@ -12,7 +12,7 @@ is_interactive() {
     esac
 }
 
-. "$HOME/{{ .Env.XDGC }}/shell/base-dirs.sh"
+. "<%= "$XDGC" %>/shell/base-dirs.sh"
 
 rc_dir="$XDG_CONFIG_HOME/shell"
 
