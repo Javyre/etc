@@ -3,19 +3,29 @@ window:
     x: 0
     y: 0
 
+  opacity: 0.8
+
+# Check back once https://github.com/alacritty/alacritty/issues/4297
+# is solved.
+# <% if [ "$(uname -s)" = Darwin ]; then -%>
+#   decorations: transparent
+# <% fi -%>
+
 scrolling:
   history: 10000
 
 font: 
   # bold, italic and the rest fallback on normal for font familly
-  normal:
-    familly: monospace
+  #normal:
+  #  familly: monospace
 
-{{ if eq .Env.HM_VARIANT "FyrePC" }}
+<% case "$(hostname)" in FyrePC) -%>
   size: 10.5
-{{ else }}
+<% ;; jv-mbam2.local) -%>
+  size: 15.5
+<% ;; *) -%>
   size: 9.5
-{{ end }}
+<% ;; esac -%>
 
   offset:
     x: 0
@@ -26,8 +36,6 @@ font:
     y: 0
 
 draw_bold_text_with_bright_colors: false
-
-background_opacity: 0.8
 
 colors:
   # Default colors
@@ -60,7 +68,13 @@ colors:
 live_config_reload: true
 
 shell:
+<% if [ "$(uname -s)" = Darwin ]; then -%>
+  program: /bin/zsh
+  args:
+    - --login
+<% else -%>
   program: /bin/bash
   args:
     - --login
+<% fi -%>
 
