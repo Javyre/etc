@@ -202,7 +202,7 @@ local groups = {
     VertSplit    = { link='NonText' },
     Folded       = { link='NonText' },
     FoldColumn   = { link='NonText' },
-    -- SignColumn   = { },
+    SignColumn   = { link='NonText' },
     QuickFixLine = { link='CursorLine' },
     SpecialKey   = { link='NonText' },
     Title        = { fg=colors.blue, bold=true },
