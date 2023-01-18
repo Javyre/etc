@@ -74,6 +74,7 @@ paq {
     'tpope/vim-fugitive', --
     'rbong/vim-flog', --
     'lambdalisue/fern.vim', --
+    'lambdalisue/fern-git-status.vim', --
     'kevinhwang91/nvim-bqf', --
     'mhinz/vim-grepper', --
     'christoomey/vim-tmux-navigator', --
@@ -314,6 +315,10 @@ do
 end
 
 require'colorizer'.setup({'css'}, {css = true})
+
+vim.g['fern#renderer#default#leaf_symbol'] = '│ '
+vim.g['fern#renderer#default#collapsed_symbol'] = '│+'
+vim.g['fern#renderer#default#expanded_symbol'] = '│-'
 
 map('n', '<Leader>gs', '<cmd>tab Git<cr>')
 map('n', '<Leader>gl', [[<cmd>Flog -all -format=[%h]\ (%ar)\ %s%d\ {%an}<cr>]])
