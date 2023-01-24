@@ -375,14 +375,14 @@ map('x', 'gs', '<plug>(GrepperOperator)')
 map('n', '<Leader>ps', '<cmd>Grepper -tool rg<cr>')
 map('n', '<Leader>ss', '<cmd>Grepper -tool rg -buffer<cr>')
 vim.g.tmux_navigator_no_mappings = 1
-map('n', '<a-h>', '<cmd>TmuxNavigateleft<cr>')
-map('n', '<a-j>', '<cmd>TmuxNavigatedown<cr>')
-map('n', '<a-k>', '<cmd>TmuxNavigateup<cr>')
-map('n', '<a-l>', '<cmd>TmuxNavigateright<cr>')
-map('t', '<a-h>', [[<c-\><c-n><cmd>TmuxNavigateleft<cr>]])
-map('t', '<a-j>', [[<c-\><c-n><cmd>TmuxNavigatedown<cr>]])
-map('t', '<a-k>', [[<c-\><c-n><cmd>TmuxNavigateup<cr>]])
-map('t', '<a-l>', [[<c-\><c-n><cmd>TmuxNavigateright<cr>]])
+map('n', '<a-h>', '<cmd>TmuxNavigateLeft<cr>')
+map('n', '<a-j>', '<cmd>TmuxNavigateDown<cr>')
+map('n', '<a-k>', '<cmd>TmuxNavigateUp<cr>')
+map('n', '<a-l>', '<cmd>TmuxNavigateRight<cr>')
+map('t', '<a-h>', [[<c-\><c-n><cmd>TmuxNavigateLeft<cr>]])
+map('t', '<a-j>', [[<c-\><c-n><cmd>TmuxNavigateDown<cr>]])
+map('t', '<a-k>', [[<c-\><c-n><cmd>TmuxNavigateUp<cr>]])
+map('t', '<a-l>', [[<c-\><c-n><cmd>TmuxNavigateRight<cr>]])
 
 -- Alacritty doesn't support Alt on Mac: 
 -- https://github.com/alacritty/alacritty/issues/62
