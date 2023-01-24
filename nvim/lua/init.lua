@@ -37,6 +37,7 @@ paq {
     -- 'sheerun/vim-polyglot', --
     'HarnoRanaivo/vim-mipssyntax', --
     'vim-pandoc/vim-pandoc-syntax', --
+    'dccmx/vim-lemon-syntax', --
     --
     -- Tree-Sitter
     --
@@ -68,6 +69,7 @@ paq {
     'nvim-lualine/lualine.nvim', --
     'norcalli/nvim-colorizer.lua', --
     'nvim-neorg/neorg', --
+    'lervag/vimtex', --
     --
     -- Util
     --
@@ -84,10 +86,10 @@ paq {
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
-vim.g.do_filetype_lua = 1
-vim.g.did_load_filetypes = 0
 
 vim.o.mouse = 'a'
+vim.o.mousescroll = 'ver:1,hor:6'
+vim.o.cmdheight = 0
 vim.o.timeout = false
 vim.o.ignorecase = true
 vim.o.smartcase = true
@@ -121,7 +123,7 @@ end
 augroup('jv_buffer_setup', {})
 autocmd({'FileType'}, {
     group = 'jv_buffer_setup',
-    pattern = {'c', 'cpp', 'java', 'javascript', 'jsx', 'html', 'lua'},
+    pattern = {'c', 'cpp', 'java', 'javascript', 'jsx', 'html', 'lua', 'zig'},
     callback = function()
         set_indent(4)
         vim.bo.textwidth = 80
@@ -138,6 +140,27 @@ autocmd({'FileType'}, {
         vim.bo.textwidth = 80
         vim.bo.infercase = true -- infer case in search
         vim.bo.modeline = true
+        vim.cmd 'EditorConfigReload'
+    end
+})
+autocmd({'FileType'}, {
+    group = 'jv_buffer_setup',
+    pattern = {'go'},
+    callback = function()
+        vim.bo.shiftwidth = 4
+        vim.bo.infercase = true -- infer case in search
+        vim.bo.modeline = true
+        vim.cmd 'EditorConfigReload'
+    end
+})
+autocmd({'FileType'}, {
+    group = 'jv_buffer_setup',
+    pattern = {'tex'},
+    callback = function()
+        set_indent(4)
+        vim.bo.infercase = true -- infer case in search
+        vim.bo.modeline = true
+        vim.wo.conceallevel = 0
         vim.cmd 'EditorConfigReload'
     end
 })
@@ -177,7 +200,7 @@ require('nvim-treesitter.configs').setup({
     -- not setting ensure_installed = 'all' here as that causes init slowdown
     ensure_installed = {},
     ignore_install = {},
-    highlight = {enable = true, disable = {}},
+    highlight = {enable = true, disable = {"tex"}},
     incremental_selection = {
         enable = true,
         keymaps = {
@@ -226,9 +249,11 @@ map('n', '<Leader>rr', function()
 end)
 
 vim.cmd('colo toni')
+vim.cmd('hi! Normal guibg=None')
 local jv_tabline
 do
     local colors = {
+        dark_black = '#121314',
         black = '#232526',
         grey = '#7E8E91',
         dark_grey = '#465558',
@@ -281,7 +306,7 @@ do
                 normal = {
                     a = {fg = colors.grey, gui = 'bold,inverse,italic'},
                     b = {fg = colors.grey, bg = colors.black},
-                    c = {fg = colors.dark_grey, gui = 'bold'},
+                    c = {fg = colors.dark_grey, bg = colors.dark_black, gui = 'bold'},
                     z = {fg = colors.grey, gui = 'bold,inverse'}
                 },
                 insert = {z = {fg = colors.green, gui = 'bold,inverse'}},
@@ -320,6 +345,9 @@ vim.g['fern#renderer#default#leaf_symbol'] = '│ '
 vim.g['fern#renderer#default#collapsed_symbol'] = '│+'
 vim.g['fern#renderer#default#expanded_symbol'] = '│-'
 
+vim.g.vimtex_compiler_method = 'tectonic'
+vim.g.vimtex_view_method = 'skim'
+
 map('n', '<Leader>gs', '<cmd>tab Git<cr>')
 map('n', '<Leader>gl', [[<cmd>Flog -all -format=[%h]\ (%ar)\ %s%d\ {%an}<cr>]])
 map('n', '<Leader>tt', '<cmd>Fern . -drawer -toggle -reveal=%<cr>')
@@ -328,14 +356,25 @@ map('x', 'gs', '<plug>(GrepperOperator)')
 map('n', '<Leader>ps', '<cmd>Grepper -tool rg<cr>')
 map('n', '<Leader>ss', '<cmd>Grepper -tool rg -buffer<cr>')
 vim.g.tmux_navigator_no_mappings = 1
-map('n', '<A-h>', '<cmd>TmuxNavigateLeft<cr>')
-map('n', '<A-j>', '<cmd>TmuxNavigateDown<cr>')
-map('n', '<A-k>', '<cmd>TmuxNavigateUp<cr>')
-map('n', '<A-l>', '<cmd>TmuxNavigateRight<cr>')
-map('t', '<A-h>', [[<C-\><C-n><cmd>TmuxNavigateLeft<cr>]])
-map('t', '<A-j>', [[<C-\><C-n><cmd>TmuxNavigateDown<cr>]])
-map('t', '<A-k>', [[<C-\><C-n><cmd>TmuxNavigateUp<cr>]])
-map('t', '<A-l>', [[<C-\><C-n><cmd>TmuxNavigateRight<cr>]])
+map('n', '<a-h>', '<cmd>TmuxNavigateleft<cr>')
+map('n', '<a-j>', '<cmd>TmuxNavigatedown<cr>')
+map('n', '<a-k>', '<cmd>TmuxNavigateup<cr>')
+map('n', '<a-l>', '<cmd>TmuxNavigateright<cr>')
+map('t', '<a-h>', [[<c-\><c-n><cmd>TmuxNavigateleft<cr>]])
+map('t', '<a-j>', [[<c-\><c-n><cmd>TmuxNavigatedown<cr>]])
+map('t', '<a-k>', [[<c-\><c-n><cmd>TmuxNavigateup<cr>]])
+map('t', '<a-l>', [[<c-\><c-n><cmd>TmuxNavigateright<cr>]])
+
+-- Alacritty doesn't support Alt on Mac: 
+-- https://github.com/alacritty/alacritty/issues/62
+map('n', '˙', '<cmd>TmuxNavigateLeft<cr>')
+map('n', '∆', '<cmd>TmuxNavigateDown<cr>')
+map('n', '˚', '<cmd>TmuxNavigateUp<cr>')
+map('n', '¬', '<cmd>TmuxNavigateRight<cr>')
+map('t', '˙', [[<c-\><c-n><cmd>TmuxNavigateLeft<cr>]])
+map('t', '∆', [[<c-\><c-n><cmd>TmuxNavigateDown<cr>]])
+map('t', '˚', [[<c-\><c-n><cmd>TmuxNavigateUp<cr>]])
+map('t', '¬', [[<c-\><c-n><cmd>TmuxNavigateRight<cr>]])
 
 do
     local Fzf = require('init.fzf')

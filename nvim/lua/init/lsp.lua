@@ -67,14 +67,14 @@ Lsp.InitHook:hook(function()
             nmap('<LocalLeader>le', lsp.diagnostic.show_line_diagnostics)
             nmap('<LocalLeader>lq', lsp.diagnostic.set_loclist)
 
-            if client.resolved_capabilities.document_formatting then
+            if client.server_capabilities.document_formatting then
                 nmap('<LocalLeader>lf', buf.formatting)
             end
-            if client.resolved_capabilities.document_range_formatting then
+            if client.server_capabilities.document_range_formatting then
                 nmap('<LocalLeader>lf', buf.range_formatting)
             end
 
-            if client.resolved_capabilities.document_highlight then
+            if client.server_capabilities.document_highlight then
                 local hi = vim.api.nvim_set_hl
                 hi(0, 'LspReferenceText', {default = true, link = 'CursorLine'})
                 hi(0, 'LspReferenceWrite', {default = true, link = 'CursorLine'})
@@ -120,6 +120,10 @@ Lsp:defer_setup('tsserver', {
     'javascript', 'javascriptreact', 'jsx', 'typescript', 'typescriptreact',
     'tsx'
 })
+Lsp:defer_setup('zls', {'zig'}, {
+    cmd = {'/Users/javyre/src/zls/zig-out/bin/zls'}
+})
+Lsp:defer_setup('rust_analyzer', {'rust'})
 
 local cmp = require 'cmp'
 cmp.setup({
@@ -165,7 +169,7 @@ cmp.setup.cmdline(':', {
 ]]
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 Lsp.InitHook:hook(function()
     require'lspconfig'.util.default_config.capabilities = capabilities

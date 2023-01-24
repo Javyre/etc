@@ -1,4 +1,4 @@
-syn keyword nmKeyword let const return if for break continue in
+syn keyword nmKeyword let const return if else for break continue in match
 
 syn region nmString start=+'+ skip=+\\'+ end=+'+
 syn region nmString start=+"+ skip=+\\"+ end=+"+
