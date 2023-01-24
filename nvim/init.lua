@@ -15,14 +15,17 @@ Timer = {
 local InitTimer = Timer.start()
 
 -- Bootstrap Paq
-local paqs_path = vim.fn.stdpath('data') .. '/site/pack/paqs'
-do
-    local install_path = paqs_path .. '/start/paq-nvim'
-
-    if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-        vim.cmd('!git clone https://github.com/savq/paq-nvim ' .. install_path)
+local function clone_paq()
+    local path = vim.fn.stdpath('data') .. '/site/pack/paqs/start/paq-nvim'
+    if vim.fn.empty(vim.fn.glob(path)) > 0 then
+        vim.fn.system {
+            'git', 'clone', '--depth=1', 'https://github.com/savq/paq-nvim.git',
+            path
+        }
     end
 end
+clone_paq()
+vim.cmd('packadd paq-nvim')
 
 require 'init'
 

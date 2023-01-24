@@ -12,7 +12,7 @@ paq {
     --
     -- Should-be-default
     --
-    'antoinemadec/FixCursorHold.nvim', --
+    -- 'antoinemadec/FixCursorHold.nvim', --
     {
         'luafun/luafun',
         run = function()
@@ -50,6 +50,7 @@ paq {
     --
     'neovim/nvim-lspconfig', --
     'williamboman/nvim-lsp-installer', --
+    'j-hui/fidget.nvim', --
     'hrsh7th/cmp-nvim-lsp', --
     'hrsh7th/cmp-buffer', --
     'hrsh7th/cmp-path', --
@@ -81,7 +82,8 @@ paq {
     'mhinz/vim-grepper', --
     'christoomey/vim-tmux-navigator', --
     'vijaymarupudi/nvim-fzf', --
-    'sindrets/winshift.nvim' --
+    'sindrets/winshift.nvim', --
+    'lukas-reineke/indent-blankline.nvim' --
 }
 
 vim.g.mapleader = ' '
@@ -106,6 +108,7 @@ vim.o.foldlevelstart = 99
 vim.o.path = '.,**'
 vim.o.wildmode = 'longest:full,full'
 vim.o.tabstop = 4
+vim.o.updatetime = 250
 
 vim.wo.colorcolumn = '+1'
 vim.wo.conceallevel = 2
@@ -168,6 +171,22 @@ autocmd({'FileType'}, {
 local map = vim.keymap.set;
 
 for i = 1, 9 do map('n', '<M-' .. i .. '>', '<cmd>' .. i .. 'tabn<cr>') end
+
+vim.api.nvim_set_hl(0, 'IndentBlanklineIndent1', { link='Normal' })
+vim.api.nvim_set_hl(0, 'IndentBlanklineIndent2', { link='ColorColumn' })
+
+require('indent_blankline').setup {
+    char = '',
+    char_highlight_list = {
+        'IndentBlanklineIndent1',
+        'IndentBlanklineIndent2',
+    },
+    space_char_highlight_list = {
+        'IndentBlanklineIndent1',
+        'IndentBlanklineIndent2',
+    },
+    show_trailing_blankline_indent = false,
+}
 
 map('n', '<Leader>fs', '<cmd>w<cr>')
 map('n', '<Leader><Tab>', '<cmd>b#<cr>')

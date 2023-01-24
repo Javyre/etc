@@ -6,7 +6,8 @@ syn region nmString start=+"+ skip=+\\"+ end=+"+
 syn match nmNumber "\<\d\+\>"
 syn match nmNumber "\<\d*.\d\+\>"
 
-syn match nmLabel ":\w\+:"
+syn match nmKey "\.\w\+"
+
 syn match nmBuiltin "@\w\+\>"
 
 syn match nmBracket "\((\|)\|{\|}\|\[\|\]\)"
@@ -20,7 +21,7 @@ hi def link nmKeyword Keyword
 hi def link nmString String
 hi def link nmNumber Number
 hi def link nmNumber Number
-hi def link nmLabel Label
+hi def link nmKey Constant
 hi def link nmBuiltin Special
 hi def link nmComma Delimiter
 hi def link nmSemic Delimiter

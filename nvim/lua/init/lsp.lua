@@ -95,11 +95,43 @@ Lsp.InitHook:hook(function()
                     callback = buf.clear_references
                 })
             end
+
+            -- Line diagnostics on hover
+            vim.api.nvim_create_autocmd('CursorHold', {
+                buffer = bufnr,
+                callback = function()
+                    vim.diagnostic.open_float(nil, {})
+                end
+            })
         end
 
     vim.lsp.handlers["textDocument/publishDiagnostics"] =
         vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {signs = false})
+
+    require"fidget".setup{}
 end)
+
+vim.diagnostic.config({
+    underline = {
+        severity = { min = vim.diagnostic.severity.WARN }
+    },
+    virtual_text = {
+        prefix = '▎',
+        spacing = 4,
+        format = function()
+            return ''
+        end,
+    },
+    -- virtual_text = false,
+    float = {
+        focusable = false,
+        close_events = { 'BufLeave', 'CursorMoved',
+        'InsertEnter', 'FocusLost' },
+        border = 'none',
+        source = 'always',
+        prefix = '  ',
+    },
+})
 
 Lsp:defer_setup('jdtls', {'java'}, {
     cmd = {'jdtls'},
@@ -112,6 +144,7 @@ Lsp:defer_setup('jdtls', {'java'}, {
 
 -- Lsp:defer_setup('sumneko_lua', {'lua'}, require'lua-dev'.setup {})
 
+Lsp:defer_setup('rust_analyzer', {'rust'})
 Lsp:defer_setup('cpp', {'c', 'cpp', 'objc', 'objcpp'})
 Lsp:defer_setup('gopls', {'go'})
 Lsp:defer_setup('svelte', {'svelte'})
@@ -123,7 +156,6 @@ Lsp:defer_setup('tsserver', {
 Lsp:defer_setup('zls', {'zig'}, {
     cmd = {'/Users/javyre/src/zls/zig-out/bin/zls'}
 })
-Lsp:defer_setup('rust_analyzer', {'rust'})
 
 local cmp = require 'cmp'
 cmp.setup({
