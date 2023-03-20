@@ -45,6 +45,7 @@ paq {
         'nvim-treesitter/nvim-treesitter',
         run = function() return vim.cmd('TSInstall all | TSUpdate') end
     }, --
+    'nvim-treesitter/playground',--
     -- 
     -- Lsp (see lsp.lua)
     --
@@ -126,7 +127,7 @@ end
 augroup('jv_buffer_setup', {})
 autocmd({'FileType'}, {
     group = 'jv_buffer_setup',
-    pattern = {'c', 'cpp', 'java', 'javascript', 'jsx', 'html', 'lua', 'zig'},
+    pattern = {'c', 'cpp', 'java', 'javascript', 'jsx', 'html', 'lua', 'zig', 'noom'},
     callback = function()
         set_indent(4)
         vim.bo.textwidth = 80
@@ -237,6 +238,8 @@ require('nvim-treesitter.configs').setup({
 --   _with_0.foldexpr = 'nvim_treesitter#foldexpr()'
 -- end
 
+require('noom').setup()
+
 require('Comment').setup()
 map('n', '<M-;>', function() --
     require('Comment.api').call('toggle_current_linewise_op')
@@ -268,7 +271,7 @@ map('n', '<Leader>rr', function()
 end)
 
 vim.cmd('colo toni')
-vim.cmd('hi! Normal guibg=None')
+-- vim.cmd('hi! Normal guibg=None')
 local jv_tabline
 do
     local colors = {
@@ -401,8 +404,6 @@ do
     map('n', '<Leader>pf', function() return Fzf.find_file(true) end)
     map('n', '<Leader>bb', Fzf.switch_buff)
 end
-
-require('noom').setup()
 
 do
     package.loaded.iedit = nil
