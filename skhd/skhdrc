@@ -1,0 +1,44 @@
+lcmd - h : yabai -m window --focus west
+lcmd - j : yabai -m window --focus south
+lcmd - k : yabai -m window --focus north
+lcmd - l : yabai -m window --focus east
+
+lcmd + shift - h : yabai -m window --warp west
+lcmd + shift - j : yabai -m window --warp south
+lcmd + shift - k : yabai -m window --warp north
+lcmd + shift - l : yabai -m window --warp east
+
+lcmd - 1 : yabai -m space --focus 1
+lcmd - 2 : yabai -m space --focus 2
+lcmd - 3 : yabai -m space --focus 3
+lcmd - 4 : yabai -m space --focus 4
+lcmd - 5 : yabai -m space --focus 5
+lcmd - 6 : yabai -m space --focus 6
+lcmd - 7 : yabai -m space --focus 7
+lcmd - 8 : yabai -m space --focus 8
+lcmd - 9 : yabai -m space --focus 9
+lcmd - 0 : yabai -m space --focus 10
+
+lcmd + shift - 1 : yabai -m window --space 1 ; yabai -m space --focus 1
+lcmd + shift - 2 : yabai -m window --space 2 ; yabai -m space --focus 2
+lcmd + shift - 3 : yabai -m window --space 3 ; yabai -m space --focus 3
+lcmd + shift - 4 : yabai -m window --space 4 ; yabai -m space --focus 4
+lcmd + shift - 5 : yabai -m window --space 5 ; yabai -m space --focus 5
+lcmd + shift - 6 : yabai -m window --space 6 ; yabai -m space --focus 6
+lcmd + shift - 7 : yabai -m window --space 7 ; yabai -m space --focus 7
+lcmd + shift - 8 : yabai -m window --space 8 ; yabai -m space --focus 8
+lcmd + shift - 9 : yabai -m window --space 9 ; yabai -m space --focus 9
+lcmd + shift - 0 : yabai -m window --space 10; yabai -m space --focus 10
+
+lcmd - return : alacritty msg create-window
+
+lcmd - g : yabai -m space --toggle gap
+lcmd - e : yabai -m window --toggle split
+lcmd - d : yabai -m window --toggle zoom-parent
+lcmd - f : yabai -m window --toggle zoom-fullscreen
+
+# float / unfloat window and center on screen
+lcmd - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
+
+# toggle sticky(+float), picture-in-picture
+lcmd - p : yabai -m window --toggle sticky --toggle pip
