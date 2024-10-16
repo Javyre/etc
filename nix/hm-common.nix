@@ -194,6 +194,16 @@ in
     '';
   };
 
+  programs.fzf = {
+    enable = true;
+    defaultOptions = [
+      "--preview-window border-rounded"
+      "--layout reverse"
+      "--exact" # turn off fuzzy matching
+      "--color 16"
+    ];
+  };
+
   programs.git = {
     enable = true;
     userName = "Javier A. Pollak";
