@@ -43,6 +43,7 @@ in
 
   home.sessionVariables = {
     EDITOR = "nvim";
+    SHELL = "${pkgs.fish}/bin/fish";
   };
 
   home.shellAliases = {
@@ -52,6 +53,7 @@ in
   programs.alacritty = {
     enable = true;
     settings = {
+      shell = "${pkgs.fish}/bin/fish";
       font = {
         normal.family = "MonaspiceKr Nerd Font";
         size = 14.0;
@@ -173,6 +175,23 @@ in
     defaultKeymap = "emacs";
     history.ignoreDups = true;
     initExtra = "export ZLE_RPROMPT_INDENT=0";
+  };
+
+  programs.fish = {
+    enable = true;
+    shellInit =
+      let
+        # run the bootstrap file created by the determinate nix installer
+        nix-daemon = "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish";
+      in
+      ''
+        if test -e '${nix-daemon}'
+          . '${nix-daemon}'
+        end
+      '';
+    interactiveShellInit = ''
+      set fish_greeting # Disable greeting
+    '';
   };
 
   programs.git = {
