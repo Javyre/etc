@@ -247,102 +247,70 @@ require('lazy').setup({
   },
 
   {
-    'nvim-telescope/telescope.nvim',
-    event = 'VimEnter',
-    branch = '0.1.x',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
+    'ibhagwan/fzf-lua',
+    keys = {
       {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        build = 'make',
-        cond = function()
-          return vim.fn.executable 'make' == 1
+        '<leader>sf',
+        function()
+          require('fzf-lua').files()
         end,
+        desc = 'files',
       },
-      { 'nvim-telescope/telescope-ui-select.nvim' },
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      {
+        '<leader>sn',
+        function()
+          require('fzf-lua').files { cwd = vim.fn.stdpath 'config' }
+        end,
+        desc = 'neovim files',
+      },
+      {
+        '<leader>gf',
+        function()
+          require('fzf-lua').git_files()
+        end,
+        desc = 'git files',
+      },
+      {
+        '<leader>sg',
+        function()
+          require('fzf-lua').live_grep_glob()
+        end,
+        desc = 'project live grep',
+      },
+      {
+        '<leader>ss',
+        function()
+          require('fzf-lua').builtin()
+        end,
+        desc = 'fzf-lua commands',
+      },
+      {
+        '<leader>sr',
+        function()
+          require('fzf-lua').resume()
+        end,
+        desc = 'fzf-lua resume',
+      },
     },
     config = function()
-      -- [[ Configure Telescope ]]
-      require('telescope').setup {
-        extensions = {
-          ['ui-select'] = {
-            require('telescope.themes').get_dropdown(),
-          },
-        },
+      local fzf_lua = require 'fzf-lua'
+      fzf_lua.setup {
+        'default-title',
+        glob_flag = '--iglob',
       }
 
-      -- Enable Telescope extensions if they are installed
-      pcall(require('telescope').load_extension, 'fzf')
-      pcall(require('telescope').load_extension, 'ui-select')
-
-      -- See `:help telescope.builtin`
-      local builtin = require 'telescope.builtin'
-      vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = 'help' })
-      vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = 'keymaps' })
-      vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = 'files' })
-      vim.keymap.set(
-        'n',
-        '<leader>ss',
-        builtin.builtin,
-        { desc = 'select telescope' }
-      )
-      vim.keymap.set(
-        'n',
-        '<leader>sw',
-        builtin.grep_string,
-        { desc = 'current word' }
-      )
-      vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = 'grep' })
-      vim.keymap.set(
-        'n',
-        '<leader>sd',
-        builtin.diagnostics,
-        { desc = 'diagnostics' }
-      )
-      vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = 'resume' })
-      vim.keymap.set(
-        'n',
-        '<leader>s.',
-        builtin.oldfiles,
-        { desc = 'recent files' }
-      )
-      vim.keymap.set(
-        'n',
-        '<leader><leader>',
-        builtin.buffers,
-        { desc = 'buffers' }
-      )
-
-      -- Slightly advanced example of overriding default behavior and theme
-      vim.keymap.set('n', '<leader>/', function()
-        -- You can pass additional configuration to Telescope to change the
-        -- theme, layout, etc.
-        builtin.current_buffer_fuzzy_find(
-          require('telescope.themes').get_dropdown {
-            winblend = 10,
-            previewer = false,
-          }
-        )
-      end, { desc = 'current buffer fuzzy' })
-
-      -- It's also possible to pass additional configuration options.
-      --  See `:help telescope.builtin.live_grep()` for information about
-      --  particular keys
-      vim.keymap.set('n', '<leader>s/', function()
-        builtin.live_grep {
-          grep_open_files = true,
-          prompt_title = 'Live Grep in Open Files',
-        }
-      end, { desc = 'grep open files' })
-
-      -- Shortcut for searching your Neovim configuration files
-      vim.keymap.set('n', '<leader>sn', function()
-        builtin.find_files { cwd = vim.fn.stdpath 'config' }
-      end, { desc = 'neovim files' })
+      fzf_lua.register_ui_select(function(_, items)
+        local min_h, max_h = 0.15, 0.70
+        local h = (#items + 4) / vim.o.lines
+        if h < min_h then
+          h = min_h
+        elseif h > max_h then
+          h = max_h
+        end
+        return { winopts = { height = h, width = 0.60, row = 0.40 } }
+      end)
     end,
   },
-
   -- LSP Plugins
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -386,34 +354,15 @@ require('lazy').setup({
             )
           end
 
-          map(
-            'gd',
-            require('telescope.builtin').lsp_definitions,
-            'goto definition'
-          )
-          map(
-            'gr',
-            require('telescope.builtin').lsp_references,
-            'goto references'
-          )
-          map(
-            'gI',
-            require('telescope.builtin').lsp_implementations,
-            'goto implementation'
-          )
-          map(
-            '<leader>D',
-            require('telescope.builtin').lsp_type_definitions,
-            'type definition'
-          )
-          map(
-            '<leader>ds',
-            require('telescope.builtin').lsp_document_symbols,
-            'document symbols'
-          )
+          local fzf_lua = require 'fzf-lua'
+          map('gd', fzf_lua.lsp_definitions, 'goto definition')
+          map('gr', fzf_lua.lsp_references, 'goto references')
+          map('gI', fzf_lua.lsp_implementations, 'goto implementation')
+          map('<leader>D', fzf_lua.lsp_typedefs, 'type definition')
+          map('<leader>ds', fzf_lua.lsp_document_symbols, 'document symbols')
           map(
             '<leader>ws',
-            require('telescope.builtin').lsp_dynamic_workspace_symbols,
+            fzf_lua.lsp_live_workspace_symbols,
             'workspace symbols'
           )
           map('<leader>rn', vim.lsp.buf.rename, 'rename')
