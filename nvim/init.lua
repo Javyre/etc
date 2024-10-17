@@ -136,7 +136,6 @@ end)
 
 later(function()
   require('mini.bufremove').setup()
-  require('mini.ai').setup { n_lines = 500 }
   require('mini.surround').setup()
   require('mini.jump2d').setup {
     labels = 'jfkdlsncvm;ahgpqowieur',
@@ -689,6 +688,38 @@ now(function()
       additional_vim_regex_highlighting = { 'ruby' },
     },
     indent = { enable = true, disable = { 'ruby' } },
+  }
+end)
+
+later(function()
+  add 'nvim-treesitter/nvim-treesitter-textobjects'
+  local ai = require 'mini.ai'
+  local spec_treesitter = ai.gen_spec.treesitter
+  ai.setup {
+    n_lines = 500,
+    custom_textobjects = {
+      s = spec_treesitter {
+        a = {
+          '@loop.inner',
+          '@conditional.inner',
+          '@function.inner',
+          '@class.inner',
+        },
+        i = {
+          '@loop.outer',
+          '@conditional.outer',
+          '@function.outer',
+          '@class.outer',
+        },
+      },
+      a = spec_treesitter { a = '@parameter.outer', i = '@parameter.inner' },
+      f = spec_treesitter { a = '@call.outer', i = '@call.inner' },
+      F = spec_treesitter { a = '@function.outer', i = '@function.inner' },
+      o = spec_treesitter {
+        a = { '@conditional.outer', '@loop.outer' },
+        i = { '@conditional.inner', '@loop.inner' },
+      },
+    },
   }
 end)
 
