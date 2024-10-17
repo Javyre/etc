@@ -71,32 +71,32 @@ in
       colors = {
         # Default colors
         primary = {
-          background = "0x000000";
-          foreground = "0xEBEBEB";
+          background = "#000000";
+          foreground = "#EBEBEB";
         };
 
         # Normal colors
         normal = {
-          black = "0x0d0d0d";
-          red = "0xFF301B";
-          green = "0xA0E521";
-          yellow = "0xFFC620";
-          blue = "0x1BA6FA";
-          magenta = "0x8763B8";
-          cyan = "0x21DEEF";
-          white = "0xEBEBEB";
+          black = "#0d0d0d";
+          red = "#FF301B";
+          green = "#A0E521";
+          yellow = "#FFC620";
+          blue = "#1BA6FA";
+          magenta = "#8763B8";
+          cyan = "#21DEEF";
+          white = "#EBEBEB";
         };
 
         # Bright colors
         bright = {
-          black = "0x6D7070";
-          red = "0xFF4352";
-          green = "0xB8E466";
-          yellow = "0xFFD750";
-          blue = "0x1BA6FA";
-          magenta = "0xA578EA";
-          cyan = "0x73FBF1";
-          white = "0xFEFEF8";
+          black = "#6D7070";
+          red = "#FF4352";
+          green = "#B8E466";
+          yellow = "#FFD750";
+          blue = "#1BA6FA";
+          magenta = "#A578EA";
+          cyan = "#73FBF1";
+          white = "#FEFEF8";
         };
       };
     };
