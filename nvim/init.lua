@@ -36,9 +36,10 @@ vim.opt.textwidth = 79
 
 -- [[ Basic Keymaps ]]
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('n', '<leader>fs', '<cmd>w<CR>', { desc = 'write' })
 vim.keymap.set(
   'n',
-  '<leader>q',
+  '<leader>lq',
   vim.diagnostic.setloclist,
   { desc = 'diagnostics loclist' }
 )
@@ -308,11 +309,9 @@ later(function()
 
     -- Document existing key chains
     spec = {
-      { '<leader>c', group = 'code', mode = { 'n', 'x' } },
-      { '<leader>d', group = 'document' },
-      { '<leader>r', group = 'rename' },
+      { '<leader>l', group = 'lang', mode = { 'n', 'x' } },
       { '<leader>s', group = 'search' },
-      { '<leader>w', group = 'workspace' },
+      { '<leader>f', group = 'file' },
       { '<leader>t', group = 'toggle' },
       { '<leader>h', group = 'git hunk', mode = { 'n', 'v' } },
       { '<leader>g', group = 'git' },
@@ -329,6 +328,14 @@ later(function()
   fzf_lua.setup {
     'default-title',
     glob_flag = '--iglob',
+    grep = {
+      actions = {
+        ['ctrl-q'] = {
+          fn = fzf_lua.actions.file_edit_or_qf,
+          prefix = 'select-all+',
+        },
+      },
+    },
   }
 
   fzf_lua.register_ui_select(function(_, items)
@@ -342,42 +349,25 @@ later(function()
     return { winopts = { height = h, width = 0.60, row = 0.40 } }
   end)
 
-  local map = function(lhs, rhs, opts)
-    vim.keymap.set('n', lhs, rhs, opts)
+  local map = function(lhs, rhs, desc, mode)
+    vim.keymap.set(mode or 'n', lhs, rhs, { desc = desc })
   end
 
-  map('<leader>sf', function()
-    require('fzf-lua').files()
-  end, { desc = 'files' })
+  local nvim_files = function()
+    fzf_lua.files { cwd = vim.fn.stdpath 'config' }
+  end
 
-  map('<leader>sn', function()
-    require('fzf-lua').files { cwd = vim.fn.stdpath 'config' }
-  end, {
-    desc = 'neovim files',
-  })
+  -- files
+  map('<leader>ff', fzf_lua.files, 'files')
+  map('<leader>fp', fzf_lua.git_files, 'git files')
+  map('<leader>fn', nvim_files, 'neovim files')
 
-  map('<leader>gf', function()
-    require('fzf-lua').git_files()
-  end, {
-    desc = 'git files',
-  })
+  -- text
+  map('<leader>sp', fzf_lua.live_grep_glob, 'project live grep')
+  map('<leader>ss', fzf_lua.grep_curbuf, 'search buffer')
 
-  map('<leader>sg', function()
-    require('fzf-lua').live_grep_glob()
-  end, {
-    desc = 'project live grep',
-  })
-
-  map('<leader>ss', function()
-    require('fzf-lua').builtin()
-  end, {
-    desc = 'fzf-lua commands',
-  })
-  map('<leader>sr', function()
-    require('fzf-lua').resume()
-  end, {
-    desc = 'fzf-lua resume',
-  })
+  map('<leader>sc', fzf_lua.builtin, 'fzf-lua commands')
+  map('<leader>sr', fzf_lua.resume, 'fzf-lua resume')
 end)
 
 -- LSP Plugins
@@ -425,22 +415,29 @@ later(function()
       end
 
       local fzf_lua = require 'fzf-lua'
-      map('gd', fzf_lua.lsp_definitions, 'goto definition')
-      map('gr', fzf_lua.lsp_references, 'goto references')
-      map('gI', fzf_lua.lsp_implementations, 'goto implementation')
-      map('<leader>D', fzf_lua.lsp_typedefs, 'type definition')
-      map('<leader>ds', fzf_lua.lsp_document_symbols, 'document symbols')
-      map(
-        '<leader>ws',
-        fzf_lua.lsp_live_workspace_symbols,
-        'workspace symbols'
-      )
-      map('<leader>rn', vim.lsp.buf.rename, 'rename')
-      map('<leader>ca', vim.lsp.buf.code_action, 'code action', { 'n', 'x' })
-      map('gD', vim.lsp.buf.declaration, 'goto declaration')
+      local defs = function()
+        fzf_lua.lsp_definitions {
+          jump_to_single_result = true,
+        }
+      end
+      local refs = function()
+        fzf_lua.lsp_references {
+          includeDeclaration = false,
+        }
+      end
+      map('gd', defs, 'goto def')
+      map('gD', fzf_lua.lsp_typedefs, 'goto typedef')
+      map('gr', refs, 'goto ref')
+      map('gI', fzf_lua.lsp_implementations, 'goto impl')
+      map('<leader>lD', vim.lsp.buf.declaration, 'goto decl')
+      map('<leader>lsd', fzf_lua.lsp_document_symbols, 'doc symbols')
+      map('<leader>lsw', fzf_lua.lsp_live_workspace_symbols, 'ws symbols')
+      map('<leader>lr', vim.lsp.buf.rename, 'rename')
+      map('<leader>la', vim.lsp.buf.code_action, 'action', { 'n', 'x' })
+
+      local client = vim.lsp.get_client_by_id(event.data.client_id)
 
       -- Cursor hold symbol highlight
-      local client = vim.lsp.get_client_by_id(event.data.client_id)
       if
         client
         and client.supports_method(
