@@ -1,44 +1,63 @@
-lcmd - h : yabai -m window --focus west
-lcmd - j : yabai -m window --focus south
-lcmd - k : yabai -m window --focus north
-lcmd - l : yabai -m window --focus east
+lalt - return : export PATH="$HOME/.nix-profile/bin:$PATH"; alacritty msg create-window || alacritty
 
-lcmd + shift - h : yabai -m window --warp west
-lcmd + shift - j : yabai -m window --warp south
-lcmd + shift - k : yabai -m window --warp north
-lcmd + shift - l : yabai -m window --warp east
+# See: https://nikitabobko.github.io/AeroSpace/commands#layout
+lalt - 0x2C : aerospace layout tiles horizontal vertical
+lalt - 0x2B : aerospace layout accordion horizontal vertical
 
-lcmd - 1 : yabai -m space --focus 1
-lcmd - 2 : yabai -m space --focus 2
-lcmd - 3 : yabai -m space --focus 3
-lcmd - 4 : yabai -m space --focus 4
-lcmd - 5 : yabai -m space --focus 5
-lcmd - 6 : yabai -m space --focus 6
-lcmd - 7 : yabai -m space --focus 7
-lcmd - 8 : yabai -m space --focus 8
-lcmd - 9 : yabai -m space --focus 9
-lcmd - 0 : yabai -m space --focus 10
+# See: https://nikitabobko.github.io/AeroSpace/commands#focus
+lalt - h : aerospace focus left
+lalt - j : aerospace focus down
+lalt - k : aerospace focus up
+lalt - l : aerospace focus right
 
-lcmd + shift - 1 : yabai -m window --space 1 ; yabai -m space --focus 1
-lcmd + shift - 2 : yabai -m window --space 2 ; yabai -m space --focus 2
-lcmd + shift - 3 : yabai -m window --space 3 ; yabai -m space --focus 3
-lcmd + shift - 4 : yabai -m window --space 4 ; yabai -m space --focus 4
-lcmd + shift - 5 : yabai -m window --space 5 ; yabai -m space --focus 5
-lcmd + shift - 6 : yabai -m window --space 6 ; yabai -m space --focus 6
-lcmd + shift - 7 : yabai -m window --space 7 ; yabai -m space --focus 7
-lcmd + shift - 8 : yabai -m window --space 8 ; yabai -m space --focus 8
-lcmd + shift - 9 : yabai -m window --space 9 ; yabai -m space --focus 9
-lcmd + shift - 0 : yabai -m window --space 10; yabai -m space --focus 10
+# See: https://nikitabobko.github.io/AeroSpace/commands#move
+lalt + shift - h : aerospace move left
+lalt + shift - j : aerospace move down
+lalt + shift - k : aerospace move up
+lalt + shift - l : aerospace move right
 
-lcmd - return : alacritty msg create-window
+lalt + cmd + shift - h : aerospace join-with left
+lalt + cmd + shift - j : aerospace join-with down
+lalt + cmd + shift - k : aerospace join-with up
+lalt + cmd + shift - l : aerospace join-with right
 
-lcmd - g : yabai -m space --toggle gap
-lcmd - e : yabai -m window --toggle split
-lcmd - d : yabai -m window --toggle zoom-parent
-lcmd - f : yabai -m window --toggle zoom-fullscreen
+lalt - f : aerospace fullscreen
+lalt - s : aerospace layout v_accordion # layout stacking in i3
+lalt - w : aerospace layout h_accordion # layout tabbed in i3
+lalt - e : aerospace layout tiles horizontal vertical # layout toggle split in i3
 
-# float / unfloat window and center on screen
-lcmd - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
+lalt - space : aerospace layout floating tiling # floating toggle in i3
 
-# toggle sticky(+float), picture-in-picture
-lcmd - p : yabai -m window --toggle sticky --toggle pip
+# See: https://nikitabobko.github.io/AeroSpace/commands#resize
+lalt - 0x1B : aerospace resize smart -50
+lalt - 0x18 : aerospace resize smart +50
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#workspace
+cmd - 1 : aerospace workspace 1
+cmd - 2 : aerospace workspace 2
+cmd - 3 : aerospace workspace 3
+cmd - 4 : aerospace workspace 4
+cmd - 5 : aerospace workspace 5
+cmd - 6 : aerospace workspace 6
+cmd - 7 : aerospace workspace 7
+cmd - 8 : aerospace workspace 8
+cmd - 9 : aerospace workspace 9
+cmd - 0 : aerospace workspace 0
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
+cmd + shift - 1 : aerospace move-node-to-workspace 1
+cmd + shift - 2 : aerospace move-node-to-workspace 2
+cmd + shift - 3 : aerospace move-node-to-workspace 3
+cmd + shift - 4 : aerospace move-node-to-workspace 4
+cmd + shift - 5 : aerospace move-node-to-workspace 5
+cmd + shift - 6 : aerospace move-node-to-workspace 6
+cmd + shift - 7 : aerospace move-node-to-workspace 7
+cmd + shift - 8 : aerospace move-node-to-workspace 8
+cmd + shift - 9 : aerospace move-node-to-workspace 9
+cmd + shift - 0 : aerospace move-node-to-workspace 0
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
+lalt - tab : aerospace workspace-back-and-forth
+# See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
+lalt - tab : aerospace move-workspace-to-monitor --wrap-around next
+

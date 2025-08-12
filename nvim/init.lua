@@ -49,10 +49,6 @@ vim.keymap.set(
   '<C-\\><C-n>',
   { desc = 'exit terminal mode' }
 )
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'focus the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'focus the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'focus the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'focus the upper window' })
 
 -- [[ Basic Autocommands ]]
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -88,13 +84,84 @@ MiniDeps.setup { path = { package = path_package } }
 local now, later, add = MiniDeps.now, MiniDeps.later, MiniDeps.add
 
 now(function()
+  -- tmux
+  add 'aserowy/tmux.nvim'
+  local tmux = require 'tmux'
+  tmux.setup {
+    navigation = {
+      enable_default_keybindings = false,
+    },
+    resize = {
+      enable_default_keybindings = false,
+    },
+    swap = {
+      enable_default_keybindings = false,
+    },
+  }
+
+  local map = function(...)
+    vim.keymap.set('n', ...)
+  end
+  map('<C-h>', tmux.move_left, { desc = 'focus the left window' })
+  map('<C-l>', tmux.move_right, { desc = 'focus the right window' })
+  map('<C-j>', tmux.move_bottom, { desc = 'focus the lower window' })
+  map('<C-k>', tmux.move_top, { desc = 'focus the upper window' })
+  map('<C-M-h>', tmux.resize_left, { desc = 'resize the window left' })
+  map('<C-M-l>', tmux.resize_right, { desc = 'resize the window right' })
+  map('<C-M-j>', tmux.resize_bottom, { desc = 'resize the window down' })
+  map('<C-M-k>', tmux.resize_top, { desc = 'resize the window up' })
+  map('<C-S-h>', tmux.swap_left, { desc = 'swap the window left' })
+  map('<C-S-l>', tmux.swap_right, { desc = 'swap the window right' })
+  map('<C-S-j>', tmux.swap_bottom, { desc = 'swap the window down' })
+  map('<C-S-k>', tmux.swap_top, { desc = 'swap the window up' })
+end)
+
+now(function()
   local misc = require 'mini.misc'
   misc.setup()
   misc.setup_termbg_sync()
   misc.setup_restore_cursor()
 
   local statusline = require 'mini.statusline'
-  statusline.setup { use_icons = vim.g.have_nerd_font }
+  local section_devinfo = function(args)
+    if statusline.is_truncated(args.trunc_width) then
+      return ''
+    end
+    local dgn = statusline.section_diagnostics { icon = '' }
+    local lsp = statusline.section_lsp { icon = '' }
+    local ret = ''
+    if dgn ~= '' then
+      ret = ret .. dgn:gsub(' ', '')
+    end
+    if lsp ~= '' then
+      ret = ret .. 'L'
+    end
+    return ret
+  end
+
+  statusline.setup {
+    use_icons = vim.g.have_nerd_font,
+    content = {
+      active = function()
+        local mode, mode_hl = statusline.section_mode { trunc_width = 120 }
+        local devinfo = section_devinfo { trunc_width = 40 }
+        local filename = statusline.section_filename { trunc_width = 140 }
+        local fileinfo = statusline.section_fileinfo { trunc_width = 120 }
+        local location = statusline.section_location { trunc_width = 75 }
+        local search = statusline.section_searchcount { trunc_width = 75 }
+
+        return statusline.combine_groups {
+          { hl = mode_hl, strings = { mode } },
+          { hl = 'MiniStatuslineDevinfo', strings = { devinfo } },
+          '%<', -- Mark general truncate point
+          { hl = 'MiniStatuslineFilename', strings = { filename } },
+          '%=', -- End left alignment
+          { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
+          { hl = mode_hl, strings = { search, location } },
+        }
+      end,
+    },
+  }
 
   ---@diagnostic disable-next-line: duplicate-set-field
   statusline.section_location = function()
@@ -106,27 +173,31 @@ now(function()
     highlighters = {
       sponge = {
         pattern = '%f[%w]()SPONGE()%f[%W]',
-        group = 'MiniHipatternsFixme',
-      },
-      combak = {
-        pattern = '%f[%w]()COMBAK()%f[%W]',
-        group = 'MiniHipatternsFixme',
+        group = '@comment.error',
       },
       fixme = {
         pattern = '%f[%w]()FIXME()%f[%W]',
-        group = 'MiniHipatternsFixme',
+        group = '@comment.error',
+      },
+      warn = {
+        pattern = '%f[%w]()WARN()%f[%W]',
+        group = '@comment.warning',
       },
       hack = {
         pattern = '%f[%w]()HACK()%f[%W]',
-        group = 'MiniHipatternsHack',
+        group = '@comment.warning',
       },
       todo = {
         pattern = '%f[%w]()TODO()%f[%W]',
-        group = 'MiniHipatternsTodo',
+        group = '@comment.todo',
+      },
+      combak = {
+        pattern = '%f[%w]()COMBAK()%f[%W]',
+        group = '@comment.todo',
       },
       note = {
         pattern = '%f[%w]()NOTE()%f[%W]',
-        group = 'MiniHipatternsNote',
+        group = '@comment.note',
       },
 
       -- Highlight hex color strings (`#rrggbb`) using that color
@@ -169,6 +240,12 @@ end)
 now(function()
   -- Detect tabstop and shiftwidth automatically
   add 'tpope/vim-sleuth'
+end)
+
+now(function()
+  add 'MunifTanjim/nui.nvim'
+  add 'julienvincent/hunk.nvim'
+  require('hunk').setup()
 end)
 
 later(function()
@@ -319,56 +396,92 @@ later(function()
   }
 end)
 
--- TODO: lazy load trigger on key
--- see https://github.com/lewis6991/pckr.nvim for example
 later(function()
-  add 'ibhagwan/fzf-lua'
+  add 'folke/snacks.nvim'
 
-  local fzf_lua = require 'fzf-lua'
-  fzf_lua.setup {
-    'default-title',
-    glob_flag = '--iglob',
-    grep = {
-      actions = {
-        ['ctrl-q'] = {
-          fn = fzf_lua.actions.file_edit_or_qf,
-          prefix = 'select-all+',
-        },
-      },
+  local snacks = require 'snacks'
+  snacks.setup {
+    picker = {
+      layout = 'bottom',
     },
+    explorer = {},
   }
-
-  fzf_lua.register_ui_select(function(_, items)
-    local min_h, max_h = 0.15, 0.70
-    local h = (#items + 4) / vim.o.lines
-    if h < min_h then
-      h = min_h
-    elseif h > max_h then
-      h = max_h
-    end
-    return { winopts = { height = h, width = 0.60, row = 0.40 } }
-  end)
-
+  local picker = snacks.picker
   local map = function(lhs, rhs, desc, mode)
     vim.keymap.set(mode or 'n', lhs, rhs, { desc = desc })
   end
 
-  local nvim_files = function()
-    fzf_lua.files { cwd = vim.fn.stdpath 'config' }
-  end
-
   -- files
-  map('<leader>ff', fzf_lua.files, 'files')
-  map('<leader>fp', fzf_lua.git_files, 'git files')
-  map('<leader>fn', nvim_files, 'neovim files')
+  map('<leader>ff', picker.smart, 'files')
+  map('<leader>fe', picker.explorer, 'explorer')
+  map('<leader>fp', picker.git_files, 'git files')
+  map('<leader>fn', function()
+    picker.files { cwd = vim.fn.stdpath 'config' }
+  end, 'neovim files')
+
+  map('<leader>gf', picker.git_log_file, 'git log file')
 
   -- text
-  map('<leader>sp', fzf_lua.live_grep_glob, 'project live grep')
-  map('<leader>ss', fzf_lua.grep_curbuf, 'search buffer')
+  map('<leader>sp', picker.grep, 'grep')
+  map('<leader>sP', picker.grep_word, 'grep cursor')
+  map('<leader>ss', picker.lines, 'search buffer')
 
-  map('<leader>sc', fzf_lua.builtin, 'fzf-lua commands')
-  map('<leader>sr', fzf_lua.resume, 'fzf-lua resume')
+  map('<leader>sc', picker.commands, 'fzf-lua commands')
+  map('<leader>sr', picker.resume, 'fzf-lua resume')
+  map('<leader>sd', picker.diagnostics, 'diagnostics')
+  map('<leader>sD', picker.diagnostics_buffer, 'diagnostics buffer')
+  map('<leader>sC', picker.colorschemes, 'colorschemes')
 end)
+-- -- TODO: lazy load trigger on key
+-- -- see https://github.com/lewis6991/pckr.nvim for example
+-- later(function()
+--   add 'ibhagwan/fzf-lua'
+--
+--   local fzf_lua = require 'fzf-lua'
+--   fzf_lua.setup {
+--     'default-title',
+--     glob_flag = '--iglob',
+--     grep = {
+--       actions = {
+--         ['ctrl-q'] = {
+--           fn = fzf_lua.actions.file_edit_or_qf,
+--           prefix = 'select-all+',
+--         },
+--       },
+--     },
+--   }
+--
+--   fzf_lua.register_ui_select(function(_, items)
+--     local min_h, max_h = 0.15, 0.70
+--     local h = (#items + 4) / vim.o.lines
+--     if h < min_h then
+--       h = min_h
+--     elseif h > max_h then
+--       h = max_h
+--     end
+--     return { winopts = { height = h, width = 0.60, row = 0.40 } }
+--   end)
+--
+--   local map = function(lhs, rhs, desc, mode)
+--     vim.keymap.set(mode or 'n', lhs, rhs, { desc = desc })
+--   end
+--
+--   local nvim_files = function()
+--     fzf_lua.files { cwd = vim.fn.stdpath 'config' }
+--   end
+--
+--   -- files
+--   map('<leader>ff', fzf_lua.files, 'files')
+--   map('<leader>fp', fzf_lua.git_files, 'git files')
+--   map('<leader>fn', nvim_files, 'neovim files')
+--
+--   -- text
+--   map('<leader>sp', fzf_lua.live_grep_glob, 'project live grep')
+--   map('<leader>ss', fzf_lua.grep_curbuf, 'search buffer')
+--
+--   map('<leader>sc', fzf_lua.builtin, 'fzf-lua commands')
+--   map('<leader>sr', fzf_lua.resume, 'fzf-lua resume')
+-- end)
 
 -- LSP Plugins
 
@@ -387,19 +500,48 @@ later(function()
 end)
 
 later(function()
-  add 'neovim/nvim-lspconfig'
-  add 'williamboman/mason.nvim'
-  add 'williamboman/mason-lspconfig.nvim'
-  add 'WhoIsSethDaniel/mason-tool-installer.nvim'
-  -- Useful status updates for LSP.
-  add 'j-hui/fidget.nvim'
-  -- Allows extra capabilities provided by nvim-cmp
-  add 'hrsh7th/cmp-nvim-lsp'
+  add 'supermaven-inc/supermaven-nvim'
+  require('supermaven-nvim').setup {}
 
-  -- NOTE: Must be loaded before dependants
-  -- run :Mason for status
-  require('mason').setup {}
+  add 'j-hui/fidget.nvim'
   require('fidget').setup {}
+  vim.lsp.config('*', {
+    root_markers = { 'Cargo.lock', '.git', '.jj' },
+  })
+  vim.lsp.config.lua_ls = {
+    cmd = { 'lua-language-server' },
+    filetypes = { 'lua' },
+    settings = {
+      Lua = {
+        completion = {
+          callSnippet = 'Replace',
+        },
+      },
+    },
+  }
+  vim.lsp.config.rust_analyzer = {
+    cmd = { 'rust-analyzer' },
+    filetypes = { 'rust' },
+  }
+  vim.lsp.config.zls = {
+    cmd = { 'zls' },
+    filetypes = { 'zig', 'zir', 'zon' },
+    root_markers = { 'build.zig', '.git', '.jj' },
+  }
+  vim.lsp.config.tinymist = {
+    cmd = { 'tinymist' },
+    filetypes = { 'typst' },
+    settings = {
+      formatterMode = 'typstyle',
+    },
+  }
+
+  vim.lsp.enable {
+    'lua_ls',
+    'rust_analyzer',
+    'zls',
+    'tinymist',
+  }
 
   vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('jv-lsp-attach', { clear = true }),
@@ -414,24 +556,25 @@ later(function()
         )
       end
 
-      local fzf_lua = require 'fzf-lua'
-      local defs = function()
-        fzf_lua.lsp_definitions {
-          jump_to_single_result = true,
-        }
-      end
-      local refs = function()
-        fzf_lua.lsp_references {
-          includeDeclaration = false,
-        }
-      end
-      map('gd', defs, 'goto def')
-      map('gD', fzf_lua.lsp_typedefs, 'goto typedef')
-      map('gr', refs, 'goto ref')
-      map('gI', fzf_lua.lsp_implementations, 'goto impl')
-      map('<leader>lD', vim.lsp.buf.declaration, 'goto decl')
-      map('<leader>lsd', fzf_lua.lsp_document_symbols, 'doc symbols')
-      map('<leader>lsw', fzf_lua.lsp_live_workspace_symbols, 'ws symbols')
+      -- local fzf_lua = require 'fzf-lua'
+      -- local defs = function()
+      --   fzf_lua.lsp_definitions { jump1 = true }
+      -- end
+      -- local refs = function()
+      --   fzf_lua.lsp_references { includeDeclaration = false }
+      -- end
+      -- map('gd', defs, 'goto def')
+      -- map('gD', fzf_lua.lsp_typedefs, 'goto typedef')
+      -- map('gr', refs, 'goto ref')
+      -- map('gI', fzf_lua.lsp_implementations, 'goto impl')
+      -- map('<leader>lD', vim.lsp.buf.declaration, 'goto decl')
+      -- map('<leader>lsd', fzf_lua.lsp_document_symbols, 'doc symbols')
+      -- map('<leader>lsw', fzf_lua.lsp_live_workspace_symbols, 'ws symbols')
+      local picker = require('snacks').picker
+      map('gd', picker.lsp_definitions, 'goto def')
+      map('gD', picker.lsp_type_definitions, 'goto typedef')
+      map('gr', picker.lsp_references, 'goto ref')
+      map('gI', picker.lsp_implementations, 'goto impl')
       map('<leader>lr', vim.lsp.buf.rename, 'rename')
       map('<leader>la', vim.lsp.buf.code_action, 'action', { 'n', 'x' })
 
@@ -440,7 +583,7 @@ later(function()
       -- Cursor hold symbol highlight
       if
         client
-        and client.supports_method(
+        and client:supports_method(
           vim.lsp.protocol.Methods.textDocument_documentHighlight
         )
       then
@@ -476,7 +619,7 @@ later(function()
       -- Inlay hints toggle
       if
         client
-        and client.supports_method(
+        and client:supports_method(
           vim.lsp.protocol.Methods.textDocument_inlayHint
         )
       then
@@ -488,53 +631,199 @@ later(function()
       end
     end,
   })
+end)
 
-  -- LSP servers and clients are able to communicate to each other what
-  -- features they support. By default, Neovim doesn't support everything
-  -- that is in the LSP specification. When you add nvim-cmp, luasnip, etc.
-  -- Neovim now has *more* capabilities. So, we create new capabilities
-  -- with nvim cmp, and then broadcast that to the servers.
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = vim.tbl_deep_extend(
-    'force',
-    capabilities,
-    require('cmp_nvim_lsp').default_capabilities()
-  )
+later(function()
+  add 'chomosuke/typst-preview.nvim'
+  require('typst-preview').setup {
+    dependencies_bin = {
+      ['tinymist'] = 'tinymist',
+      ['websocat'] = 'websocat',
+    },
+  }
+end)
 
-  local servers = {
-    rust_analyzer = {},
-    zls = {},
-    lua_ls = {
-      settings = {
-        Lua = {
-          completion = {
-            callSnippet = 'Replace',
-          },
-        },
+-- later(function()
+--   add 'neovim/nvim-lspconfig'
+--   add 'williamboman/mason.nvim'
+--   add 'williamboman/mason-lspconfig.nvim'
+--   add 'WhoIsSethDaniel/mason-tool-installer.nvim'
+--   -- Useful status updates for LSP.
+--   add 'j-hui/fidget.nvim'
+--   -- Allows extra capabilities provided by nvim-cmp
+--   add 'hrsh7th/cmp-nvim-lsp'
+--
+--   -- NOTE: Must be loaded before dependants
+--   -- run :Mason for status
+--   require('mason').setup {}
+--   require('fidget').setup {}
+--
+--   vim.api.nvim_create_autocmd('LspAttach', {
+--     group = vim.api.nvim_create_augroup('jv-lsp-attach', { clear = true }),
+--     callback = function(event)
+--       local map = function(keys, func, desc, mode)
+--         mode = mode or 'n'
+--         vim.keymap.set(
+--           mode,
+--           keys,
+--           func,
+--           { buffer = event.buf, desc = 'LSP: ' .. desc }
+--         )
+--       end
+--
+--       local fzf_lua = require 'fzf-lua'
+--       local defs = function()
+--         fzf_lua.lsp_definitions {
+--           jump_to_single_result = true,
+--         }
+--       end
+--       local refs = function()
+--         fzf_lua.lsp_references {
+--           includeDeclaration = false,
+--         }
+--       end
+--       map('gd', defs, 'goto def')
+--       map('gD', fzf_lua.lsp_typedefs, 'goto typedef')
+--       map('gr', refs, 'goto ref')
+--       map('gI', fzf_lua.lsp_implementations, 'goto impl')
+--       map('<leader>lD', vim.lsp.buf.declaration, 'goto decl')
+--       map('<leader>lsd', fzf_lua.lsp_document_symbols, 'doc symbols')
+--       map('<leader>lsw', fzf_lua.lsp_live_workspace_symbols, 'ws symbols')
+--       map('<leader>lr', vim.lsp.buf.rename, 'rename')
+--       map('<leader>la', vim.lsp.buf.code_action, 'action', { 'n', 'x' })
+--
+--       local client = vim.lsp.get_client_by_id(event.data.client_id)
+--
+--       -- Cursor hold symbol highlight
+--       if
+--         client
+--         and client.supports_method(
+--           vim.lsp.protocol.Methods.textDocument_documentHighlight
+--         )
+--       then
+--         local highlight_augroup =
+--           vim.api.nvim_create_augroup('jv-lsp-highlight', { clear = false })
+--         vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+--           buffer = event.buf,
+--           group = highlight_augroup,
+--           callback = vim.lsp.buf.document_highlight,
+--         })
+--
+--         vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+--           buffer = event.buf,
+--           group = highlight_augroup,
+--           callback = vim.lsp.buf.clear_references,
+--         })
+--
+--         vim.api.nvim_create_autocmd('LspDetach', {
+--           group = vim.api.nvim_create_augroup(
+--             'jv-lsp-detach',
+--             { clear = true }
+--           ),
+--           callback = function(event2)
+--             vim.lsp.buf.clear_references()
+--             vim.api.nvim_clear_autocmds {
+--               group = 'jv-lsp-highlight',
+--               buffer = event2.buf,
+--             }
+--           end,
+--         })
+--       end
+--
+--       -- Inlay hints toggle
+--       if
+--         client
+--         and client.supports_method(
+--           vim.lsp.protocol.Methods.textDocument_inlayHint
+--         )
+--       then
+--         map('<leader>th', function()
+--           vim.lsp.inlay_hint.enable(
+--             not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }
+--           )
+--         end, 'toggle inlay hints')
+--       end
+--     end,
+--   })
+--
+--   -- LSP servers and clients are able to communicate to each other what
+--   -- features they support. By default, Neovim doesn't support everything
+--   -- that is in the LSP specification. When you add nvim-cmp, luasnip, etc.
+--   -- Neovim now has *more* capabilities. So, we create new capabilities
+--   -- with nvim cmp, and then broadcast that to the servers.
+--   local capabilities = vim.lsp.protocol.make_client_capabilities()
+--   capabilities = vim.tbl_deep_extend(
+--     'force',
+--     capabilities,
+--     require('cmp_nvim_lsp').default_capabilities()
+--   )
+--
+--   local servers = {
+--     rust_analyzer = {},
+--     zls = {},
+--     lua_ls = {
+--       settings = {
+--         Lua = {
+--           completion = {
+--             callSnippet = 'Replace',
+--           },
+--         },
+--       },
+--     },
+--   }
+--
+--   local ensure_installed = {
+--     'lua_ls',
+--     'stylua', -- Used to format Lua code
+--   }
+--   require('mason-tool-installer').setup {
+--     ensure_installed = ensure_installed,
+--   }
+--
+--   local setup_handler = function(server_name)
+--     local server = servers[server_name] or {}
+--     server.capabilities =
+--       vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+--     require('lspconfig')[server_name].setup(server)
+--   end
+--   require('mason-lspconfig').setup {
+--     handlers = { setup_handler },
+--   }
+--   setup_handler 'rust_analyzer'
+--   setup_handler 'zls'
+--   setup_handler 'lua_ls'
+-- end)
+
+later(function()
+  add 'mfussenegger/nvim-dap'
+
+  local dap = require 'dap'
+  dap.adapters.lldb = {
+    type = 'executable',
+    command = 'codelldb',
+  }
+  dap.configurations.zig = {
+    {
+      name = 'Launch',
+      type = 'lldb',
+      request = 'launch',
+      program = '${command:pickFile}',
+      -- program = function()
+      --   return vim.fn.input(
+      --     'Path to executable: ',
+      --     vim.fn.getcwd() .. '/',
+      --     'file'
+      --   )
+      -- end,
+      cwd = '${workspaceFolder}',
+      stopOnEntry = false,
+      args = {},
+      sourceLanguages = {
+        'cpp',
+        'rust',
       },
     },
   }
-
-  local ensure_installed = {
-    'lua_ls',
-    'stylua', -- Used to format Lua code
-  }
-  require('mason-tool-installer').setup {
-    ensure_installed = ensure_installed,
-  }
-
-  local setup_handler = function(server_name)
-    local server = servers[server_name] or {}
-    server.capabilities =
-      vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-    require('lspconfig')[server_name].setup(server)
-  end
-  require('mason-lspconfig').setup {
-    handlers = { setup_handler },
-  }
-  setup_handler 'rust_analyzer'
-  setup_handler 'zls'
-  setup_handler 'lua_ls'
 end)
 
 later(function()
@@ -572,10 +861,34 @@ later(function()
 end)
 
 later(function()
+  -- Breadcrumbs in winbar
+  add 'Bekaboo/dropbar.nvim'
+  vim.keymap.set('n', '<leader>ll', function()
+    require('dropbar.api').select_next_context()
+  end, { desc = 'breadcrumbs' })
+end)
+
+later(function()
   -- Autocompletion
-  add 'hrsh7th/nvim-cmp'
-  -- event = 'InsertEnter',
-  -- Snippet Engine & its associated nvim-cmp source
+  local build_blink_hook = function(params)
+    vim.notify('Building blink.cmp', vim.log.levels.INFO)
+    local obj = vim
+      .system({ 'nix', 'run', '.#build-plugin' }, { cwd = params.path })
+      :wait()
+    if obj.code == 0 then
+      vim.notify('Building blink.cmp done', vim.log.levels.INFO)
+    else
+      vim.notify('Building blink.cmp failed', vim.log.levels.ERROR)
+    end
+  end
+
+  add {
+    source = 'saghen/blink.cmp',
+    hooks = {
+      post_checkout = build_blink_hook,
+      post_install = build_blink_hook,
+    },
+  }
   add {
     source = 'L3MON4D3/LuaSnip',
     hooks = {
@@ -584,57 +897,88 @@ later(function()
       end,
     },
   }
-  add 'saadparwaiz1/cmp_luasnip'
-  add 'hrsh7th/cmp-nvim-lsp'
-  add 'hrsh7th/cmp-path'
 
-  -- See `:help cmp`
-  local cmp = require 'cmp'
-  local luasnip = require 'luasnip'
-  luasnip.config.setup {}
-
-  cmp.setup {
-    snippet = {
-      expand = function(args)
-        luasnip.lsp_expand(args.body)
-      end,
-    },
-    completion = { completeopt = 'menu,menuone,noinsert' },
-
-    mapping = cmp.mapping.preset.insert {
-      ['<C-n>'] = cmp.mapping.select_next_item(),
-      ['<C-p>'] = cmp.mapping.select_prev_item(),
-      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-y>'] = cmp.mapping.confirm { select = true },
-      -- Manually trigger a completion from nvim-cmp.
-      ['<C-Space>'] = cmp.mapping.complete {},
-      -- <c-l> will move you to the right of each of the expansion
-      -- locations. <c-h> is similar, except moving you backwards.
-      ['<C-l>'] = cmp.mapping(function()
-        if luasnip.expand_or_locally_jumpable() then
-          luasnip.expand_or_jump()
-        end
-      end, { 'i', 's' }),
-      ['<C-h>'] = cmp.mapping(function()
-        if luasnip.locally_jumpable(-1) then
-          luasnip.jump(-1)
-        end
-      end, { 'i', 's' }),
-    },
-    sources = {
-      {
-        name = 'lazydev',
-        -- set group index to 0 to skip loading LuaLS completions as
-        -- lazydev recommends it
-        group_index = 0,
+  require('blink.cmp').setup {
+    completion = {
+      menu = {
+        draw = {
+          columns = {
+            { 'label', 'label_description', gap = 1 },
+            { 'kind_icon', 'kind' },
+          },
+        },
       },
-      { name = 'nvim_lsp' },
-      { name = 'luasnip' },
-      { name = 'path' },
     },
   }
 end)
+-- later(function()
+--   -- Autocompletion
+--   add 'hrsh7th/nvim-cmp'
+--   -- event = 'InsertEnter',
+--   -- Snippet Engine & its associated nvim-cmp source
+--   add {
+--     source = 'L3MON4D3/LuaSnip',
+--     hooks = {
+--       post_checkout = function()
+--         vim.cmd '!make install_jsregexp'
+--       end,
+--     },
+--   }
+--   add 'saadparwaiz1/cmp_luasnip'
+--   add 'hrsh7th/cmp-nvim-lsp'
+--   add 'hrsh7th/cmp-path'
+--
+--   add 'supermaven-inc/supermaven-nvim'
+--   require('supermaven-nvim').setup {}
+--
+--   -- See `:help cmp`
+--   local cmp = require 'cmp'
+--   local luasnip = require 'luasnip'
+--   luasnip.config.setup {}
+--
+--   cmp.setup {
+--     snippet = {
+--       expand = function(args)
+--         luasnip.lsp_expand(args.body)
+--       end,
+--     },
+--     completion = { completeopt = 'menu,menuone,noinsert' },
+--
+--     mapping = cmp.mapping.preset.insert {
+--       ['<C-n>'] = cmp.mapping.select_next_item(),
+--       ['<C-p>'] = cmp.mapping.select_prev_item(),
+--       ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+--       ['<C-f>'] = cmp.mapping.scroll_docs(4),
+--       ['<C-y>'] = cmp.mapping.confirm { select = true },
+--       -- Manually trigger a completion from nvim-cmp.
+--       ['<C-Space>'] = cmp.mapping.complete {},
+--       -- <c-l> will move you to the right of each of the expansion
+--       -- locations. <c-h> is similar, except moving you backwards.
+--       ['<C-l>'] = cmp.mapping(function()
+--         if luasnip.expand_or_locally_jumpable() then
+--           luasnip.expand_or_jump()
+--         end
+--       end, { 'i', 's' }),
+--       ['<C-h>'] = cmp.mapping(function()
+--         if luasnip.locally_jumpable(-1) then
+--           luasnip.jump(-1)
+--         end
+--       end, { 'i', 's' }),
+--     },
+--     sources = {
+--       { name = 'supermaven' },
+--       {
+--         name = 'lazydev',
+--         -- set group index to 0 to skip loading LuaLS completions as
+--         -- lazydev recommends it
+--         group_index = 0,
+--       },
+--       { name = 'nvim_lsp' },
+--       { name = 'luasnip' },
+--       { name = 'path' },
+--     },
+--   }
+-- end)
 
 later(function()
   add 'akinsho/toggleterm.nvim'
@@ -644,10 +988,22 @@ later(function()
 end)
 
 now(function()
-  add 'EdenEast/nightfox.nvim'
+  -- add 'EdenEast/nightfox.nvim'
+  -- require('nightfox').setup {}
+  -- add 'kepano/flexoki-neovim'
+  -- add 'cpplain/flexoki.nvim'
+  add 'nuvic/flexoki-nvim'
+  require('flexoki').setup {
+    variant = 'auto',
+    palette = {
+      moon = {
+        surface = '#1C1B1A',
+      },
+    },
+  }
   -- dir = '~/src/nightfox.nvim',
-  require('nightfox').setup {}
-  vim.cmd.colorscheme 'carbonfox'
+  -- vim.cmd.colorscheme 'carbonfox'
+  vim.cmd.colorscheme 'flexoki'
 end)
 
 now(function()

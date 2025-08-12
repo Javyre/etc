@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -13,12 +14,21 @@
     };
     home-manager = {
       url = "github:nix-community/home-manager";
+      # url = "github:nix-community/home-manager/release-24.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
+    # nixos-generators = {
+    #   url = "github:nix-community/nixos-generators";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs =
@@ -30,7 +40,7 @@
           ./nix/flake-parts-hm.nix
         ];
 
-        # In case someone want's to use this :)
+        # In case someone wants to use this :)
         # add this flake as an input to yours and then
         # ```nix
         # imports = [ inputs.<nameofinput>.flakeModules.hm ];
@@ -56,9 +66,25 @@
           "aarch64-darwin"
         ];
         perSystem =
-          { pkgs, ... }:
+          { system, pkgs, ... }:
           {
             formatter = pkgs.nixfmt-rfc-style;
+            # packages.gen-qemu = inputs.nixos-generators.nixosGenerate {
+            #   inherit system;
+            #   # specialArgs = { inherit pkgs; };
+            #   format = "qcow-efi";
+            #   modules = [
+            #     {
+            #       # Pin nixpkgs to the flake input, so that the packages
+            #       # installed come from the flake inputs.nixpkgs.url.
+            #       nix.registry.nixpkgs.flake = inputs.nixpkgs;
+            #       # set disk size to to 20G
+            #       virtualisation.diskSize = 20 * 1024;
+            #       # boot.binfmt.emulatedSystems = [ system ];
+            #     }
+            #     ./nix/nixos.nix
+            #   ];
+            # };
           };
       }
     );

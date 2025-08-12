@@ -1,0 +1,15 @@
+# font-family = MonaspiceKr Nerd Font
+font-family = JetBrainsMono Nerd Font
+font-style = Regular
+# font-style = Medium
+font-size = 14
+font-feature = calt
+font-feature = liga
+# theme = dark:Argonaut,light:dayfox
+theme = dark:flexoki-dark,light:flexoki-light
+macos-icon = custom-style
+macos-icon-frame = beige
+macos-icon-ghost-color = #fffaf4
+macos-icon-screen-color = #0e1019
+macos-titlebar-style = hidden
+macos-option-as-alt = true
