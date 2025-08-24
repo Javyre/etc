@@ -336,6 +336,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-master": {
+      "locked": {
+        "lastModified": 1755644050,
+        "narHash": "sha256-fMsI1uh4CcHBsO1PS3hxLcHrh2qUwEGgcf4jHMIa1eg=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "15ca86ccc438493354c3f988da49ed388be0d8e7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1749834526,
@@ -359,7 +375,8 @@
         "home-manager": "home-manager",
         "mac-app-util": "mac-app-util",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nixpkgs-master": "nixpkgs-master"
       }
     },
     "systems": {

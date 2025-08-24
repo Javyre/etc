@@ -8,7 +8,7 @@
 }:
 {
   options = with lib; {
-    hm-configs = mkOption {
+    os-configs = mkOption {
       type = types.attrsOf (
         types.submodule {
           options = {
@@ -18,8 +18,8 @@
             module = mkOption {
               type = types.deferredModule;
               description = ''
-                Home-Manager configuration module.
-                This forwards flake-parts' module args as extraSpecialArgs.
+                NixOS configuration module.
+                This forwards flake-parts' module args as specialArgs.
               '';
             };
           };
@@ -28,7 +28,7 @@
     };
   };
   config = {
-    flake.homeConfigurations = (
+    flake.nixosConfigurations = (
       builtins.mapAttrs (
         name: value:
         withSystem value.system (
@@ -39,9 +39,9 @@
             inputs',
             ...
           }:
-          inputs.home-manager.lib.homeManagerConfiguration {
+          pkgs.lib.nixosSystem {
             inherit pkgs;
-            extraSpecialArgs = {
+            specialArgs = {
               inherit
                 self
                 inputs
@@ -50,30 +50,23 @@
                 system
                 ;
             };
-            modules =
-              (lib.optionals ((builtins.match ".*-darwin" system) != null) [
-                inputs.mac-app-util.homeManagerModules.default
-              ])
-              ++ [ value.module ];
+            modules = [ value.module ];
           }
         )
-      ) config.hm-configs
+      ) config.os-configs
     );
 
     perSystem =
       { pkgs, inputs', ... }:
       {
         packages =
-          let
-            home-manager = inputs'.home-manager.packages.default;
-          in
           {
-            inherit home-manager;
-            apply-home = pkgs.writeShellApplication {
-              name = "apply-home";
-              runtimeInputs = [ home-manager ];
+            inherit (pkgs) nixos-rebuild;
+            apply-os = pkgs.writeShellApplication {
+              name = "apply-os";
+              runtimeInputs = [ pkgs.nixos-rebuild ];
               text = ''
-                home-manager switch --flake "${self}" "$@"
+                nixos-rebuild switch --flake "${self}" "$@"
               '';
             };
           };

@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs-master.url = "github:nixos/nixpkgs?ref=master";
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
@@ -38,6 +39,7 @@
       {
         imports = [
           ./nix/flake-parts-hm.nix
+          ./nix/flake-parts-os.nix
         ];
 
         # In case someone wants to use this :)
@@ -57,6 +59,27 @@
             ];
             home.username = "javyre";
             home.homeDirectory = "/Users/javyre";
+          };
+        };
+
+        hm-configs."jv@jv-vm" = {
+          system = "aarch64-darwin";
+          module = {
+            imports = [
+              ./nix/hm-common.nix
+            ];
+            home.username = "jv";
+            home.homeDirectory = "/home/jv";
+          };
+        };
+
+        # apply with `nix run .#apply-os`
+        os-configs."jv-vm" = {
+          system = "aarch64-linux";
+          module = {
+            imports = [
+              ./nix/os-common.nix
+            ];
           };
         };
 

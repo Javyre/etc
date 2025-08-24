@@ -41,6 +41,7 @@ in
     cargo
     lua-language-server
     stylua
+    ghidra-bin
 
     tinymist # typst-lsp
     websocat # typst-preview nvim plugin dep
@@ -49,6 +50,31 @@ in
     # zig
 
     inputs'.neovim-nightly-overlay.packages.default
+
+    # inputs'.nixpkgs-master.legacyPackages.radare2
+    # # TODO make this conditional on darwin
+    # (inputs'.nixpkgs-master.legacyPackages.radare2.overrideAttrs (prev: {
+    #   mesonFlags = prev.mesonFlags ++ [
+    #     (lib.mesonOption "cpp_args" "-march=native")
+    #     (lib.mesonOption "c_args" "-march=native")
+    #   ];
+    #   preBuild = ''export NIX_ENFORCE_NO_NATIVE='';
+    #   postBuild = ''
+    #     pushd $src
+    #
+    #     find
+    #
+    #     make -C binr/radare2 macos-sign
+    #     make -C binr/radare2 macos-sign-libs
+    #
+    #     popd
+    #
+    #     codesign -dv binr/radare2
+    #   '' + (prev.postBuild or "");
+    # }))
+    pkg-config
+    zlib
+    zlib.dev
 
     thunderbird
     obsidian
