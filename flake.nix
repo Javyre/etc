@@ -2,8 +2,9 @@
   description = "Jv System Config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    nixpkgs-master.url = "github:nixos/nixpkgs?ref=master";
+    # nixpkgs-gtk-unbroken.url = "github:nixos/nixpkgs/d7f52a7a640bc54c7bb414cca603835bf8dd4b10";
+    nixpkgs.url = "github:nixos/nixpkgs/master";
+    # nixpkgs-master.url = "github:nixos/nixpkgs?ref=master";
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
@@ -11,15 +12,19 @@
     };
     mac-app-util = {
       url = "github:hraban/mac-app-util";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # https://github.com/hraban/mac-app-util/issues/42
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
       url = "github:nix-community/home-manager";
-      # url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    helix = {
+      url = "github:helix-editor/helix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-parts = {
@@ -91,7 +96,7 @@
         perSystem =
           { system, pkgs, ... }:
           {
-            formatter = pkgs.nixfmt-rfc-style;
+            formatter = pkgs.nixfmt-tree;
             # packages.gen-qemu = inputs.nixos-generators.nixosGenerate {
             #   inherit system;
             #   # specialArgs = { inherit pkgs; };

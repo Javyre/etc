@@ -18,15 +18,18 @@ in
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    nixVersions.nix_2_26
+    # using determinate nix now
+    # nixVersions.nix_2_28
     cachix
 
     # utils
     git
+    gh
     jujutsu
     wget
     htop
     jq
+    duckdb
     fd
     eza
     ripgrep
@@ -35,10 +38,13 @@ in
     numbat
     xh
     imagemagick # convert command useful for image previews in nvim
+    difftastic
 
     # compilers
     clang
     cargo
+    bun
+    typescript-go
     lua-language-server
     stylua
     ghidra-bin
@@ -50,6 +56,7 @@ in
     # zig
 
     inputs'.neovim-nightly-overlay.packages.default
+    inputs'.helix.packages.default
 
     # inputs'.nixpkgs-master.legacyPackages.radare2
     # # TODO make this conditional on darwin
@@ -76,11 +83,16 @@ in
     zlib
     zlib.dev
 
+    # https://github.com/NixOS/nixpkgs/issues/450042
+    # inputs'.nixpkgs-gtk-unbroken.legacyPackages.thunderbird
     thunderbird
     obsidian
     # native-comp broken on macos 15.4:
     # https://github.com/NixOS/nixpkgs/issues/395169
     # inputs'.emacs-overlay.packages.emacs-unstable
+    emacs30
+    kakoune
+    kakoune-lsp
 
     # (nerdfonts.override { fonts = [ "Monaspace" ]; })
     nerd-fonts.monaspace
@@ -323,7 +335,7 @@ in
     enable = true;
     defaultKeymap = "emacs";
     history.ignoreDups = true;
-    initExtra = "export ZLE_RPROMPT_INDENT=0";
+    initContent = "export ZLE_RPROMPT_INDENT=0";
   };
 
   programs.fish = {
@@ -357,14 +369,9 @@ in
 
   programs.git = {
     enable = true;
-    userName = "Javier A. Pollak";
-    userEmail = "javi.po.123@gmail.com";
-    ignores = [
-      ".DS_STORE"
-      ".direnv/"
-      ".envrc"
-    ];
-    extraConfig = {
+    settings = {
+      user.name = "Javier A. Pollak";
+      user.email = "javi.po.123@gmail.com";
       fetch.parallel = 0;
       push.autoSetupRemote = true;
       push.default = "current";
@@ -372,12 +379,26 @@ in
       init.defaultBranch = "master";
       submodule.recurse = true;
       branch.sort = "-committerdate";
+      url."git@github.com:n1xyz/" = {
+        insteadOf = "https://github.com/n1xyz/";
+      };
     };
+    ignores = [
+      ".DS_STORE"
+      ".DS_Store"
+      ".direnv/"
+      ".envrc"
+      ".claude/"
+      ".agents/"
+      ".agent/"
+    ];
   };
 
   # Need to impure-symlink since lazy.lock needs to be writeable, but
   # store is read-only.
   xdg.configFile."nvim".source = ln "nvim";
+  xdg.configFile."kak".source = ln "kak";
+  xdg.configFile."helix".source = ln "helix";
   xdg.configFile."emacs".source = ln "emacs";
   xdg.configFile."ghostty".source = ln "ghostty";
 }

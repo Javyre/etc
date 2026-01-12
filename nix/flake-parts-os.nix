@@ -59,17 +59,16 @@
     perSystem =
       { pkgs, inputs', ... }:
       {
-        packages =
-          {
-            inherit (pkgs) nixos-rebuild;
-            apply-os = pkgs.writeShellApplication {
-              name = "apply-os";
-              runtimeInputs = [ pkgs.nixos-rebuild ];
-              text = ''
-                nixos-rebuild switch --flake "${self}" "$@"
-              '';
-            };
+        packages = {
+          inherit (pkgs) nixos-rebuild;
+          apply-os = pkgs.writeShellApplication {
+            name = "apply-os";
+            runtimeInputs = [ pkgs.nixos-rebuild ];
+            text = ''
+              nixos-rebuild switch --flake "${self}" "$@"
+            '';
           };
+        };
       };
   };
 }

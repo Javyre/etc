@@ -1,0 +1,4 @@
+theme = "ayu_evolve"
+
+[editor]
+rulers = [80]

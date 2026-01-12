@@ -1,0 +1,79 @@
+colorscheme cyanide
+add-highlighter global/ show-matching -previous
+set-option global scrolloff 8,8
+set-option -add global ui_options terminal_assistant=none
+set-option -add global ui_options terminal_status_on_top=true
+set-option global grepcmd 'rg --column'
+
+set-face global CurSearch +U
+hook global RegisterModified '/' %{ add-highlighter -override global/search regex "%reg{/}" 0:CurSearch }
+
+# enable editorconfig
+hook global BufOpenFile .* %{ editorconfig-load }
+hook global BufNewFile .* %{ editorconfig-load }
+
+# highlight word under cursor
+set-face global CurWord +b
+hook global NormalIdle .* %{
+    eval -draft %{ try %{
+        exec ,<a-i>w <a-k>\A\w+\z<ret>
+        add-highlighter -override global/curword regex "\b\Q%val{selection}\E\b" 0:CurWord
+    } catch %{
+        add-highlighter -override global/curword group
+    } }
+}
+
+add-highlighter global/ column '%opt{autowrap_column}' default,rgba:00000040
+add-highlighter global/ regex \b(TODO|FIXME|COMBAK|NOTE|HACK|SPONGE)\b 0:default+rb
+
+map global user	c ":comment-line<ret>"
+map -docstring "copy to macos clip" global user y "<a-|> pbcopy<ret>"
+
+map -docstring 'case insensitive search' global normal '/' /(?i)
+map -docstring 'case insensitive backward search' global normal '<a-/>' <a-/>(?i)
+map -docstring 'case insensitive extend search' global normal '?' ?(?i)
+map -docstring 'case insensitive backward extend-search' global normal '<a-?>' <a-?>(?i)
+
+eval %sh{kak-lsp}
+# lsp-enable
+set-option global modelinefmt "%opt{lsp_modeline} %opt{modelinefmt}"
+map global goto d '<esc>:lsp-definition<ret>' -docstring 'LSP definition'
+map global goto r '<esc>:lsp-references<ret>' -docstring 'LSP references'
+map global goto y '<esc>:lsp-type-definition<ret>' -docstring 'LSP type definition'
+map global user l ':enter-user-mode lsp<ret>' -docstring 'LSP mode'
+map global object a '<a-semicolon>lsp-object<ret>' -docstring 'LSP any symbol'
+map global object <a-a> '<a-semicolon>lsp-object<ret>' -docstring 'LSP any symbol'
+map global object f '<a-semicolon>lsp-object Function Method<ret>' -docstring 'LSP function or method'
+map global object t '<a-semicolon>lsp-object Class Interface Struct<ret>' -docstring 'LSP class interface or struct'
+map global object d '<a-semicolon>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
+map global object D '<a-semicolon>lsp-diagnostic-object<ret>' -docstring 'LSP errors'
+
+remove-hooks global lsp-filetype-rust;
+hook -group lsp-filetype-rust global BufSetOption filetype=rust %{
+    set-option buffer lsp_servers %{
+        [rust-analyzer]
+        root_globs = ["Cargo.lock"]
+        # single_instance = true
+        # [rust-analyzer.experimental]
+        # commands.commands = ["rust-analyzer.runSingle"]
+        # hoverActions = true
+        # [rust-analyzer.settings.rust-analyzer]
+        # # See https://rust-analyzer.github.io/manual.html#configuration
+        # # cargo.features = []
+        # check.command = "clippy"
+        # rust-analyzer.check.extraArgs = ["--target-dir", "target/clippy"]
+        # [rust-analyzer.symbol_kinds]
+        # Constant = "const"
+        # Enum = "enum"
+        # EnumMember = ""
+        # Field = ""
+        # Function = "fn"
+        # Interface = "trait"
+        # Method = "fn"
+        # Module = "mod"
+        # Object = ""
+        # Struct = "struct"
+        # TypeParameter = "type"
+        # Variable = "let"
+    }
+}

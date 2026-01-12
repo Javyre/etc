@@ -500,8 +500,8 @@ later(function()
 end)
 
 later(function()
-  add 'supermaven-inc/supermaven-nvim'
-  require('supermaven-nvim').setup {}
+  -- add 'supermaven-inc/supermaven-nvim'
+  -- require('supermaven-nvim').setup {}
 
   add 'j-hui/fidget.nvim'
   require('fidget').setup {}
@@ -988,8 +988,8 @@ later(function()
 end)
 
 now(function()
-  -- add 'EdenEast/nightfox.nvim'
-  -- require('nightfox').setup {}
+  add 'EdenEast/nightfox.nvim'
+  require('nightfox').setup {}
   -- add 'kepano/flexoki-neovim'
   -- add 'cpplain/flexoki.nvim'
   add 'nuvic/flexoki-nvim'
@@ -1002,8 +1002,8 @@ now(function()
     },
   }
   -- dir = '~/src/nightfox.nvim',
-  -- vim.cmd.colorscheme 'carbonfox'
-  vim.cmd.colorscheme 'flexoki'
+  vim.cmd.colorscheme 'carbonfox'
+  -- vim.cmd.colorscheme 'flexoki'
 end)
 
 now(function()
