@@ -56,7 +56,10 @@ in
     # zig
 
     inputs'.neovim-nightly-overlay.packages.default
-    inputs'.helix.packages.default
+    (inputs'.helix.packages.default.override {
+      # 403 from codeberg when fetching spade grammar src
+      includeGrammarIf = grammar: grammar.name != "spade";
+    })
 
     # inputs'.nixpkgs-master.legacyPackages.radare2
     # # TODO make this conditional on darwin
