@@ -1,0 +1,7 @@
+interface:
+  display_name: "Dream"
+  short_description: "Manual Codex memory cleanup"
+  default_prompt: "Use $dream to consolidate recent Codex history into durable memory files."
+
+policy:
+  allow_implicit_invocation: false

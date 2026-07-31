@@ -9,6 +9,10 @@ let
   ln = config.lib.jv.ln;
 in
 {
+  imports = [
+    ./hm-agents.nix
+  ];
+
   lib.jv.ln =
     path: config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/etc/${toString path}";
 

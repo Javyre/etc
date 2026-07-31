@@ -6,6 +6,13 @@
 2. Clone this repo to `~/etc`.
 3. Run `nix run ~/etc#apply-home`.
 
+The apply command manages files in the home directory. If an apply conflicts
+with existing files, move those files aside:
+
+```sh
+nix run ~/etc#apply-home -- -b pre-nix
+```
+
 ## Updating
 
 1. Update some configs / pull this repo.
