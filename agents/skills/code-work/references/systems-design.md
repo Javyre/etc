@@ -21,7 +21,6 @@ Goal: find the minimal complete basis whose composition stays simple and whose o
 
 ## Boundaries
 
-- Derive then commit: resolve legality, policy, and derived facts before shared mutation or publication.
 - Config once: resolve partial inputs into one validated config; pass facts downstream.
 - Honest seam: expose the phase, state, ownership, blocking, mutation, cost, and lifetime constraints callers need to reason correctly; keep remaining mechanics owner-local.
 - Invocation contract: treat flags, env, harness setup, and selected tool targets as boundary inputs; confirm them before debugging below.
@@ -57,7 +56,6 @@ Goal: find the minimal complete basis whose composition stays simple and whose o
 - Derived truth: split indexes, caches, and analyzed views only when reuse, invalidation, or staged update is structurally real.
 - Retry state: preserve enough state to retry honestly; distinguish retryable and terminal failure.
 - Work lifetime: separate one-shot boundary work from persistent work; retain work only when reuse earns it.
-- Publication: externally visible state must remain valid. Keep invalid intermediate state unpublished; use stage → seal → publish when the transition needs it.
 - Future-shaped hole: place incomplete work at its eventual owner and dataflow seam; mark the missing primitive explicitly. Avoid speculative layers and adapters.
 
 ## Locality And Modules

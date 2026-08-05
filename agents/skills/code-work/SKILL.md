@@ -12,14 +12,15 @@ Owns the coding loop, reader order, locality, diff scope, program shape, names, 
 
 ## Coding Loop
 
-1. System shape: for primitives, ownership, seams, phases, composition, or taste alignment, load `./references/systems-design.md` and `./references/mechanics.md`. Choose the semantic shape.
-2. Mechanical realization: pressure that shape through state, layout, movement, flow, cost, concurrency, and nearby proof. Fixed-shape mechanical work may start here.
-3. Code shape: express the result through the shared rules below and `./references/rust-code-style.md` or `./references/zig-code-style.md` when active.
-4. Feedback:
+1. Scope: infer intent and design scope from the request and repository contracts. Apply Code Work within them. Preserve project behavior unless redesign is in scope.
+2. System shape: for primitives, ownership, seams, phases, composition, or taste alignment, load `./references/systems-design.md` and `./references/mechanics.md`. Choose the semantic shape.
+3. Mechanical realization: pressure that shape through state, layout, movement, flow, cost, concurrency, and nearby proof. Fixed-shape mechanical work may start here.
+4. Code shape: express the result through the shared rules below and `./references/rust-code-style.md` or `./references/zig-code-style.md` when active.
+5. Feedback:
    - Awkward composition or unclear ownership returns to System shape.
    - Hidden state, cost, or implementation strain returns to Mechanical realization.
    - Code friction returns to whichever shape it exposes as wrong.
-5. Coherence: repeat until system shape, mechanical realization, and code shape agree.
+6. Coherence: repeat until system shape, mechanical realization, and code shape agree.
 
 Every systems-design change completes this loop before application.
 
