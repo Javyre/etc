@@ -31,13 +31,13 @@ let
   };
   lauka = pkgs.stdenv.mkDerivation {
     pname = "lauka";
-    version = "unstable-2026-01-12";
+    version = "unstable-2026-06-22";
 
     src = pkgs.fetchFromGitHub {
       owner = "verte-zerg";
       repo = "lauka";
-      rev = "f6c55ff9bcb1392535df50f62508cd9e2b9c5f5a";
-      hash = "sha256-TC+UPBCvy1z/ALdF+fa75x6t+57IKsO5pOzDAfij/oY=";
+      rev = "70846497594ca8b0370fc878f9f355647dea9770";
+      hash = "sha256-o8SR9NZPS2fUIAHJ7/25lrDkotrFNg51pf/CdDlTCyw=";
     };
 
     nativeBuildInputs = [ pkgs.zig_0_15 ];

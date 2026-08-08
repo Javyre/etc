@@ -20,5 +20,5 @@ Watch:
 
 Orientation reads:
 - https://github.com/mattpocock/skills
-- https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills/SKILL.md
+- https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-for-agents/SKILL.md
 - https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md

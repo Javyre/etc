@@ -30,6 +30,10 @@ Goal: mechanically honest Zig using native idioms. On a mechanical tie, follow Z
 
 - Earned nominal: use `enum(N)` wrappers for identity, units, handles, and meaningful layout state.
 - Sentinel: add sentinel states only when they are genuine domain or representation states.
+- Struct defaults: use field defaults only when callers can independently
+  override them. For one canonical initial state, leave fields without defaults
+  and put the values in a declaration such as `const empty: Self = .{ ... };`,
+  following `ArrayList.empty`.
 - Layout proof: force meaningful size, alignment, and cache-boundary contracts inside `comptime` blocks. Derive incidental padding; avoid freezing unrelated offsets.
 
 ## Comptime And Shape

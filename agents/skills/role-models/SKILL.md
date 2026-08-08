@@ -12,17 +12,24 @@ Owns pressure-aware precedent research for material design choices.
 
 Goal: resolve the choice, control context use, and compound a reusable evidence index.
 
+## Primary Agent-Engineering Pair
+
+- Poteto is the execution and taste model: proactive engineering judgment, deep understanding before change, executable workflow composition, proof, and prose with voice.
+- Matt Pocock is the instruction-design model: predictable process, context economics, information hierarchy, completion criteria, leading words, and pruning.
+- Taste judgment: Poteto has stronger prose taste and operational choreography. Matt has stronger skill-writing meta-theory and more portable mechanics.
+
 ## Problem Map
 
+- Agent engineering, primary: `./references/poteto.md`, `./references/matt-pocock.md`
 - Primitive set: `./references/casey-muratori.md`, `./references/andrew-kelley.md`, `./references/raph-levien.md`, `./references/matklad.md`
 - Surface truth: `./references/casey-muratori.md`, `./references/andrew-kelley.md`, `./references/joran-dir-greef.md`, `./references/floooh.md`
 - API and seams: `./references/burnt-sushi.md`, `./references/mitchell-hashimoto.md`, `./references/matklad.md`, `./references/withoutboats.md`
 - State and identity: `./references/raph-levien.md`, `./references/nick-fitzgerald.md`, `./references/aria-beingessner.md`, `./references/joran-dir-greef.md`
 - Ownership and concurrency: `./references/mara-bos.md`, `./references/niko-matsakis.md`, `./references/aria-beingessner.md`, `./references/withoutboats.md`
 - Cost and layout: `./references/casey-muratori.md`, `./references/andrew-kelley.md`, `./references/chris-fallin.md`, `./references/nick-fitzgerald.md`, `./references/joran-dir-greef.md`, `./references/floooh.md`
-- Proof and testing: `./references/joran-dir-greef.md`, `./references/chris-fallin.md`, `./references/mara-bos.md`, `./references/hamel-husain.md`, `./references/simon-willison.md`
-- Agent loops and context: `./references/matt-pocock.md`, `./references/simon-willison.md`, `./references/birgitta-boeckeler.md`, `./references/mitchell-hashimoto.md`, `./references/armin-ronacher.md`, `./references/anthropic-engineering.md`, `./references/nuno-campos.md`, `./references/kief-morris.md`
-- Evals and trust: `./references/hamel-husain.md`, `./references/anthropic-engineering.md`, `./references/simon-willison.md`, `./references/birgitta-boeckeler.md`
+- Proof and testing: `./references/poteto.md`, `./references/joran-dir-greef.md`, `./references/chris-fallin.md`, `./references/mara-bos.md`, `./references/hamel-husain.md`, `./references/simon-willison.md`
+- Agent loops and context: `./references/poteto.md`, `./references/matt-pocock.md`, `./references/simon-willison.md`, `./references/birgitta-boeckeler.md`, `./references/mitchell-hashimoto.md`, `./references/armin-ronacher.md`, `./references/anthropic-engineering.md`, `./references/nuno-campos.md`, `./references/kief-morris.md`
+- Evals and trust: `./references/poteto.md`, `./references/hamel-husain.md`, `./references/anthropic-engineering.md`, `./references/simon-willison.md`, `./references/birgitta-boeckeler.md`
 
 ## Flow
 

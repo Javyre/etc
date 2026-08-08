@@ -107,7 +107,7 @@ in
   ];
 
   home.sessionVariables = {
-    EDITOR = "nvim";
+    EDITOR = "hx";
     SHELL = "${pkgs.fish}/bin/fish";
   };
 
