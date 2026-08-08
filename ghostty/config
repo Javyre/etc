@@ -1,3 +1,5 @@
+config-file = ?../home-manager.conf
+
 # font-family = MonaspiceKr Nerd Font
 font-family = JetBrainsMono Nerd Font
 font-style = Regular

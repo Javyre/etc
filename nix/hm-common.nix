@@ -407,5 +407,8 @@ in
   xdg.configFile."kak".source = ln "kak";
   xdg.configFile."helix".source = ln "helix";
   xdg.configFile."emacs".source = ln "emacs";
+  xdg.configFile."home-manager.conf".text = ''
+    command = ${config.home.sessionVariables.SHELL}
+  '';
   xdg.configFile."ghostty".source = ln "ghostty";
 }
