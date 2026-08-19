@@ -15,6 +15,7 @@ in
     ".agents/skills/jv-review".source = ln "agents/skills/jv-review";
     ".agents/skills/role-models".source = ln "agents/skills/role-models";
     ".agents/skills/standup".source = ln "agents/skills/standup";
+    ".agents/skills/unslop".source = ln "agents/skills/unslop";
     ".agents/skills/writing-artifacts".source = ln "agents/skills/writing-artifacts";
     ".agents/skills/writing-great-skills".source = ln "agents/skills/writing-great-skills";
   };
