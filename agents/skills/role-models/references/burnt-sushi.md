@@ -8,7 +8,7 @@ Reach for when:
 
 Transferable patterns:
 - keep APIs pragmatic without lying about cost
-- expose lower-level seam when it is real
+- expose a lower-level seam when it carries a distinct contract or cost
 - document tradeoffs without ideology
 - align maintainability with perf reality
 

@@ -4,7 +4,7 @@ Reach for when:
 - studying bounded-resource systems design
 - studying static-memory and explicit-limit thinking
 - studying deterministic simulation and assertion-heavy proof style
-- studying APIs shaped by real OLTP and systems pressure
+- studying APIs shaped by production OLTP and systems constraints
 
 Transferable patterns:
 - put limits on everything that matters

@@ -9,7 +9,7 @@ Reach for when:
 Transferable patterns:
 - make memory and layout constraints explicit
 - do not pretend unusual machinery is ordinary if that lies about contract
-- reason from representation and semantics, not only surface elegance
+- judge API elegance against representation and semantics
 - use concrete counterexamples to break bad intuition
 
 Watch:

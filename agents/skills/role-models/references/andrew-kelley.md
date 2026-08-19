@@ -11,7 +11,7 @@ system legibility
 ```
 
 Andrew treats systems programming as a way of modeling any software system.
-Identify the lowest relevant API, understand its real resource and failure
+Identify the lowest relevant API, understand its resource and failure
 contracts, then express the program as precise transformations over that
 substrate. Abstractions remain useful while their system effects stay knowable.
 
@@ -27,7 +27,7 @@ Reach for when:
 - the design hides the lowest relevant API or resource contract
 - abstraction makes control, cost, failure, or state hard to explain
 - a system could express intent more directly to its substrate
-- studying data-oriented design from actual access patterns
+- studying data-oriented design from observed access patterns
 - challenging an inherited premise that constrains the design space
 
 ## Best Transmitter
@@ -55,7 +55,7 @@ Transferable lessons:
 - search beyond the best version of a weak inherited premise
 
 Watch:
-- “lowest relevant API” is scope-relative; literal hardware may add no value
+- "lowest relevant API" is scope-relative; literal hardware may add no value
 - complete understanding is a direction and design test, not a claim that every
   operator must know every implementation detail
 - distinguish Andrew's teachings from Zig's current constraints and rough edges

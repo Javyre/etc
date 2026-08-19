@@ -9,12 +9,18 @@ Goal: mechanically honest Rust with the least language machinery.
 - Mechanical truth: correctness, phase truth, ownership, and cost shape outrank boring Rust.
 - Boring default: prefer concrete types, funcs, enums, loops, and explicit ownership.
 - Earned ugliness: accept local friction when tidier Rust adds clones, allocs, indirection, hidden phases, or weaker proof.
-- Local fit: follow project convention on real ties; surface a simpler closed path when divergence has meaningful impact.
+- Local fit: follow project convention when choices are otherwise equal. Point
+  out a simpler closed path when divergence has a meaningful impact.
 
 ## Ownership And Variation
 
-- Borrow pressure: reshape scopes, ownership, and data first. Treat cloning, `Arc`, boxing, dyn dispatch, interior mutability, and `unsafe` as explicit design costs. `unsafe` is the last resort.
-- Closed variation: prefer enums, concrete funcs, and composition. Traits earn open variation, ecosystem interop, or a durable seam. `dyn` earns genuine runtime heterogeneity.
+- Borrow pressure: reshape scopes, ownership, and data first. Treat cloning,
+  `Arc`, boxing, dyn dispatch, interior mutability, and `unsafe` as explicit design
+  costs. `unsafe` is the last resort.
+- Closed variation: prefer enums, concrete funcs, and composition. Traits earn
+  open variation, ecosystem interop, or a durable seam. `dyn` earns runtime
+  heterogeneity when the implementation set is open or a closed enum would
+  violate ownership.
 - Earned types: use newtypes for identity, units, validated state, and meaningful phases. Keep incidental relations in plain values with local proof.
 - Scope: use blocks and early exits to shorten borrows and invalid-state lifetimes.
 - Traversal mutation: prefer explicit indexes, work queues, or `retain` when mutation interacts with iteration.

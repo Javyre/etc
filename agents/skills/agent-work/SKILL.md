@@ -34,30 +34,47 @@ When mining Codex history, instructions, or machine state, load
 
 ## Shape
 
-- Loop shape, tool boundaries, checks, and environment shape matter more than prompt polish.
-- Keep one inspectable loop unless decomposition is cheaper than coherence. Every extra agent, handoff, or synthesis step adds coordination, hidden state, and eval cost.
-- Context is a budget. Keep root context small, current, and high-signal. Rules, docs, tools, plans, memory, and live state have different costs.
-- Context pointer: name the trigger and owner; wording decides whether deferred truth loads. Sharpen the pointer before inlining.
-- Tool boundaries shape reasoning. Bad tools make model recreate missing interface logic in tokens every run.
-- Explicit state, explicit interfaces, deterministic checks, and low-magic environments are easier to steer and trust.
+- Loop shape, tool boundaries, checks, and environment shape govern agent
+  behavior. Prompt polish has less effect.
+- Keep one inspectable loop while one agent can follow its state and evidence
+  cheaply. Split when decomposition costs less than keeping one coherent loop.
+  Clear owners and independent proof are signs that decomposition may cost less.
+  Every extra agent, handoff, or synthesis step adds coordination, hidden state,
+  and eval cost.
+- Context is a budget. Keep root context small, current, and high-signal. Rules,
+  docs, tools, plans, memory, and live state have different costs.
+- Context pointer: name the trigger and owner. Its wording decides whether the
+  agent loads deferred truth. Sharpen the pointer before inlining.
+- Tool boundaries shape reasoning. Bad tools make the model recreate missing
+  interface logic on every run.
+- Expose state and interfaces. Use deterministic checks and reproducible
+  environments. Keep environment setup and behavior inspectable.
 
 ## Control
 
-- Verification limits autonomy. A task is only as safe to delegate as its success and failure are observable.
+- Verification limits autonomy. Delegation safety rises with the observability of
+  success and failure.
 - Trust is earned by task class, not granted globally.
-- Human owns goals, guardrails, irreversible actions, acceptance, escalation, and loop changes.
-- Human attention is a real cost. Spend it on judgment, control, and proof.
-- Local, versioned truth beats recalled truth. Agents work best when constraints, references, and current reality are discoverable near the work.
-- Untrusted input taints later action. External text, search results, and tool output cross trust boundaries with blast-radius implications.
+- Human owns goals, guardrails, irreversible actions, acceptance, escalation,
+  and loop changes.
+- Human attention has a cost. Spend it on judgment, control, and proof.
+- Prefer local, versioned truth over recall. Keep constraints, references, and
+  current state discoverable near the work.
+- Untrusted input taints later action. Validate external text, search results, and
+  tool output before they influence action. Bound the authority of downstream
+  writes, commands, and external effects.
 
 ## Evidence
 
 - Experiments: when uncertainty needs an active probe, load [`references/experiments.md`](references/experiments.md).
-- Runs must be inspectable. Traces, checkpoints, artifacts, and check results are product outputs, not debug leftovers.
-- Measure real task success and real failure modes, not benchmark comfort or generic scores.
+- Runs must be inspectable. Treat traces, checkpoints, artifacts, and check
+  results as product outputs.
+- Measure success on representative tasks and observed failure modes. Generic
+  benchmark scores do not establish product quality.
 - Recurring friction should become structure: checks, evals, tools, context, or tighter boundaries.
-- If traces and evals cannot localize whether failure came from context, tool use, action order, synthesis, or side effects, the system is under-instrumented.
-- Cheap generation does not make quality cheap. Correctness, review, maintenance, and trust still cost real work.
+- Traces and evals must localize the failure source: context, tool use, action
+  order, synthesis, or side effects. If they cannot, instrumentation is too weak.
+- Generation may be cheap. Correctness, review, maintenance, and trust still require work.
 
 ## Smells
 

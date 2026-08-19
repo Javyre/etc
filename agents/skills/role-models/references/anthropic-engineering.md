@@ -3,13 +3,14 @@
 Reach for when:
 - studying agent patterns from primary-source production work
 - studying tool ergonomics
-- studying multi-agent orchestration under real pressure
+- studying multi-agent orchestration under production constraints
 - studying agent evals and long-run harness concerns
 
 Transferable patterns:
 - start simple and compose late
 - tool design often is agent design
-- multi-agent is for real breadth/context splits, not default sophistication
+- use multiple agents for clean breadth or context splits. Keep one agent as the
+  default
 - evals, traces, and delegation quality must be designed intentionally
 
 Watch:

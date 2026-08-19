@@ -3,7 +3,8 @@
 Reach for when:
 - designing agent-engineering systems that retain judgment under parallel work
 - composing a router, task playbooks, workflow skills, and leaf principles
-- grounding code changes in runtime evidence and real-artifact verification
+- grounding code changes in runtime evidence and checking the produced artifact
+  itself
 - designing multi-model reviews, blinded skill evals, and long autonomous runs
 - mining work history into durable agent instructions
 - shaping concise prose without sterilizing its voice
@@ -21,7 +22,8 @@ Transferable patterns:
 Watch:
 - the central mode and large catalog can create routing and context pressure
 - Cursor task semantics, model names, Graphite flows, and built-in skills need local translation
-- multi-model panels spend real compute and coordination; reserve them for judgment-sensitive work
+- multi-model panels cost compute and coordination; reserve them for work that
+  depends on judgment
 - the autonomy policy exceeds some local authority bounds; transfer the verification discipline separately
 
 Orientation reads:

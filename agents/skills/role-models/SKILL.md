@@ -1,22 +1,28 @@
 ---
 name: role-models
 description: >-
-  Precedent research for material design choices. Use when role-model evidence
-  could improve or challenge first-principles systems, mechanics, code, or
-  agent design, or when another skill needs pressure-aware precedent.
+  Precedent research for decision-bearing systems, mechanics, code, or
+  agent-design choices. Use when role-model evidence could expose a missed
+  constraint, challenge a first-principles proposal, or help another skill judge
+  a choice under similar pressure.
 ---
 
 # Role Models
 
-Owns pressure-aware precedent research for material design choices.
+Owns precedent research for design choices under similar pressure.
 
-Goal: resolve the choice, control context use, and compound a reusable evidence index.
+Goal: resolve the choice, control context use, and grow a reusable evidence index.
 
 ## Primary Agent-Engineering Pair
 
-- Poteto is the execution and taste model: proactive engineering judgment, deep understanding before change, executable workflow composition, proof, and prose with voice.
-- Matt Pocock is the instruction-design model: predictable process, context economics, information hierarchy, completion criteria, leading words, and pruning.
-- Taste judgment: Poteto has stronger prose taste and operational choreography. Matt has stronger skill-writing meta-theory and more portable mechanics.
+- Poteto is the primary model for agent execution and prose taste. Act proactively
+  and understand deeply before changing. Compose executable workflows, prove
+  results through observed behavior or inspected artifacts, and write with voice.
+- Matt Pocock is the primary model for instruction design: predictable process,
+  context and cognitive load, information hierarchy, completion criteria,
+  leading words, and pruning.
+- Taste judgment: Poteto has stronger prose taste and workflow judgment. Matt
+  gives the clearer theory and more portable mechanics.
 
 ## Problem Map
 
@@ -35,12 +41,25 @@ Goal: resolve the choice, control context use, and compound a reusable evidence 
 
 - Fork: state the choice, known pressures, and missing evidence.
 - Select: load profiles likely to change the decision or expose missing pressure.
-- Context budget: load profiles incrementally. Add another when it could materially improve the result.
-- Research: follow primary writing, talks, source, and code until the completion condition can be met.
-- Delegation: use fresh subagent work for broad, independent, or context-heavy research. Give each agent a bounded evidence question; keep synthesis in the root context.
-- Transfer: extract the choice, pressure, fit, mismatch, and consequence. Feed useful results into systems design, mechanics, and code work.
-- Compound index: when research produces reusable value, update the canonical profile and sharpen the shortest Problem Map pointer that would help a future run find it.
-- Distillation: when recurring evidence suggests a stable core-guide lesson, present the proposed owner, exact lesson, supporting pressure, and suggested edit. Ask the user to approve by invoking `$writing-great-skills`.
-- Approved edit: after that explicit invocation, load the skill and apply its SSoT, relevance, no-op, co-location, leading-word, and context-pointer checks while drafting and editing the guide.
+- Context budget: load profiles incrementally. Add another only when the expected
+  gain in decision, design, or confidence justifies its context cost.
+- Research: follow primary writing, talks, source, and code until the completion
+  condition is met.
+- Delegation: use fresh subagent work for broad, independent, or context-heavy
+  research. Give each agent a bounded evidence question. Keep synthesis in the
+  root context.
+- Transfer: extract the choice, pressure, fit, mismatch, and consequence. Feed
+  useful results into systems design, mechanics, and code work.
+- Compound index: when research produces reusable evidence, update the canonical
+  profile. Sharpen the shortest Problem Map pointer that would help a future run
+  find it.
+- Distillation: when recurring evidence suggests a stable core-guide lesson,
+  present the proposed owner, exact lesson, supporting pressure, and suggested
+  edit. Ask the user to approve by invoking `$writing-great-skills`.
+- Approved edit: after that explicit invocation, load the skill. Apply its SSoT,
+  relevance, no-op, co-location, leading-word, and context-pointer checks while
+  drafting and editing the guide.
 
-Complete when the design choice is resolved or remaining uncertainty is explicit, every adopted lesson carries enough primary evidence and pressure context, and reusable new findings are indexed.
+Complete when the design choice is resolved or remaining uncertainty is
+explicit. Every adopted lesson carries enough primary evidence and pressure
+context. Reusable findings are indexed.

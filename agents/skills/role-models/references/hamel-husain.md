@@ -10,7 +10,7 @@ Transferable patterns:
 - domain-specific evals beat generic metrics
 - traces are first-class debugging and eval artifacts
 - remove friction from looking at failures
-- eval infrastructure should help debug, not only score
+- eval infrastructure should score outcomes and make failures easy to debug
 
 Watch:
 - strongest on evals and data loop, less on runtime/control internals

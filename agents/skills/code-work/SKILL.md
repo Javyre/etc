@@ -11,20 +11,33 @@ Owns code understanding, the coding loop, reader order, locality, diff scope, pr
 
 ## Understanding
 
-- How: for a nontrivial change, explicit explanation, or unclear flow or ownership, load `./references/how.md`. For change work, carry forward only constraints that affect the design.
+- How: for a nontrivial change, explicit explanation, or unclear flow or
+  ownership, load `./references/how.md`. For change work, carry forward only
+  constraints that affect the design.
 - Why: for rationale, a strange or deliberate shape, or history that may constrain a change, load `./references/why.md`.
 
 ## Coding Loop
 
-1. Scope: infer intent and design scope from the request and repository contracts. Apply Code Work within them. Preserve project behavior unless redesign is in scope.
-2. System shape: for primitives, ownership, seams, phases, composition, or taste alignment, load `./references/systems-design.md` and `./references/mechanics.md`. Choose the semantic shape. Use Sketch when the shape remains unresolved.
-3. Mechanical realization: pressure that shape through state, layout, movement, flow, cost, concurrency, and nearby proof. Fixed-shape mechanical work may start here.
-4. Code shape: express the result through the shared rules below and `./references/rust-code-style.md` or `./references/zig-code-style.md` when active.
+1. Scope: infer intent and design scope from the request and repository
+   contracts. Apply Code Work within them. Preserve project behavior unless
+   redesign is in scope.
+2. System shape: for primitives, ownership, seams, phases, composition, or taste
+   alignment, load `./references/systems-design.md` and
+   `./references/mechanics.md`. Choose the semantic shape. Use Sketch when the
+   shape remains unresolved.
+3. Mechanical realization: check that shape against state ownership, data layout,
+   movement, control flow, cost, concurrency, and nearby proof. Use code and tests
+   to expose mismatches. Fixed-shape mechanical work may start here.
+4. Code shape: express the result through the shared rules below and
+   `./references/rust-code-style.md` or `./references/zig-code-style.md` when
+   active.
 5. Feedback:
    - Awkward composition or unclear ownership returns to System shape.
    - Hidden state, cost, or implementation strain returns to Mechanical realization.
    - Code friction returns to whichever shape it exposes as wrong.
-6. Coherence: repeat until system shape, mechanical realization, and code shape agree.
+6. Coherence: repeat until system shape, mechanical realization, and code shape
+   agree on semantics and mechanics. Ownership, state, control flow, and cost
+   must correspond.
 
 Every systems-design change completes this loop before application.
 
@@ -42,7 +55,8 @@ choices. Ask when product values or irreversible contracts decide the fork.
 
 ## Behaviour Locality
 
-- Ownership: keep behaviour and policy in the real subsystem, phase, or caller.
+- Ownership: keep behaviour and policy in the subsystem, phase, or caller that
+  owns the decision.
 - Special cases: keep ugliness near the phase that needs it.
 - Sharing: prefer local duplication when reuse blurs ownership.
 
@@ -58,20 +72,28 @@ choices. Ask when product values or irreversible contracts decide the fork.
 - Concrete shape: preserve user-named shapes unless asked to redesign them.
 - Plain first: check correctness and easy perf wins before compressing med/large work; compress only while semantics stay clear.
 - Proof ladder: names, visual symmetry, assertions, then types or helpers. Escalate when risk or ownership earns the weight.
-- Deletion test: a helper, type, or layer earns its place through owned state, invariants, mechanics, a cheap proof boundary, or caller complexity that reappears when removed. Single-use is valid; reuse adds evidence.
+- Deletion test: a helper, type, or layer earns its place through owned state,
+  invariants, mechanics, a cheap proof boundary, or caller complexity that
+  reappears when removed. Single-use is valid. Reuse adds evidence.
 - Abstraction cost: remove layers that obscure owner, control, or cost. Traits, macros, and generation must keep hidden work, seam truth, and cost explicit.
-- Defensive code: a guard or catch protects a trust boundary, implements an explicit failure contract, or handles an observed failure. Internal uncertainty pressures the type or owner.
+- Defensive code: a guard or catch protects a trust boundary, implements an
+  explicit failure contract, or handles an observed failure. Internal uncertainty
+  puts pressure on the type or owner.
 - Control flow: keep the successful path visible. Exit early for boundary failures.
 - Type truth: parse and validate external values at the boundary. Keep internal types honest; do not weaken them to accommodate implementation friction.
 
 ## Names And Imports
 
-- Domain language: use source-of-truth terms; shorten only while real distinctions survive. Use obvious abbrevs like `tx`, `sigs`.
+- Domain language: use source-of-truth terms. Shorten only while distinctions
+  survive. Use obvious abbrevs like `tx`, `sigs`.
 - Honest names: names reveal waits, retries, allocation, fallback, normalization, and policy.
 - Contract drift: treat naming changes that alter the model or hide behaviour as contract changes.
-- New concepts: require a real distinction; run names by the user.
-- Names as proof: state units and index spaces; use base-first qualifiers and symmetric duals when they expose bad expressions (`source`, `source_words`, `source_index`; `source`/`target`).
-- Imports: prefer scoped local imports, then go-style imports; use qualified paths when import blocks get noisy.
+- New concepts: require a distinct meaning. Run names by the user.
+- Names as proof: state units and index spaces. Use base-first qualifiers and
+  symmetric duals when they expose bad expressions: `source`, `source_words`,
+  `source_index`; `source` and `target`.
+- Imports: prefer scoped local imports, then go-style imports. Use qualified paths
+  when import blocks get noisy.
 
 ## Code Comments
 

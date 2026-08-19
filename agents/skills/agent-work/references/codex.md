@@ -28,7 +28,8 @@ and current project state support verification.
 ## Machine State
 
 Never read, copy, summarize, or expose `auth.json` or credential files.
-Use as supporting evidence. Explicit scope grants write authority:
+Treat the following files as supporting evidence. Edit them only with explicit
+authority:
 
 - `config.toml`
 - `rules/default.rules`

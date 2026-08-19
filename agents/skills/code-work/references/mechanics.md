@@ -25,7 +25,9 @@ Goal: preserve mechanical truth and the important cost shape with the simplest p
 - Surface truth: preserve distinct loop, state, branch, and cost shapes; share only stable mechanical meaning.
 - Atomicity: when algorithm and cost are materially unchanged, prefer the clearest transition between valid states.
 - Hot path: front-load cheap exits; keep rare failure and hidden allocation, buffering, or finalization outside the core loop.
-- Earned staging: preserve natural streaming and single-pass flow. Add buffering, passes, or phases for a semantic boundary or credible throughput win; account for memory, latency, sync, and retention. Prefer latency when uncertain.
+- Earned staging: preserve natural streaming and single-pass flow. Add buffering,
+  passes, or phases for a semantic boundary or credible throughput win. Account
+  for memory, latency, sync, and retention. Prefer latency when uncertain.
 - Canonical path: default to one operational path. Admit dual paths for structurally distinct regimes with proven value; keep their split and shared contract explicit.
 
 ## Concurrency And Jobs

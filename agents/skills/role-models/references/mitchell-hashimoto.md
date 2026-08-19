@@ -3,7 +3,7 @@
 ## Agentic Engineering Context
 
 Reach for when:
-- studying adoption path from chat to real agent workflow
+- studying the adoption path from chat to a repeatable agent workflow
 - studying task shaping and planning/execution split
 - studying harness-first pragmatism
 - studying when to trust background autonomy and when not to
@@ -34,7 +34,7 @@ Transferable patterns:
 - keep platform-specific ugliness below explicit seams
 - use Zig for large apps without hiding system truths
 - pair ergonomic top-level APIs with lower-level escape hatches
-- make docs and build surface reflect real platform pressure
+- make docs and build surface reflect platform constraints
 
 Watch:
 - easiest to overfit terminal or GUI structure instead of seam and boundary ideas

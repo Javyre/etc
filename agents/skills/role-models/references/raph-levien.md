@@ -4,7 +4,7 @@ Reach for when:
 - studying data-oriented architecture
 - studying explicit state graphs
 - studying systems with long-lived identity and derived structure
-- studying broader design writing, not only UI/editor work
+- studying design writing beyond UI and editor work
 
 Transferable patterns:
 - shape systems around data flow instead of object folklore

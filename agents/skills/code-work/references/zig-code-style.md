@@ -7,7 +7,8 @@ Goal: mechanically honest Zig using native idioms. On a mechanical tie, follow Z
 ## Source And Admission
 
 - Pinned source: when syntax, std API, or semantics are uncertain, inspect the project’s Zig version and its compiler or stdlib source.
-- Idiom map: retain stable, high-leverage idioms backed by observed model misses or verified semantic risk. Avoid version-note sediment.
+- Idiom map: retain stable idioms that justify their context cost through
+  recurring model misses or verified semantic risk. Avoid version-note sediment.
 
 ## Control And Values
 
@@ -29,7 +30,8 @@ Goal: mechanically honest Zig using native idioms. On a mechanical tie, follow Z
 ## Types And Layout
 
 - Earned nominal: use `enum(N)` wrappers for identity, units, handles, and meaningful layout state.
-- Sentinel: add sentinel states only when they are genuine domain or representation states.
+- Sentinel: add sentinel states only when the domain or representation defines
+  them.
 - Struct defaults: use field defaults only when callers can independently
   override them. For one canonical initial state, leave fields without defaults
   and put the values in a declaration such as `const empty: Self = .{ ... };`,
@@ -38,7 +40,8 @@ Goal: mechanically honest Zig using native idioms. On a mechanical tie, follow Z
 
 ## Comptime And Shape
 
-- Static mechanics: use `comptime` for layout proof, type/value derivation, and genuine static parameters.
+- Static mechanics: use `comptime` for layout proof, type/value derivation, and
+  parameters whose variation changes the static program shape.
 - Array repetition: use `@splat(value)` with a contextual array or vector type.
   The old `array ** count` syntax is gone.
 - Generic machinery: admit it when primitive composition improves and generated control and cost remain visible.
