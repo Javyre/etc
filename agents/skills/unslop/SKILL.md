@@ -68,7 +68,8 @@ Removing patterns is half the job. Sterile, voiceless writing is just as obvious
 ### Filler
 
 23. **Filler phrases.** "In order to" becomes "To". "Due to the fact that" becomes "Because". "It is important to note that" gets deleted.
-24. **Excessive hedging.** "could potentially possibly be argued that it might" becomes "may".
+24. **Hedging.** A qualifier names a bounded doubt. Replace "mostly the same"
+with the exact stable behavior and the exceptions that changed.
 25. **Generic conclusions.** "The future looks bright." State specific plans or facts.
 
 ### Jargon

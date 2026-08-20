@@ -85,6 +85,10 @@ or refine a direction, apply `$experiment` and load
 - Defensive code: a guard or catch protects a trust boundary, implements an
   explicit failure contract, or handles an observed failure. Internal uncertainty
   puts pressure on the type or owner.
+- Invariant confidence: once the owner proves a state impossible, make the code
+  rely on that fact. Extra branches, containers, fallback drains, optionality,
+  and assertions must represent a reachable state, a trust boundary, or a
+  separate cheap proof. Internal doubt returns to the model or owner.
 - Control flow: keep the successful path visible. Exit early for boundary failures.
 - Type truth: parse and validate external values at the boundary. Keep internal types honest; do not weaken them to accommodate implementation friction.
 

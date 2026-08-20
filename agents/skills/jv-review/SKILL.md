@@ -63,7 +63,13 @@ Scouts return observed shape, evidence, uncertainty, and unresolved seams.
 The root verifies material evidence, resolves disagreement, owns Forks, and
 integrates one System model. Scout work counts as Study only after integration.
 
+**Follow the behavior.** When ownership moves, trace the old cases through the
+new path. Verify their final result and state which cases remain unproven.
+
 **Jurisdiction** — reconstructed intent sets Review's authority. Accepted limits remain constraints; user-requested contract challenges enter scope.
+
+Pre-existing behavior remains in scope when the diff changes its preconditions,
+owner, lifecycle, or effect. Re-evaluate it before exclusion.
 
 Use source, callers, tests, docs, change text, history, and primary refs as needed. Work descriptively: what exists, how it works, why it exists. Reserve findings, severity, fixes, and redesign for Review.
 
@@ -77,12 +83,15 @@ Apply this seam-first ladder in order:
 
 1. **Seam** — verify ownership, phase, mutation, cost, failure, and valid states are honest.
 2. **Contract** — trace changed semantics, invariants, degraded states, and regression paths.
-3. **Misuse** — find liar APIs, weak names, hidden ordering, and caller caveats.
-4. **Policy** — locate retry, fallback, timeout, readiness, refresh, cache, and default ownership.
-5. **Truth** — find workarounds, local copies, hidden bookkeeping, prod/test splits, and derived state lacking an owner, invalidation rule, or rebuild path.
-6. **Mechanics** — check passes, allocs, buffering, branches, cache shape, indirection, and streaming.
-7. **Proof** — establish each material claim with mechanism, source, repro, counterexample, or cost model.
-8. **Simplify** — find fake concepts, future-shaped scaffolds, branchy genericization, stale lying text, dead weight, and diff noise.
+3. **Clarity** — compare claimed reachable states with the types and control flow
+   that express them. Find machinery whose only purpose is to tolerate an
+   invariant the owner already proves.
+4. **Misuse** — find liar APIs, weak names, hidden ordering, and caller caveats.
+5. **Policy** — locate retry, fallback, timeout, readiness, refresh, cache, and default ownership.
+6. **Truth** — find workarounds, local copies, hidden bookkeeping, prod/test splits, and derived state lacking an owner, invalidation rule, or rebuild path.
+7. **Mechanics** — check passes, allocs, buffering, branches, cache shape, indirection, and streaming.
+8. **Proof** — establish each material claim with mechanism, source, repro, counterexample, or cost model.
+9. **Simplify** — find fake concepts, future-shaped scaffolds, branchy genericization, stale lying text, dead weight, and diff noise.
 
 Redesign only when the owning seam disproves the user's named shape.
 
@@ -95,6 +104,10 @@ falsehood → assumption → callers/tests/siblings → owning seam
 Stop at the first owner able to choose correctly. Watch for niche edge cases creating global complexity. Report broader out-of-scope issues in one line.
 
 Admit only validated, proof-carrying findings; an exact source anchor may suffice.
+
+Before Report, give every material candidate and scout disagreement one
+disposition: finding, source-backed exclusion, or `q:`. An exclusion names the
+contract or explicit authority that makes it irrelevant.
 
 Review completes when the ladder has been applied to every material seam and every resulting finding is validated, proof-carrying, and bounded.
 
