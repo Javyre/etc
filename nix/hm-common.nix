@@ -104,6 +104,8 @@ in
     # (nerdfonts.override { fonts = [ "Monaspace" ]; })
     nerd-fonts.monaspace
     nerd-fonts.jetbrains-mono
+    nerd-fonts.intone-mono
+    nerd-fonts.commit-mono
   ];
 
   home.sessionVariables = {

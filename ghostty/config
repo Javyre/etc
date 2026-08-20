@@ -1,7 +1,8 @@
 config-file = ?../home-manager.conf
 
 # font-family = MonaspiceKr Nerd Font
-font-family = JetBrainsMono Nerd Font
+# font-family = JetBrainsMono Nerd Font
+font-family = CommitMono Nerd Font
 font-style = Regular
 # font-style = Medium
 font-size = 14
