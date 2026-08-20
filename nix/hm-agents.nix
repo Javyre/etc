@@ -10,6 +10,7 @@ in
     ".agents/skills/caveman".source = ln "agents/skills/caveman";
     ".agents/skills/code-work".source = ln "agents/skills/code-work";
     ".agents/skills/dream".source = ln "agents/skills/dream";
+    ".agents/skills/experiment".source = ln "agents/skills/experiment";
     ".agents/skills/grilling".source = ln "agents/skills/grilling";
     ".agents/skills/hindsight-prompt".source = ln "agents/skills/hindsight-prompt";
     ".agents/skills/jv-review".source = ln "agents/skills/jv-review";

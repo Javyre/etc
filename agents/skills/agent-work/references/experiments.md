@@ -1,20 +1,19 @@
-# Experiments
+# Agent experiments
 
-Goal: resolve decision-bearing uncertainty with the cheapest faithful evidence.
-The question determines the probe.
+Default to fundamentals, bounded changes, normal use, and later friction mining.
+Use a deliberate experiment when a consequential fork, repeated failure, or
+trust claim needs earlier evidence. Apply `$experiment`.
 
-**Loop:** Question, Model, Probe, Observe, Model update. The updated Model
-determines the next Probe until Stop.
+Choose an ordinary task from real work that exercises the mechanism under
+change. Compare current behavior with the treatment under equivalent task
+context. Use a fresh session when prior output or manual context loading could
+hide a routing or retrieval failure.
 
-- Question: name the uncertainty, affected decision, and result that could change it.
-- Model: keep plausible explanations and distinguishing predictions explicit enough to test.
-- Probe: isolate the smallest decision-bearing difference under representative conditions.
-- Observe: expose and record the state needed to interpret the result. Preserve
-  the setup, action, result, and relevant context.
-- Model update: compare the observation with the prediction. Revise the
-  assumptions, represented state, or mechanism. Check the new model against
-  accumulated evidence before choosing the next probe.
-- Stop: after each update, conclude if the decision is resolved or another probe costs more than it informs.
-- Capture: retain the verdict and one cheap rerun path; keep apparatus only while useful.
+Keep the prompt, loaded context, action trace, final artifact, and side effects
+inspectable. Distinguish a bad pilot, failed treatment, and wrong agent-system
+model.
 
-These are reasoning handles, not a required report shape.
+Scouts or model judges can widen evidence. The experiment owner verifies claims,
+resolves disagreement, and owns acceptance. Add task breadth, repetition, or
+redundant agents only when the remaining uncertainty and stakes earn the context,
+review, and maintenance cost.

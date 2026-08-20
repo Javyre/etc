@@ -66,7 +66,9 @@ When mining Codex history, instructions, or machine state, load
 
 ## Evidence
 
-- Experiments: when uncertainty needs an active probe, load [`references/experiments.md`](references/experiments.md).
+- Deliberate agent trials: load
+  [`references/experiments.md`](references/experiments.md). Routine bounded
+  changes can rely on fundamentals, normal use, and later friction mining.
 - Runs must be inspectable. Treat traces, checkpoints, artifacts, and check
   results as product outputs.
 - Measure success on representative tasks and observed failure modes. Generic
