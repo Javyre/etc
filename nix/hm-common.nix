@@ -6,6 +6,7 @@
   ...
 }:
 let
+  codexBin = inputs'.codex-nix.packages.default;
   ln = config.lib.jv.ln;
 in
 {
@@ -30,6 +31,7 @@ in
     git
     gh
     jujutsu
+    codexBin
     wget
     htop
     jq
@@ -108,6 +110,9 @@ in
     nerd-fonts.intone-mono
     nerd-fonts.commit-mono
   ];
+
+  # /agents requires this fixed managed path; 0.149.0 daemon start fails before spawning app-server without it.
+  home.file.".codex/packages/standalone/current".source = "${codexBin}/bin";
 
   home.sessionVariables = {
     EDITOR = "hx";

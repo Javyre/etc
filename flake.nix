@@ -6,6 +6,11 @@
     nixpkgs.url = "github:nixos/nixpkgs/master";
     # nixpkgs-master.url = "github:nixos/nixpkgs?ref=master";
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    codex-nix = {
+      url = "github:secbear/codex-nix/v0.149.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+    };
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";

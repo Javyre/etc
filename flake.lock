@@ -21,6 +21,30 @@
         "type": "github"
       }
     },
+    "codex-nix": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787272383,
+        "narHash": "sha256-GX/wzjKxu6sG3Uo/A8llqfxOcij1Dov18RJIcLsS3k0=",
+        "owner": "secbear",
+        "repo": "codex-nix",
+        "rev": "199d4d485638f28fe3563b95a86a44e3e851165d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "secbear",
+        "ref": "v0.149.0",
+        "repo": "codex-nix",
+        "type": "github"
+      }
+    },
     "emacs-overlay": {
       "inputs": {
         "nixpkgs": [
@@ -353,6 +377,7 @@
     },
     "root": {
       "inputs": {
+        "codex-nix": "codex-nix",
         "emacs-overlay": "emacs-overlay",
         "flake-parts": "flake-parts",
         "helix": "helix",
