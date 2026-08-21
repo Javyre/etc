@@ -90,6 +90,7 @@ in
     zlib
     zlib.dev
 
+    mpv
     # https://github.com/NixOS/nixpkgs/issues/450042
     # inputs'.nixpkgs-gtk-unbroken.legacyPackages.thunderbird
     thunderbird
