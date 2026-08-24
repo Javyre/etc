@@ -31,16 +31,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1787272383,
-        "narHash": "sha256-GX/wzjKxu6sG3Uo/A8llqfxOcij1Dov18RJIcLsS3k0=",
+        "lastModified": 1788006227,
+        "narHash": "sha256-Jqie4IxIP/dqQg2xGb7sUXEBRnBcoGQNbbHkE4QB5+g=",
         "owner": "secbear",
         "repo": "codex-nix",
-        "rev": "199d4d485638f28fe3563b95a86a44e3e851165d",
+        "rev": "bc36cff87814f55b3d60baeaf18377f257eb852b",
         "type": "github"
       },
       "original": {
         "owner": "secbear",
-        "ref": "v0.149.0",
+        "ref": "main",
         "repo": "codex-nix",
         "type": "github"
       }

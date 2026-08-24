@@ -7,7 +7,7 @@
     # nixpkgs-master.url = "github:nixos/nixpkgs?ref=master";
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     codex-nix = {
-      url = "github:secbear/codex-nix/v0.149.0";
+      url = "github:secbear/codex-nix/main";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-parts.follows = "flake-parts";
     };
