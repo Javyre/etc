@@ -9,6 +9,7 @@ in
     ".agents/skills/agent-work".source = ln "agents/skills/agent-work";
     ".agents/skills/caveman".source = ln "agents/skills/caveman";
     ".agents/skills/code-work".source = ln "agents/skills/code-work";
+    ".agents/skills/complete".source = ln "agents/skills/complete";
     ".agents/skills/dream".source = ln "agents/skills/dream";
     ".agents/skills/experiment".source = ln "agents/skills/experiment";
     ".agents/skills/grilling".source = ln "agents/skills/grilling";
