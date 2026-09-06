@@ -1,7 +1,7 @@
 interface:
   display_name: "Dream"
-  short_description: "Manual Codex memory cleanup"
-  default_prompt: "Use $dream to consolidate recent Codex history into durable memory files."
+  short_description: "Review work history for user friction"
+  default_prompt: "Use $dream to review recent work for user friction and propose remedies."
 
 policy:
   allow_implicit_invocation: false

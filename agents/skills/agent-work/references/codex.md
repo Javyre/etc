@@ -2,6 +2,11 @@
 
 Codex source layout for Agent Work mining.
 
+Layout checked on 2026-09-06 with `codex-cli 0.153.4`. After upgrades, root changes,
+or missing paths/fields, refresh affected entries from the installation and
+matching version of [upstream Codex](https://github.com/openai/codex); update this
+stamp.
+
 ## Roots
 
 - Codex root: `$CODEX_HOME` when set; `~/.codex` otherwise.
