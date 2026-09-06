@@ -7,7 +7,6 @@ in
     ".codex/AGENTS.md".source = ln "agents/AGENTS.md";
 
     ".agents/skills/agent-work".source = ln "agents/skills/agent-work";
-    ".agents/skills/caveman".source = ln "agents/skills/caveman";
     ".agents/skills/code-work".source = ln "agents/skills/code-work";
     ".agents/skills/complete".source = ln "agents/skills/complete";
     ".agents/skills/conflicts".source = ln "agents/skills/conflicts";
