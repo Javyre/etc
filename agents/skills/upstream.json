@@ -1,0 +1,7 @@
+{
+  "upstream": "https://github.com/mattpocock/skills",
+  "head": "3cca18b368ae95cdbdebbff572ccafa662551015",
+  "semantically_synced_at": "2026-09-06",
+  "meaning": "Upstream progress reviewed; local behavior may differ.",
+  "skills": ["writing-for-agents", "grilling"]
+}

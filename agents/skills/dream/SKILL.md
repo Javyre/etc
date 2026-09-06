@@ -60,7 +60,7 @@ proof, expected relief, and regression risk. Merge repeated episodes by cause.
 
 ## Fix Delta
 
-Propose first. Fix only after user approval with `$writing-great-skills` active.
+Propose first. Fix only after user approval with `$writing-for-agents` active.
 
 Update the owner in place, remove superseded truth, validate routing, and
 rereview the friction seam.

@@ -55,7 +55,7 @@ Goal: resolve the choice, control context use, and grow a reusable evidence inde
   find it.
 - Distillation: when recurring evidence suggests a stable core-guide lesson,
   present the proposed owner, exact lesson, supporting pressure, and suggested
-  edit. Ask the user to approve by invoking `$writing-great-skills`.
+  edit. Ask the user to approve by invoking `$writing-for-agents`.
 - Approved edit: after that explicit invocation, load the skill. Apply its SSoT,
   relevance, no-op, co-location, leading-word, and context-pointer checks while
   drafting and editing the guide.

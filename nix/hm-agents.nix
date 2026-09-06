@@ -19,6 +19,6 @@ in
     ".agents/skills/standup".source = ln "agents/skills/standup";
     ".agents/skills/unslop".source = ln "agents/skills/unslop";
     ".agents/skills/writing-artifacts".source = ln "agents/skills/writing-artifacts";
-    ".agents/skills/writing-great-skills".source = ln "agents/skills/writing-great-skills";
+    ".agents/skills/writing-for-agents".source = ln "agents/skills/writing-for-agents";
   };
 }

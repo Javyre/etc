@@ -14,6 +14,7 @@ Include:
 - non-obvious hazards that could invalidate prior work
 
 Point to repository truth and durable artifacts for detail. Omit chat narrative.
+Exclude credentials and private data the next worker does not need.
 
 Complete when the next worker can take the first correct action without asking
 for lost context.
