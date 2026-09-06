@@ -18,9 +18,9 @@ Goal: mechanically honest Rust with the least language machinery.
   `Arc`, boxing, dyn dispatch, interior mutability, and `unsafe` as explicit design
   costs. `unsafe` is the last resort.
 - Closed variation: prefer enums, concrete funcs, and composition. Traits earn
-  open variation, ecosystem interop, or a durable seam. `dyn` earns runtime
-  heterogeneity when the implementation set is open or a closed enum would
-  violate ownership.
+  open variation, ecosystem interop, or a durable seam. `dyn` earns its cost
+  through open runtime variation, ownership, or a demonstrated mechanical
+  advantage.
 - Earned types: use newtypes for identity, units, validated state, and meaningful phases. Keep incidental relations in plain values with local proof.
 - Scope: use blocks and early exits to shorten borrows and invalid-state lifetimes.
 - Traversal mutation: prefer explicit indexes, work queues, or `retain` when mutation interacts with iteration.

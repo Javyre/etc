@@ -42,8 +42,8 @@ Goal: mechanically honest Zig using native idioms. On a mechanical tie, follow Z
 
 - Static mechanics: use `comptime` for layout proof, type/value derivation, and
   parameters whose variation changes the static program shape.
-- Array repetition: use `@splat(value)` with a contextual array or vector type.
-  The old `array ** count` syntax is gone.
+- Uniform fill: use `@splat(value)` with a contextual array or vector type.
+  Zig 0.17 no longer supports the old `array ** count` syntax.
 - Generic machinery: admit it when primitive composition improves and generated control and cost remain visible.
 - File order: imports and aliases first; then state, types, public API, and deep machinery. Keep private helpers near their owner.
 
@@ -63,5 +63,5 @@ Follow new pressure upward while evidence holds. Resolve local pressure locally.
 Report broader pressure at its owning seam before expanding scope.
 
 Done: scoped lines fit; format is stable; each hunk was reread; pressure is
-resolved or reported; mechanics remain accounted for; tests and diff checks
-pass.
+resolved or reported; mechanics remain accounted for; diff checks and checks
+required by the underlying change pass.
