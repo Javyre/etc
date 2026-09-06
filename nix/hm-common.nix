@@ -100,7 +100,7 @@ in
     # native-comp broken on macos 15.4:
     # https://github.com/NixOS/nixpkgs/issues/395169
     # inputs'.emacs-overlay.packages.emacs-unstable
-    emacs30
+    emacs
     kakoune
     kakoune-lsp
 
