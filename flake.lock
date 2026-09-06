@@ -31,11 +31,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788482950,
-        "narHash": "sha256-bxeOOgfKGOdlFBb7PkvgsEpRAaCTA5PbwHbsmsT2r3M=",
+        "lastModified": 1788565559,
+        "narHash": "sha256-2aH9Oy2CYk1kE3kqFMDGqcwPvgy1bO12OhWMHLmir3E=",
         "owner": "secbear",
         "repo": "codex-nix",
-        "rev": "dcc3f8467db2db31c711a9bf3373b716c8a98f90",
+        "rev": "d99d9d66cedba3d51819169be528f187ba1840b3",
         "type": "github"
       },
       "original": {
