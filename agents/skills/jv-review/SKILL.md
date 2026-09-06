@@ -128,16 +128,17 @@ Required finding anatomy:
 
 ```md
 1. `./path:line`: <claim>. <impact>. <fix>.
-   visual prob: <current conceptual shape>
-   visual soln: <suggested conceptual shape>
-   snippet prob: <current concrete shape>
-   snippet soln: <suggested concrete shape>
+   prob: <current conceptual and concrete shape>
+   soln: <suggested conceptual and concrete shape>
    proof: <evidence>
 ```
 
-Use both visual and snippet. Allocate space by explanatory value; expand the most important parts of the top three.
+Show the conceptual change and concrete before/after. One representation may carry
+both; separate them when each adds distinct information. Allocate space by
+explanatory value; expand the most important parts of the top three.
 
-Use `q:` for Doubt. Keep the visual and snippet attached so the bounded claim stays legible.
+Use `q:` for Doubt. Keep the conceptual change and concrete evidence attached so
+the bounded claim stays legible.
 
 Keep summary and residual risk brief and after findings. Residual risk means a credible failure left by an untested path, uncertain assumption, environment gap, or out-of-scope dependency. If there are no findings, say so and name material proof gaps.
 

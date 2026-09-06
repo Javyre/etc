@@ -39,7 +39,8 @@ Owns code understanding, the coding loop, reader order, locality, diff scope, pr
    agree on semantics and mechanics. Ownership, state, control flow, and cost
    must correspond.
 
-Every systems-design change completes this loop before application.
+Establish the semantic shape before implementation. Use authorized edits and tests
+to refine it. Complete this loop before declaring the change ready.
 
 ## Sketch
 

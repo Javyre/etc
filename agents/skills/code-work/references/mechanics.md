@@ -40,5 +40,7 @@ Goal: preserve mechanical truth and the important cost shape with the simplest p
 - Tight loop: one fast, deterministic, agent-runnable command that goes red on the exact failure and green after correction.
 - Minimal repro: cut inputs, state, config, and steps one at a time until every survivor is load-bearing.
 - Real path: tests drive production mechanics through deterministic readiness and durable observation. Bounded waits follow a deterministic sync point.
-- Test shape: name behavior; prefer compact procedural/E2E proof through production mechanics. Keep small boundary cases and regression artifacts inline with their oracle.
+- Test shape: name behavior; prefer compact procedural proof through production
+  mechanics. Use E2E tests when real boundary behavior is part of the claim. Keep
+  small boundary cases and regression artifacts inline with their oracle.
 - State-space proof: use structured generators, sharp invariants, rich failure dumps, and weighted risky transitions.
