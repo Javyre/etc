@@ -5,6 +5,7 @@ Reach for when:
 - studying explicit ids and architecture shape
 - studying bounded abstractions in large systems
 - studying design commentary on language and architecture
+- choosing expression density and searchable source forms
 
 Transferable patterns:
 - keep big codebases navigable
@@ -17,6 +18,9 @@ Watch:
 - use more for architecture and abstraction judgment than for purity on hidden-work axis
 
 Orientation reads:
+- https://matklad.github.io/2025/08/09/zigs-lovely-syntax.html
+  - small choices at their use, local value-producing blocks, and syntax that
+    supports textual search; useful counterpressure to needless expansion
 - https://matklad.github.io/2020/08/15/concrete-abstraction.html
 - https://matklad.github.io/2020/12/28/csdi.html
 - https://rust-analyzer.github.io/book/contributing/architecture.html

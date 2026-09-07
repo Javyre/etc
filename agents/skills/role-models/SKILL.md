@@ -26,6 +26,7 @@ Goal: resolve the choice, control context use, and grow a reusable evidence inde
 
 ## Problem Map
 
+- Code expression: `./references/matklad.md`, `./references/floooh.md`; authored examples and Linux comparisons: `../code-work/references/code-expression.md`
 - Agent engineering, primary: `./references/poteto.md`, `./references/matt-pocock.md`
 - Primitive set: `./references/casey-muratori.md`, `./references/andrew-kelley.md`, `./references/raph-levien.md`, `./references/matklad.md`
 - Surface truth: `./references/casey-muratori.md`, `./references/andrew-kelley.md`, `./references/joran-dir-greef.md`, `./references/floooh.md`

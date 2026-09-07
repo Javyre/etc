@@ -9,8 +9,6 @@ Goal: mechanically honest Rust with the least language machinery.
 - Mechanical truth: correctness, phase truth, ownership, and cost shape outrank boring Rust.
 - Boring default: prefer concrete types, funcs, enums, loops, and explicit ownership.
 - Earned ugliness: accept local friction when tidier Rust adds clones, allocs, indirection, hidden phases, or weaker proof.
-- Local fit: follow project convention when choices are otherwise equal. Point
-  out a simpler closed path when divergence has a meaningful impact.
 
 ## Ownership And Variation
 

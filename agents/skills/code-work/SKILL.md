@@ -21,21 +21,22 @@ Owns code understanding, the coding loop, reader order, locality, diff scope, pr
 1. Scope: infer intent and design scope from the request and repository
    contracts. Apply Code Work within them. Preserve project behavior unless
    redesign is in scope.
-2. System shape: for primitives, ownership, seams, phases, composition, or taste
-   alignment, load `./references/systems-design.md` and
+2. System shape: for primitives, ownership, seams, phases, or composition,
+   load `./references/systems-design.md` and
    `./references/mechanics.md`. Choose the semantic shape. Use Sketch when the
    shape remains unresolved.
 3. Mechanical realization: check that shape against state ownership, data layout,
    movement, control flow, cost, concurrency, and nearby proof. Use code and tests
    to expose mismatches. Fixed-shape mechanical work may start here.
-4. Code shape: express the result through the shared rules below and
+4. Code expression: make the chosen design legible through the shared rules below and
    `./references/rust-code-style.md` or `./references/zig-code-style.md` when
-   active.
+   active. For taste alignment or an expression choice these rules do not settle,
+   load `./references/code-expression.md`.
 5. Feedback:
    - Awkward composition or unclear ownership returns to System shape.
    - Hidden state, cost, or implementation strain returns to Mechanical realization.
    - Code friction returns to whichever shape it exposes as wrong.
-6. Coherence: repeat until system shape, mechanical realization, and code shape
+6. Coherence: repeat until system shape, mechanical realization, and code expression
    agree on semantics and mechanics. Ownership, state, control flow, and cost
    must correspond.
 
@@ -55,10 +56,23 @@ When trying a code change or comparison is the cheapest way to choose, reject,
 or refine a direction, apply `$experiment` and load
 [`references/experiments.md`](references/experiments.md).
 
-## Reader Order
+## Code Expression
 
-- Lead with policy and minimal types; show the public story before machinery.
+- Reader order: lead with policy and minimal types; show the public story
+  before machinery. Keep private helpers near the code they serve.
 - Logical/physical: explain domain behavior first; then map it to state, movement, control, and cost. Keep the correspondence explicit.
+- Local fit: follow established project vocabulary and idioms when the
+  engineering choice is otherwise tied.
+- Grouping: arrange code around relationships the reader must check.
+  Use rows, columns, spacing, and parallel forms when they expose stages,
+  correspondence, or differences.
+- Density: keep a small choice at its use. Give substantial computation
+  enough space and local scope to reveal its steps. Add intermediate names
+  when they carry meaning or make the reasoning easier to check.
+- Variety: let local judgment produce variety. Keep equivalent operations
+  comparable; let different work take different shapes.
+- Character: preserve useful character without manufacturing quirks.
+  Stop when further changes merely exchange equally suitable forms.
 
 ## Behaviour Locality
 
@@ -95,8 +109,10 @@ or refine a direction, apply `$experiment` and load
 
 ## Names And Imports
 
-- Domain language: use source-of-truth terms. Shorten only while distinctions
-  survive. Use obvious abbrevs like `tx`, `sigs`.
+- Scope: naming grows with scope. Use short local names when nearby context
+  supplies the meaning; use descriptive names across wider scopes.
+- Domain language: use source-of-truth terms and established abbreviations.
+  Shorten only while distinctions survive.
 - Honest names: names reveal waits, retries, allocation, fallback, normalization, and policy.
 - Contract drift: treat naming changes that alter the model or hide behaviour as contract changes.
 - New concepts: require a distinct meaning. Run names by the user.
@@ -108,7 +124,17 @@ or refine a direction, apply `$experiment` and load
 
 ## Code Comments
 
-- Voice: terse, blunt, low-grammar.
-- Default: let code state what it does.
-- Content: comment only a surprising external cause, invariant, or hidden cost. Try a better name, type, assertion, or structure first.
-- Placement: comment where cleanup could break correctness or cost.
+- Contribution: let code state what it does. Comments earn space through
+  reasoning, constraints, representation keys, useful mental pictures,
+  or unresolved judgments the reader would otherwise reconstruct.
+  Prefer a name, type, assertion, or structure when it carries that
+  contribution more clearly.
+- Weight: use the space the explanation needs. Explain where understanding
+  first becomes necessary; let later parallel cases use that context.
+- Voice: prefer terse, direct language. Preserve an apt phrase or candid
+  note when it helps. State uncertainty as uncertainty.
+- Placement: keep the explanation with the decision or representation
+  it explains.
+- Maintenance: when changing the relevant code, check that its comments
+  still hold. Remove stale claims; preserve reasons that still constrain
+  the change.

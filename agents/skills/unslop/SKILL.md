@@ -7,7 +7,8 @@ description: Cut AI tells from any writing. Must always apply.
 
 Edit text to remove AI patterns and add human voice.
 
-**Pin.** Unslop owns expression. Before revising, recover why each passage exists
+**Pin.** Unslop owns prose expression, including code comments.
+Before revising, recover why each passage exists
 and what would be lost if it were removed or flattened. Preserve that
 contribution while changing its words or form.
 

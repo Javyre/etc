@@ -45,23 +45,28 @@ Goal: mechanically honest Zig using native idioms. On a mechanical tie, follow Z
 - Uniform fill: use `@splat(value)` with a contextual array or vector type.
   Zig 0.17 no longer supports the old `array ** count` syntax.
 - Generic machinery: admit it when primitive composition improves and generated control and cost remain visible.
-- File order: imports and aliases first; then state, types, public API, and deep machinery. Keep private helpers near their owner.
+- File prelude: put imports and aliases first.
 
 ## Reflow Pass
 
 After Zig edits, audit changed lines against the repo width limit; default 80.
 A user request expands scope to named files. A clean audit ends the pass.
 
-Reflow each offender. Use trailing commas for `zig fmt`-stable breaks. Format,
-then reread each changed hunk.
+Reflow each offender at a meaningful boundary. Use formatter-supported
+layout controls, including trailing commas, to preserve useful grouping.
+Keep diagnostic strings searchable as complete text. Where repository
+policy permits, keep such a string intact beyond the default width.
+
+Format, then reread each changed hunk.
 
 ```text
-code shape → mechanics → system shape
+code expression → mechanics → system shape
 ```
 
 Follow new pressure upward while evidence holds. Resolve local pressure locally.
 Report broader pressure at its owning seam before expanding scope.
 
-Done: scoped lines fit; format is stable; each hunk was reread; pressure is
-resolved or reported; mechanics remain accounted for; diff checks and checks
-required by the underlying change pass.
+Done: scoped lines fit the applicable width rule or its permitted
+searchability exception; format is stable; each hunk was reread; pressure
+is resolved or reported; mechanics remain accounted for; diff checks and
+checks required by the underlying change pass.
