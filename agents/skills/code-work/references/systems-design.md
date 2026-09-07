@@ -33,7 +33,7 @@ and its owners expose deep, honest interfaces.
 - Phase: admit one when valid state, authority, visibility, retry semantics, or
   effects require a handoff. Each phase hands off a valid state or a declared
   reduced mode. Account for passes, buffering, sync, latency, and retained state.
-- Seal: semantic checkpoint and naming convention. Prefer POD and phase-local
+- Semantic checkpoint: use naming conventions. Prefer POD and phase-local
   discipline. Guards must earn their complexity.
 - Tie-break: semantic correctness first. When choices are otherwise equal, prefer
   the mechanical minimum, then the smaller primitive set, then caller ease. Run

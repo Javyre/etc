@@ -84,9 +84,7 @@ When mining Codex history, instructions, or machine state, load
 - more agents with blurrier ownership
 - more tools with fuzzier purpose
 - no cheap verification path
-- traces that exist but do not localize failure
 - prompt patching before friction reaches its owning seam
 - autonomy widening faster than trust earned
-- benchmark wins treated as product truth
 - framework primitives copied as doctrine
 - operator attention thrash treated as acceptable overhead

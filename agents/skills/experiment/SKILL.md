@@ -20,11 +20,7 @@ Scale the work to the decision. A small reversible question may need one manual
 trial and a short verdict. Add cases, repetition, or apparatus only while they
 can change the decision.
 
-```text
-Question → Model → Pilot → Observe → Update → Stop
-              ↑                   │
-              └──── next pilot ───┘
-```
+Repeat Question, Model, Pilot, Observe, and Update until Stop.
 
 - **Question:** name the real outcome, open question, decision, and result that
   could change it. A metric is evidence unless the metric is the product outcome.
