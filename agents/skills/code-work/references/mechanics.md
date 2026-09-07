@@ -1,6 +1,6 @@
 # Mechanics Guide
 
-Owns mechanical realization under pressure: retained state, layout, flow, concurrency, publication, and deterministic proof.
+Owns mechanical realization under pressure: retained state, layout, flow, concurrency, and publication.
 
 Goal: preserve mechanical truth and the important cost shape with the simplest primitives.
 
@@ -35,12 +35,7 @@ Goal: preserve mechanical truth and the important cost shape with the simplest p
 - Local proof: keep work state self-contained and shared state small so ownership, progress, and failure remain locally provable.
 - Scoped context: use a local view or handle when mutation, permission, concurrency, or lifecycle rules apply to one scope; keep the base API narrow.
 
-## Deterministic Proof
+## Verification
 
-- Tight loop: one fast, deterministic, agent-runnable command that goes red on the exact failure and green after correction.
-- Minimal repro: cut inputs, state, config, and steps one at a time until every survivor is load-bearing.
-- Real path: tests drive production mechanics through deterministic readiness and durable observation. Bounded waits follow a deterministic sync point.
-- Test shape: name behavior; prefer compact procedural proof through production
-  mechanics. Use E2E tests when real boundary behavior is part of the claim. Keep
-  small boundary cases and regression artifacts inline with their oracle.
-- State-space proof: use structured generators, sharp invariants, rich failure dumps, and weighted risky transitions.
+When choosing or reviewing executable checks, load
+[Testing](testing.md) for deterministic execution, observation, and coverage.

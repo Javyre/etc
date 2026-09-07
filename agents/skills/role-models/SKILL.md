@@ -34,7 +34,12 @@ Goal: resolve the choice, control context use, and grow a reusable evidence inde
 - State and identity: `./references/raph-levien.md`, `./references/nick-fitzgerald.md`, `./references/aria-beingessner.md`, `./references/joran-dir-greef.md`
 - Ownership and concurrency: `./references/mara-bos.md`, `./references/niko-matsakis.md`, `./references/aria-beingessner.md`, `./references/withoutboats.md`
 - Cost and layout: `./references/casey-muratori.md`, `./references/andrew-kelley.md`, `./references/chris-fallin.md`, `./references/nick-fitzgerald.md`, `./references/joran-dir-greef.md`, `./references/floooh.md`
-- Proof and testing: `./references/poteto.md`, `./references/joran-dir-greef.md`, `./references/chris-fallin.md`, `./references/mara-bos.md`, `./references/hamel-husain.md`, `./references/simon-willison.md`
+- Code testing, primary: `./references/matklad.md`; complementary algorithm,
+  state, and concurrency proof: `./references/burnt-sushi.md`,
+  `./references/joran-dir-greef.md`, `./references/chris-fallin.md`,
+  `./references/mara-bos.md`
+- Agent verification: `./references/poteto.md`,
+  `./references/simon-willison.md`
 - Agent loops and context: `./references/poteto.md`, `./references/matt-pocock.md`, `./references/simon-willison.md`, `./references/birgitta-boeckeler.md`, `./references/mitchell-hashimoto.md`, `./references/armin-ronacher.md`, `./references/anthropic-engineering.md`, `./references/nuno-campos.md`, `./references/kief-morris.md`
 - Evals and trust: `./references/poteto.md`, `./references/hamel-husain.md`, `./references/anthropic-engineering.md`, `./references/simon-willison.md`, `./references/birgitta-boeckeler.md`
 

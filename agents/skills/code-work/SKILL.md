@@ -1,13 +1,13 @@
 ---
 name: code-work
 description: >-
-  Use when designing or changing code, reviewing or cleaning up a diff, or
+  Use when designing or changing code or tests, reviewing or cleaning up a diff, or
   explaining how code works or why it has its current shape.
 ---
 
 # Code Work
 
-Owns code understanding, the coding loop, reader order, locality, diff scope, program shape, names, imports, and code comments.
+Owns code understanding, the coding loop, testing, reader order, locality, diff scope, program shape, names, imports, and code comments.
 
 ## Understanding
 
@@ -15,6 +15,12 @@ Owns code understanding, the coding loop, reader order, locality, diff scope, pr
   ownership, load `./references/how.md`. For change work, carry forward only
   constraints that affect the design.
 - Why: for rationale, a strange or deliberate shape, or history that may constrain a change, load `./references/why.md`.
+
+## Testing
+
+For executable-code design or changes, verification decisions, or review of
+tests and assertions, load [`references/testing.md`](references/testing.md)
+before choosing implementation or test shape.
 
 ## Coding Loop
 
@@ -102,8 +108,9 @@ or refine a direction, apply `$experiment` and load
   puts pressure on the type or owner.
 - Invariant confidence: once the owner proves a state impossible, make the code
   rely on that fact. Extra branches, containers, fallback drains, optionality,
-  and assertions must represent a reachable state, a trust boundary, or a
-  separate cheap proof. Internal doubt returns to the model or owner.
+  and recovery paths must represent a reachable state or trust boundary.
+  Assertions can check that the invariant continues to hold. Internal doubt
+  returns to the model or owner.
 - Control flow: keep the successful path visible. Exit early for boundary failures.
 - Type truth: parse and validate external values at the boundary. Keep internal types honest; do not weaken them to accommodate implementation friction.
 

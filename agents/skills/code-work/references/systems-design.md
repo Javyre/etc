@@ -123,20 +123,7 @@ and its owners expose deep, honest interfaces.
   stabilizes dependency edges.
 - Module split: follow ownership and lifecycle boundaries.
 
-## Testing As Design Proof
+## Testability
 
-- Primitive proof: test the invariant, transitions, failure contract, cost
-  contract, and clear use in a representative composition.
-- Transition proof: exercise edits, retry, invalidation, deletion, rebuild,
-  recovery, and publication when present in the model.
-- Root proof: make starting state, reachability, invalidation, and rebuild rules
-  explicit.
-- Proof surface: prefer tests through interfaces used by production callers. Use
-  internal access for a distinct mechanical invariant, state-space coverage, or
-  materially faster fault localization. If ordinary behavior needs internal
-  access, the public interface is weak.
-- Proof migration: when a seam moves, delete superseded tests after the new
-  interface proves their behavior. Retain lower tests for distinct invariants,
-  state-space coverage, or materially faster fault localization.
-- Cross-model proof: use implementation parity or model-oracle tests when a seam
-  claims shared semantics.
+When choosing interfaces, state, or lifecycle, load
+[Testing](testing.md) for testability design and evidence selection.
