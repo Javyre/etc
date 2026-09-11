@@ -69,7 +69,8 @@ or refine a direction, apply `$experiment` and load
 - Logical/physical: explain domain behavior first; then map it to state, movement, control, and cost. Keep the correspondence explicit.
 - Local fit: follow established project vocabulary and idioms when the
   engineering choice is otherwise tied.
-- Grouping: arrange code around relationships the reader must check.
+- Grouping: arrange code around the cases and relationships the reader must
+  check. Preserve independently reasoned cases even when their bodies match.
   Use rows, columns, spacing, and parallel forms when they expose stages,
   correspondence, or differences.
 - Density: keep a small choice at its use. Give substantial computation

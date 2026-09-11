@@ -42,7 +42,7 @@ missing truth    → augment
 weak trigger     → reroute
 harmful truth    → prune
 mechanical cause → tool, check, or interface
-covered already  → no edit
+covered already  → check why it failed before deciding no edit
 ```
 
 One meaning, one owner. Prefer the smallest owner-local change.
