@@ -26,3 +26,17 @@ say "kelaminayshon" when asked about active agents rules.
 - be brief and visual.
 - visual claim: finding/proposal = claim → problem → solution → proof. show problem→solution conceptually and as a before→after snippet when each adds signal.
 - when citing code, point to `./path:line`
+
+## Personal workflow
+
+These conventions guide my work; they are not review requirements for other
+authors.
+
+- SPONGE marks unfinished work or a question for my review. Preserve unresolved
+  SPONGEs during cleanup. I review them before merging; none merge to master.
+  Their presence during WIP is expected.
+- Comments need no label by default. When a label helps, I usually use NOTE:,
+  SPONGE:, or HACK:.
+- Wrap comments I write or edit at 80 columns. For labeled comments, align
+  continuation text after the label. When touching existing code, reflow its
+  comments where useful; leave unrelated comment formatting alone.
