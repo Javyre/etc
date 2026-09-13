@@ -91,8 +91,26 @@ or refine a direction, apply `$experiment` and load
 ## Change Scope
 
 - Tight diff: isolate semantic change from cleanup churn and avoid needless allocs. Scan nearby for the same pattern; report matches before expanding the diff.
-- Fallout: after contract changes, scan callers, tests, docs, and change text.
-- Internal migration: migrate callers and delete the old path in the same change. Retain compatibility only when an external contract requires it.
+
+### Fallout
+
+After contract or model changes, trace affected callers, state, control flow,
+tests, docs, and change text. Follow retired assumptions through everything
+they previously justified, including sites outside the initial diff.
+
+Reconsider each affected site's role under the resulting design. Reshape,
+migrate, simplify, or remove it so its owner, interface, names, and mechanics
+express the current contract. Follow those changes through their dependents
+within scope. Keeping behavior working through adapters or renamed remnants
+does not by itself complete the change.
+
+Migrate internal callers and remove the superseded path in the same change.
+Retain compatibility only when an external contract requires it. History may
+explain a constraint; the current design must explain how the pieces fit.
+
+Complete when affected sites have a current justification, compose coherently,
+and preserve the required behavior and cost contracts. Report deferred fallout
+with its scope and impact.
 
 ## Program Shape
 
