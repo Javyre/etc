@@ -9,13 +9,10 @@ description: >-
 
 Active instructions set bounds. This skill owns the review loop.
 
-**Governing skill** — the one skill explicitly named as review law.
-
-```text
-review law = active instructions + Governing skill
-```
-
-`$code-work` governs when unnamed. Apply `$writing-artifacts` to the report.
+The **Governing skill** sets review standards. Use an explicit designation;
+otherwise use `$writing-for-agents` for skills, agent instructions, and their
+linked reference documents, or `$code-work` for code and tests.
+Apply `$writing-artifacts` to the report.
 
 Default to `review` (`readonly`, audit, report): inspect and report; workspace unchanged. Enter `fix` on any explicit edit request.
 
@@ -101,9 +98,9 @@ falsehood → assumption → callers/tests/siblings → owning seam
 
 Stop at the first owner able to choose correctly. Watch for niche edge cases creating global complexity. Report broader out-of-scope issues in one line.
 
-Admit confirmed findings only with validated evidence; an exact source anchor
-may suffice. A `q:` requires an evidenced mechanism and a specific consequence
-under its unresolved premise.
+Confirmed findings must be validated, proof-carrying, and bounded; an exact
+source anchor may suffice. A `q:` requires an evidenced mechanism and a specific
+consequence under its unresolved premise.
 
 Before leaving Review, give every candidate and scout disagreement one
 disposition: confirmed finding, source-backed exclusion, or `q:`. An exclusion
@@ -112,8 +109,8 @@ the concern.
 
 Review completes when every scoped change and affected contract is accounted
 for, every applicable ladder item has been checked across the scoped seams,
-and every candidate has a disposition. Confirmed findings must be validated,
-proof-carrying, and bounded. Unresolved premises may remain in `q:` items.
+and every candidate has a disposition. Unresolved premises may remain in `q:`
+items.
 
 Finding count and severity do not end the pass. If coverage remains incomplete,
 name what remains unchecked and why.
@@ -148,9 +145,8 @@ Show the conceptual change and concrete before/after. One representation may car
 both; separate them when each adds distinct information. Allocate space by
 explanatory value; expand the most important parts of the top three.
 
-Use `q:` for a conditional finding. State the unresolved premise, observed
-mechanism, and how the answer changes the conclusion. Attach source evidence
-and make any suggested fix conditional on that answer.
+For a conditional finding, use `q:`. Keep the conclusion and any suggested fix
+conditional on the unresolved premise:
 
 ```md
 q: <question that resolves the premise>
@@ -176,10 +172,6 @@ a named dependency, missing authority, or user decision.
 
 ## Done
 
-Review's completion criterion must be met in both modes. In `fix` mode, every
-confirmed finding must also have a fix disposition.
-
-Finish when the report exposes the source-backed System model; reported
-findings meet Report's evidence and presentation rules; contract fallout is
-accounted for; residual risk is named when present; and `review` mode left the
-workspace unchanged.
+Meet Review's completion criterion and Report's requirements. In `fix` mode,
+also meet Fix's completion criterion. Account for contract fallout.
+In `review` mode, verify that the workspace is unchanged.
