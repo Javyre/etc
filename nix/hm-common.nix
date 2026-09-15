@@ -114,6 +114,7 @@ in
 
   # /agents requires this fixed managed path; 0.149.0 daemon start fails before spawning app-server without it.
   home.file.".codex/packages/standalone/current".source = "${codexBin}/bin";
+  home.file.".codex-personal/packages/standalone/current".source = "${codexBin}/bin";
 
   home.sessionVariables = {
     EDITOR = "hx";
