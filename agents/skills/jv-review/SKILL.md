@@ -28,17 +28,13 @@ Infer scope silently: touched seam, owner, named responsibility, and env/CLI con
 
 ## Study
 
-Build an initial source-backed model of the scoped system. Continue Study during Review as forks, seams, and evidence revise that model.
+Build an initial source-backed model of the scoped system. Continue Study during Review as premises, seams, and evidence revise that model.
 
-**Fork** — unresolved, user-owned choice whose answers materially change review scope, contract, or conclusion.
+**Premise** — a fact or user-owned choice on which a review conclusion depends.
 
-**Doubt** — uncertainty that can remain explicit without invalidating the review.
-
-```text
-evidence resolves uncertainty confidently → continue Study
-Doubt remains                          → mark `q:`, bound claims, continue
-Fork remains after available evidence → stop and ask immediately
-```
+Investigate unresolved premises using available context. Carry remaining
+questions to Report as `q:`. Do not ask during the pass. Continue independent
+work; report any coverage or fixes blocked by an unresolved premise.
 
 1. **Intent** — reconstruct desired outcome, constraints, tradeoffs, and contract.
 2. **Map** — trace owners, callers, data, state, control, errors, and external effects.
@@ -60,7 +56,7 @@ main model. Give each a neutral question, exact scope, and required source
 anchors; omit candidate conclusions.
 
 Scouts return observed shape, evidence, uncertainty, and unresolved seams.
-The root verifies material evidence, resolves disagreement, owns Forks, and
+The root verifies material evidence, resolves disagreement, tracks premises, and
 integrates one System model. Scout work counts as Study only after integration.
 
 **Follow the behavior.** When ownership moves, trace the old cases through the
@@ -73,7 +69,9 @@ owner, lifecycle, or effect. Re-evaluate it before exclusion.
 
 Use source, callers, tests, docs, change text, history, and primary refs as needed. Work descriptively: what exists, how it works, why it exists. Reserve findings, severity, fixes, and redesign for Review.
 
-Study is sufficient to enter Review when the main path can be traced without guessing. Return whenever a finding depends on a new or disputed premise. Resolve it through evidence, Doubt, or Fork.
+Study is sufficient to enter Review when the main path can be traced without
+guessing. Return whenever a finding depends on a new or disputed premise.
+Establish the premise from evidence or make the conclusion conditional on it.
 
 ## Review
 
@@ -103,13 +101,22 @@ falsehood → assumption → callers/tests/siblings → owning seam
 
 Stop at the first owner able to choose correctly. Watch for niche edge cases creating global complexity. Report broader out-of-scope issues in one line.
 
-Admit only validated, proof-carrying findings; an exact source anchor may suffice.
+Admit confirmed findings only with validated evidence; an exact source anchor
+may suffice. A `q:` requires an evidenced mechanism and a specific consequence
+under its unresolved premise.
 
-Before Report, give every material candidate and scout disagreement one
-disposition: finding, source-backed exclusion, or `q:`. An exclusion names the
-contract or explicit authority that makes it irrelevant.
+Before leaving Review, give every candidate and scout disagreement one
+disposition: confirmed finding, source-backed exclusion, or `q:`. An exclusion
+names the evidence, contract, or explicit authority that resolves or excludes
+the concern.
 
-Review completes when the ladder has been applied to every material seam and every resulting finding is validated, proof-carrying, and bounded.
+Review completes when every scoped change and affected contract is accounted
+for, every applicable ladder item has been checked across the scoped seams,
+and every candidate has a disposition. Confirmed findings must be validated,
+proof-carrying, and bounded. Unresolved premises may remain in `q:` items.
+
+Finding count and severity do not end the pass. If coverage remains incomplete,
+name what remains unchecked and why.
 
 ## Report
 
@@ -122,9 +129,13 @@ Follow with finding 1. Order findings by impact, then confidence.
 
 Treat a semantic lie as blocker-class when it invalidates caller reasoning, safety, or the claimed cost model.
 
+Report every confirmed in-scope finding and admitted `q:`, including minor
+findings. Group repeated instances under their shared cause and identify the
+affected locations.
 Top three findings may use up to 30 lines each. Later findings use up to six.
+These limits govern presentation, not review coverage or finding count.
 
-Required finding anatomy:
+Confirmed finding anatomy:
 
 ```md
 1. `./path:line`: <claim>. <impact>. <fix>.
@@ -137,17 +148,38 @@ Show the conceptual change and concrete before/after. One representation may car
 both; separate them when each adds distinct information. Allocate space by
 explanatory value; expand the most important parts of the top three.
 
-Use `q:` for Doubt. Keep the conceptual change and concrete evidence attached so
-the bounded claim stays legible.
+Use `q:` for a conditional finding. State the unresolved premise, observed
+mechanism, and how the answer changes the conclusion. Attach source evidence
+and make any suggested fix conditional on that answer.
+
+```md
+q: <question that resolves the premise>
+   observed: <mechanism and source anchor>
+   if <answer>: <consequence and suggested change>
+   otherwise: <how the conclusion changes>
+```
 
 Keep summary and residual risk brief and after findings. Residual risk means a credible failure left by an untested path, uncertain assumption, environment gap, or out-of-scope dependency. If there are no findings, say so and name material proof gaps.
 
 ## Fix
 
-Apply confirmed findings in impact order under the Governing skill. Preserve review scope. Prove each changed contract with the narrowest decisive checks.
+Complete Review before applying fixes. Apply confirmed findings in impact order
+under the Governing skill. Preserve review scope. Prove each changed contract
+with the narrowest decisive checks.
 
-Rereview each changed seam. Label implemented findings `applied`.
+Resolve a `q:` premise before applying its dependent fix. Continue independent
+fixes while the premise remains unresolved.
+
+Rereview each changed seam and its affected contracts using Review's completion
+criterion. Continue until every confirmed finding is `applied` or blocked by
+a named dependency, missing authority, or user decision.
 
 ## Done
 
-Finish when no Fork remains unresolved; the report exposes the source-backed System model; every reported finding is impact-ordered, proof-carrying, owner-local, visual, snippet-backed, and bounded; contract fallout is accounted for; residual risk is named when present; and `review` mode left the workspace unchanged.
+Review's completion criterion must be met in both modes. In `fix` mode, every
+confirmed finding must also have a fix disposition.
+
+Finish when the report exposes the source-backed System model; reported
+findings meet Report's evidence and presentation rules; contract fallout is
+accounted for; residual risk is named when present; and `review` mode left the
+workspace unchanged.
