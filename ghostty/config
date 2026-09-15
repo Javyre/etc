@@ -1,5 +1,7 @@
 config-file = ?../home-manager.conf
 
+auto-update-channel = tip
+
 # font-family = MonaspiceKr Nerd Font
 # font-family = JetBrainsMono Nerd Font
 font-family = CommitMono Nerd Font
