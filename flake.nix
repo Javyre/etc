@@ -17,8 +17,8 @@
     };
     mac-app-util = {
       url = "github:hraban/mac-app-util";
-      # https://github.com/hraban/mac-app-util/issues/42
-      # inputs.nixpkgs.follows = "nixpkgs";
+      # SBCL >= 2.6.6 fixes static-space allocation on macOS 27 ARM64.
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
       url = "github:nix-community/home-manager";

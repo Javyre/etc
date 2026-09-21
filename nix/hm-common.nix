@@ -112,9 +112,17 @@ in
     nerd-fonts.commit-mono
   ];
 
-  # /agents requires this fixed managed path; 0.149.0 daemon start fails before spawning app-server without it.
-  home.file.".codex/packages/standalone/current".source = "${codexBin}/bin";
-  home.file.".codex-personal/packages/standalone/current".source = "${codexBin}/bin";
+  # The daemon resolves current/bin/codex. Keep CLI and daemon on the Nix
+  # package; Codex's updater only owns selections under standalone/releases.
+  # Replace any current link left by the standalone installer.
+  home.file.".codex/packages/standalone/current" = {
+    source = codexBin;
+    force = true;
+  };
+  home.file.".codex-personal/packages/standalone/current" = {
+    source = codexBin;
+    force = true;
+  };
 
   home.sessionVariables = {
     EDITOR = "hx";
