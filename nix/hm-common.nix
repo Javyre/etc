@@ -6,7 +6,37 @@
   ...
 }:
 let
-  codexBin = inputs'.codex-nix.packages.default;
+  # HACK: codex-nix omits the voice runtime. No upstream issue or PR exists yet.
+  #       Remove this override once codex-nix includes the complete package.
+  #       Keep the CLI, voice helper, and native libraries from one release;
+  #       voice discovery requires the package's physical layout and metadata.
+  codexBin =
+    let
+      codex = inputs'.codex-nix.packages.default;
+      platform = pkgs.stdenv.hostPlatform;
+      hashes = {
+        "0.155.1" = {
+          aarch64-darwin = "sha256-5uCHF9qeNbcjMu/3U1J/55qa6HYIEDPFxoIKjl9YuUM=";
+        };
+      };
+      target = "${platform.parsed.cpu.name}-apple-darwin";
+    in
+    if !platform.isDarwin then
+      codex
+    else
+      codex.overrideAttrs (old: {
+        src = pkgs.fetchurl {
+          url = "https://github.com/openai/codex/releases/download/rust-v${old.version}/codex-package-${target}.tar.gz";
+          hash = hashes.${old.version}.${platform.system};
+        };
+        codeModeHostSrc = null;
+        installPhase = ''
+          runHook preInstall
+          mkdir -p "$out"
+          cp -R bin codex-package.json codex-path codex-resources "$out/"
+          runHook postInstall
+        '';
+      });
   ln = config.lib.jv.ln;
 in
 {
