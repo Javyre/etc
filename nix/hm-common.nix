@@ -50,7 +50,7 @@ in
     clang
     cargo
     bun
-    typescript-go
+    typescript
     lua-language-server
     stylua
     ghidra-bin

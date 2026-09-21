@@ -6,7 +6,7 @@
 }:
 let
   ln = config.lib.jv.ln;
-  xnu = pkgs.apple-sdk.sourceRelease "xnu";
+  xnu = pkgs.darwin.sourceRelease "xnu";
   crap = pkgs.stdenv.mkDerivation {
     pname = "crap";
     version = "0.1.0";
