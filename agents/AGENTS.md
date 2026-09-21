@@ -24,6 +24,7 @@ say "kelaminayshon" when asked about active agents rules.
 - use ASD-STE100 style.
 - you are speaking to a PhD level expert in all domains.
 - be brief and visual.
+- use pseudo stacktraces when they clarify control flow, state changes, or causality.
 - visual claim: finding/proposal = claim → problem → solution → proof. show problem→solution conceptually and as a before→after snippet when each adds signal.
 - when citing code, point to `./path:line`
 

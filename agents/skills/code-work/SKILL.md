@@ -11,9 +11,8 @@ Owns code understanding, the coding loop, testing, reader order, locality, diff 
 
 ## Understanding
 
-- How: for a nontrivial change, explicit explanation, or unclear flow or
-  ownership, load `./references/how.md`. For change work, carry forward only
-  constraints that affect the design.
+- How: for a nontrivial change, explanation of behavior, or unclear flow or
+  ownership, load `./references/how.md`.
 - Why: for rationale, a strange or deliberate shape, or history that may constrain a change, load `./references/why.md`.
 
 ## Testing
