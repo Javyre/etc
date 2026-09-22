@@ -13,10 +13,11 @@ let
   codexBin =
     let
       codex = inputs'.codex-nix.packages.default;
+      version = "0.156.0";
       platform = pkgs.stdenv.hostPlatform;
       hashes = {
-        "0.155.1" = {
-          aarch64-darwin = "sha256-5uCHF9qeNbcjMu/3U1J/55qa6HYIEDPFxoIKjl9YuUM=";
+        "0.156.0" = {
+          aarch64-darwin = "sha256-b3va0laT9GShRq1vJNR3rW+//ge2JVb4Ke5dOwT0j4s=";
         };
       };
       target = "${platform.parsed.cpu.name}-apple-darwin";
@@ -24,10 +25,11 @@ let
     if !platform.isDarwin then
       codex
     else
-      codex.overrideAttrs (old: {
+      codex.overrideAttrs (_: {
+        inherit version;
         src = pkgs.fetchurl {
-          url = "https://github.com/openai/codex/releases/download/rust-v${old.version}/codex-package-${target}.tar.gz";
-          hash = hashes.${old.version}.${platform.system};
+          url = "https://github.com/openai/codex/releases/download/rust-v${version}/codex-package-${target}.tar.gz";
+          hash = hashes.${version}.${platform.system};
         };
         codeModeHostSrc = null;
         installPhase = ''
