@@ -4,6 +4,7 @@
   inputs = {
     # nixpkgs-gtk-unbroken.url = "github:nixos/nixpkgs/d7f52a7a640bc54c7bb414cca603835bf8dd4b10";
     nixpkgs.url = "github:nixos/nixpkgs/master";
+    llm-agents.url = "github:numtide/llm-agents.nix";
     # nixpkgs-master.url = "github:nixos/nixpkgs?ref=master";
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     codex-nix = {
