@@ -72,6 +72,9 @@ Its demand drives **legwork**, the investigation and proof within the work.
 Demand also binds flat reference: "every rule applied" requires coverage without
 an ordered sequence.
 
+The criterion states the end state. It does not require a second inspection pass
+when the required evidence is already present.
+
 **Premature completion** means leaving a step before meeting its criterion.
 Visible **post-completion steps**, the steps still ahead, can draw attention away
 from the current work. Sharpen the criterion first. Only if the bound must remain

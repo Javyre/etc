@@ -1,6 +1,8 @@
 ---
 name: unslop
-description: Cut AI tells from any writing. Must always apply.
+description: Remove AI-generated slop from chat, prose, documentation, and code
+  comments. Use when the text is AI-generated or contains AI-generated writing
+  patterns.
 ---
 
 # Unslop

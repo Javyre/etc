@@ -21,7 +21,26 @@ Flow:
 - `review`: Scope, Study ⇄ Review, Report.
 - `fix`: Scope, Study ⇄ Review, Fix, Report.
 
-Infer scope silently: touched seam, owner, named responsibility, and env/CLI contract. Surface only ambiguity that changes the conclusion. Name blockers immediately.
+## Scope
+
+The Governing skill defines the applicable review scopes. Named scopes are
+required and additive unless the user says `only`. With no named scope, cover
+all applicable scopes, prioritizing correctness before the others.
+
+The default scope vocabulary is:
+
+- **Correctness** — result, state transition, or failure behavior.
+- **Design** — ownership, lifecycle, seam shape, or abstraction.
+- **Performance** — time, memory, I/O, concurrency, scaling, or resource use.
+- **Clarity** — names, layout, comments, and code expression.
+- **Verification** — tests, evidence, callers, docs, or untested paths.
+- **Security** — trust, authority, validation, and exposure.
+- **Operations** — startup, shutdown, recovery, observability, and deployment.
+
+Named scopes may require separate passes when they need different evidence.
+
+Infer the local seam, owner, named responsibility, and environment contract.
+Surface only ambiguity that changes the conclusion. Name blockers immediately.
 
 ## Study
 
@@ -36,8 +55,8 @@ work; report any coverage or fixes blocked by an unresolved premise.
 1. **Intent** — reconstruct desired outcome, constraints, tradeoffs, and contract.
 2. **Map** — trace owners, callers, data, state, control, errors, and external effects.
 3. **Mechanics** — understand algorithms, invariants, lifecycle, concurrency, recovery, and degraded states.
-4. **Cost** — model time, space, allocs, I/O, locks, caching, buffering, and scaling where present.
-5. **Trust** — map boundaries, authority, inputs, validation, secrets, and blast radius where present.
+4. **Performance** — model time, space, allocs, I/O, locks, caching, buffering, and scaling where present.
+5. **Security** — map boundaries, authority, inputs, validation, secrets, and blast radius where present.
 
 ### Scouts
 
@@ -107,24 +126,25 @@ disposition: confirmed finding, source-backed exclusion, or `q:`. An exclusion
 names the evidence, contract, or explicit authority that resolves or excludes
 the concern.
 
-Review completes when every scoped change and affected contract is accounted
-for, every applicable ladder item has been checked across the scoped seams,
-and every candidate has a disposition. Unresolved premises may remain in `q:`
-items.
+Review completes when the final result satisfies the Governing skill's
+applicable scopes, every requested scope has been considered, every candidate
+has a disposition, and every material claim has evidence or a named proof gap.
+Unresolved premises may remain in `q:` items.
 
-Finding count and severity do not end the pass. If coverage remains incomplete,
-name what remains unchecked and why.
+Finding count does not define completion. A blocked scope or proof gap is part of
+the result and must be named.
 
 ## Report
 
-Start with **System model**: the compact result of Study needed to understand the findings. Shape it to the system. Show material ownership, flow, invariants, mechanics, cost, trust, and uncertainty; omit irrelevant lenses. Prefer a small visual and exact source anchors.
+Start with **System model**: the compact result of Study needed to understand the findings. Shape it to the system. Show material ownership, flow, invariants, mechanics, performance, security, and uncertainty; omit irrelevant lenses. Prefer a small visual and exact source anchors.
 
 When scouts materially shaped Study, name their coverage and unresolved
 disagreement in one compact line.
 
 Follow with finding 1. Order findings by impact, then confidence.
 
-Treat a semantic lie as blocker-class when it invalidates caller reasoning, safety, or the claimed cost model.
+Treat a semantic lie as blocker-class when it invalidates caller reasoning,
+safety, or the claimed performance model.
 
 Report every confirmed in-scope finding and admitted `q:`, including minor
 findings. Group repeated instances under their shared cause and identify the
@@ -132,10 +152,13 @@ affected locations.
 Top three findings may use up to 30 lines each. Later findings use up to six.
 These limits govern presentation, not review coverage or finding count.
 
+Prefix each finding with its primary scope. Put the prefix before the source
+location, as in `correctness: ./path:line`.
+
 Confirmed finding anatomy:
 
 ```md
-1. `./path:line`: <claim>. <impact>. <fix>.
+1. correctness: `./path:line`: <claim>. <impact>. <fix>.
    prob: <current conceptual and concrete shape>
    soln: <suggested conceptual and concrete shape>
    proof: <evidence>
@@ -166,9 +189,9 @@ with the narrowest decisive checks.
 Resolve a `q:` premise before applying its dependent fix. Continue independent
 fixes while the premise remains unresolved.
 
-Rereview each changed seam and its affected contracts using Review's completion
-criterion. Continue until every confirmed finding is `applied` or blocked by
-a named dependency, missing authority, or user decision.
+Fix completes when every confirmed finding is `applied` or blocked by a named
+dependency, missing authority, or user decision, and the resulting change meets
+Review's completion criterion.
 
 ## Done
 
