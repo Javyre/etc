@@ -46,9 +46,8 @@ before choosing implementation or test shape.
    must correspond.
 
 Establish the semantic shape before implementation. Use authorized edits and tests
-to refine it. Declare the change ready when system shape, mechanical realization,
-and code expression agree on semantics and mechanics, affected sites have current
-justification, and deferred fallout is reported with scope and impact.
+to refine it. Readiness requires Coherence and completion of Fallout for contract
+or model changes.
 
 ## Sketch
 

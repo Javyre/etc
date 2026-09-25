@@ -17,13 +17,6 @@ contribution while changing its words or form.
 **Deletion test.** Remove suspect wording first. If the passage keeps its meaning
 and voice, leave it out. Restore only what removal lost, using concrete language.
 
-## Process
-
-1. Scan for the patterns below.
-2. Apply the deletion test.
-3. Restore voice using the guidance below.
-4. Read once for remaining tells.
-
 ## Adding soul
 
 Removing patterns is half the job. Sterile, voiceless writing is just as obvious.
