@@ -117,22 +117,17 @@ falsehood → assumption → callers/tests/siblings → owning seam
 
 Stop at the first owner able to choose correctly. Watch for niche edge cases creating global complexity. Report broader out-of-scope issues in one line.
 
-Confirmed findings must be validated, proof-carrying, and bounded; an exact
-source anchor may suffice. A `q:` requires an evidenced mechanism and a specific
-consequence under its unresolved premise.
+Consider every candidate and scout disagreement before Review ends, then give
+each one a disposition: confirmed finding, source-backed exclusion, or `q:`.
+Confirmed findings are bounded and proof-carrying; an exact source anchor may
+suffice. A `q:` names the evidenced mechanism and consequence. An exclusion
+names the evidence, contract, or authority that resolves or excludes the
+concern.
 
-Before leaving Review, give every candidate and scout disagreement one
-disposition: confirmed finding, source-backed exclusion, or `q:`. An exclusion
-names the evidence, contract, or explicit authority that resolves or excludes
-the concern.
-
-Review completes when the final result satisfies the Governing skill's
-applicable scopes, every requested scope has been considered, every candidate
-has a disposition, and every material claim has evidence or a named proof gap.
-Unresolved premises may remain in `q:` items.
-
-Finding count does not define completion. A blocked scope or proof gap is part of
-the result and must be named.
+Review completes when the resulting report covers every applicable and requested
+scope, every candidate has a disposition, and every material claim has evidence
+or a named proof gap. Unresolved premises may remain in `q:` items. Blocked
+scopes and proof gaps must be named.
 
 ## Report
 
