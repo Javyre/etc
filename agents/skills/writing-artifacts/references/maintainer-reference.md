@@ -10,7 +10,7 @@ Include:
 - public contracts and important invariants
 - state, lifecycle, and failure behavior
 - safe change and verification paths
-- sharp edges that code or configuration does not reveal cheaply
+- hazards that code or configuration does not reveal cheaply
 
 Point to discoverable source and configuration. Explain the facts and reasons
 that a direct lookup cannot recover.

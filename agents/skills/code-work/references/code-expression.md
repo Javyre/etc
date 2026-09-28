@@ -54,14 +54,14 @@ const p123 = std.math.lerp(p12, p23, t2d);
 const p0123 = std.math.lerp(p012, p123, t2d);
 ```
 
-An uninterrupted sequence retains the same computation. Here, the gaps expose
+An uninterrupted sequence performs the same computation. Here, the gaps expose
 the stages without explanatory comments. The compact sequence would fit better
 if the statements had no stages the reader needed to distinguish.
 
 Source: [Silk, ./src/render/bezier.zig:24](https://github.com/Javyre/silk/blob/24a823640df8837851a5b30c12dd6a27c86cc220/src/render/bezier.zig#L24-L38),
 authored by Javier in December 2023.
 
-For the opposite pressure, matklad uses a small choice at its use:
+For the opposite pressure, matklad writes a small choice inline at its use:
 
 ```zig
 .direction = if (prng.boolean()) .ascending else .descending,
@@ -131,15 +131,15 @@ appropriate once evidence resolves the uncertainty. The informal wording is
 not a template for adding personality to other comments.
 
 Source: [Quil, ./src/Rope.zig:2626](https://github.com/Javyre/quil/blob/ad6a4cd58f484dd6830082b30f8b004d5ac89336/src/Rope.zig#L2626-L2633),
-authored by Javier in August 2025. Spelling is preserved from the source.
+authored by Javier in August 2025. The quote keeps the source's spelling.
 
 ## When tidying exposes a mechanical question
 
 Linux's `merge_final` explains why it duplicates `merge`. It also contains an
 apparently pointless self-comparison that lets a client reschedule during a
 long remainder traversal. Both can look like cleanup opportunities until the
-mechanism is understood. The performance explanation is the source's rationale,
-not a fresh measurement.
+reader understands the mechanism. The performance explanation is the source's
+rationale, not a fresh measurement.
 
 Source: [Linux v6.12, ./lib/list_sort.c:44](https://github.com/torvalds/linux/blob/v6.12/lib/list_sort.c#L44-L90).
 

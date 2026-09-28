@@ -24,8 +24,8 @@ Useful starting shapes:
 
 For performance programs, start with Andrew Kelley's Poop output format. Put the
 stated baseline first. Name both cases, show distributions and outliers, and
-report the relative delta with uncertainty. Adapt rows to the decision-bearing
-costs.
+report the relative delta with uncertainty. Adapt rows to the costs that can
+change the decision.
 
 ```text
 Benchmark 1 (20 runs): reference/master

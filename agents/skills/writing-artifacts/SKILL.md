@@ -36,7 +36,7 @@ actions. A shared entry document may keep clearly separated audience sections.
 State the knowledge the document may assume.
 
 - Internal implementer, reviewer, or maintainer: default to expert.
-- User or operator: assume only prerequisites named by the document.
+- User or operator: assume only prerequisites the document names.
 - External decision-maker: explain domain detail only when it affects the decision.
 
 ## Shared contract

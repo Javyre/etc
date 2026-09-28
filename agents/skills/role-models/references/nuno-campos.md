@@ -1,11 +1,12 @@
 # Nuno Campos
 
-Useful more for runtime/control precedent than broad everyday coding-agent taste.
+More useful for runtime/control precedent than for broad everyday coding-agent
+taste.
 
 Reach for when:
 - studying runtime durability
 - studying checkpoints, resumability, approvals, and tracing
-- studying low-abstraction control surfaces for long-running agents
+- studying low-abstraction control points for long-running agents
 
 Orientation reads:
 - https://www.langchain.com/blog/building-langgraph

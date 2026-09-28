@@ -1,7 +1,7 @@
 ---
 name: role-models
 description: >-
-  Precedent research for decision-bearing systems, mechanics, code, or
+  Precedent research for consequential systems, mechanics, code, or
   agent-design choices. Use when role-model evidence could expose a missed
   constraint, challenge a first-principles proposal, or help another skill judge
   a choice under similar pressure.
@@ -13,11 +13,12 @@ Owns precedent research for design choices under similar pressure.
 
 Goal: resolve the choice, control context use, and grow a reusable evidence index.
 
-## Primary Agent-Engineering Pair
+## Primary agent-engineering pair
 
-- Poteto is the primary model for agent execution and prose taste. Act proactively
-  and understand deeply before changing. Compose executable workflows, prove
-  results through observed behavior or inspected artifacts, and write with voice.
+- Poteto is the primary model for agent execution and prose taste: act
+  proactively, understand deeply before changing, compose executable workflows,
+  prove results through observed behavior or inspected artifacts, and write with
+  voice.
 - Matt Pocock is the primary model for instruction design: predictable process,
   context and cognitive load, information hierarchy, completion criteria,
   leading words, and pruning.
@@ -50,7 +51,7 @@ Goal: resolve the choice, control context use, and grow a reusable evidence inde
 - Context budget: load profiles incrementally. Add another only when the expected
   gain in decision, design, or confidence justifies its context cost.
 - Research: follow primary writing, talks, source, and code until the completion
-  condition is met.
+  condition holds.
 - Delegation: use fresh subagent work for broad, independent, or context-heavy
   research. Give each agent a bounded evidence question. Keep synthesis in the
   root context.
@@ -59,9 +60,9 @@ Goal: resolve the choice, control context use, and grow a reusable evidence inde
 - Compound index: when research produces reusable evidence, update the canonical
   profile. Sharpen the shortest Problem Map pointer that would help a future run
   find it.
-- Distillation: when recurring evidence suggests a stable core-guide lesson,
-  present the proposed owner, exact lesson, supporting pressure, and suggested
-  edit. Ask the user to approve the proposed edit.
+- Distillation: when recurring evidence suggests a stable lesson for a core
+  guide, present the proposed owner, exact lesson, supporting pressure, and
+  suggested edit. Ask the user to approve the proposed edit.
 - Approved edit: apply approved edits with `$writing-for-agents` active.
 
 Complete when the design choice is resolved or remaining uncertainty is

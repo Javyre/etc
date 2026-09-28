@@ -47,7 +47,7 @@ Rule numbers are stable IDs; gaps mark removed rules.
 13. **Em dash overuse.** Avoid em dashes entirely. Use periods or commas only
     (no parentheses, no en dashes, no hyphen-as-dash substitutes). If a thought
     needs separation, end it and start a new sentence.
-14. **Colon overuse.** Colons are fine before a list or example. Not as
+14. **Colon overuse.** Colons are fine before a list or example, not as
     mid-sentence connectors. "If you're coming from traditional automation:
     instead of registering event handlers, you describe conditions" adds
     nothing with the colon. Rewrite to let the point stand on its own without

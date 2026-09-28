@@ -1,19 +1,20 @@
 # Andrew Kelley
 
-## Core Model
+## Core model
 
 ```text
 system legibility
   → complete model
   → precise intent
-  → direct use of the substrate
+  → direct use of the underlying platform
   → robust, optimal, reusable software
 ```
 
 Andrew treats systems programming as a way of modeling any software system.
 Identify the lowest relevant API, understand its resource and failure
 contracts, then express the program as precise transformations over that
-substrate. Abstractions remain useful while their system effects stay knowable.
+underlying platform. Abstractions remain useful while their system effects stay
+knowable.
 
 Core values:
 - together we serve the users
@@ -26,11 +27,11 @@ Core values:
 Reach for when:
 - the design hides the lowest relevant API or resource contract
 - abstraction makes control, cost, failure, or state hard to explain
-- a system could express intent more directly to its substrate
+- a system could express intent more directly to its underlying platform
 - studying data-oriented design from observed access patterns
 - challenging an inherited premise that constrains the design space
 
-## Best Transmitter
+## Best introduction
 
 - [Making Systems Programming Accessible](https://www.youtube.com/watch?v=Qncdi-Fg0-I)
   ([transcript](https://www.josherich.me/podcast/making-systems-programming-accessible-by-andrew-kelley))
@@ -38,7 +39,7 @@ Reach for when:
   - defines accessibility as progress toward complete system understanding
   - derives precise intent and lowest-API reasoning without depending on Zig
 
-## Teaching Sequence
+## Teaching sequence
 
 - [Software Should Be Perfect](https://www.youtube.com/watch?v=Z4oYSByyRak)
   - normative quality bar; valid inputs include resource exhaustion and edge cases
@@ -48,7 +49,8 @@ Reach for when:
   - applies the system model to an ordinary product
 
 Transferable lessons:
-- expose enough of the substrate to explain correctness, cost, and failure
+- expose enough of the underlying platform to explain correctness, cost, and
+  failure
 - make precise intent the shortest path through the system
 - keep resource ownership and failure explicit
 - design for the reader and maintainer
@@ -60,7 +62,7 @@ Watch:
   operator must know every implementation detail
 - distinguish Andrew's teachings from Zig's current constraints and rough edges
 
-## Reference Material
+## Reference material
 
 Use Zig as sustained evidence and a source of concrete mechanics:
 - https://github.com/ziglang/zig

@@ -10,8 +10,8 @@ Choose invocation by who needs to reach the skill:
   it. Write a description with the trigger branches. Omit
   `disable-model-invocation` and configure the host to allow implicit invocation.
 - **User-invoked.** The human selects the skill explicitly. Set
-  `disable-model-invocation: true`. Write the description as a short human-facing
-  summary. In Codex metadata, set `policy.allow_implicit_invocation: false`.
+  `disable-model-invocation: true`. Write the description as a short summary for
+  humans. In Codex metadata, set `policy.allow_implicit_invocation: false`.
 
 Keep frontmatter and host metadata consistent. The host controls discovery and
 invocation; a description field alone does not establish either. Check the
@@ -26,7 +26,7 @@ approval boundary separately when the workflow needs one.
 
 Split off a model-invoked skill when a distinct trigger or another workflow needs
 independent reach. Its description spends context load, so that reach must earn
-its cost. Sequence splitting follows the completion rules in `SKILL.md`.
+its cost. Splitting a sequence follows the completion rules in `SKILL.md`.
 
 ## Routing and shared reference
 
@@ -35,5 +35,5 @@ reduce what the human must remember. A pointer to another skill does not grant
 permission to invoke it; follow the target's invocation contract.
 
 Store shared reference in a plain file when it needs no independent trigger.
-Any document can point to it. Reading that file does not require invoking a
-workflow merely to recover its definitions.
+Any document can point to it. An agent can read its definitions without invoking
+a workflow.

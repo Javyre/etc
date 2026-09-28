@@ -7,7 +7,7 @@ Reach for when:
 - studying how to keep low-level code understandable
 
 Transferable patterns:
-- build from primitive invariant outward
+- build outward from the primitive invariant
 - keep proofs local
 - explain exact guarantees instead of vibes
 - keep subtle systems legible without handwaving

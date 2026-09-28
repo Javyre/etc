@@ -2,10 +2,10 @@
 
 Codex source layout for Agent Work mining.
 
-Layout checked on 2026-09-06 with `codex-cli 0.153.4`. After upgrades, root changes,
-or missing paths/fields, refresh affected entries from the installation and
-matching version of [upstream Codex](https://github.com/openai/codex); update this
-stamp.
+Layout checked on 2026-09-06 with `codex-cli 0.153.4`. After upgrades, root
+changes, or missing paths or fields, refresh affected entries from the
+installation and the matching version of
+[upstream Codex](https://github.com/openai/codex). Then update this stamp.
 
 ## Roots
 
@@ -30,7 +30,7 @@ cwd. Derive absolute dates from `ts` or `timestamp`.
 Session dialogue carries intent, decisions, findings, and blockers. Tool traces
 and current project state support verification.
 
-## Machine State
+## Machine state
 
 Never read, copy, summarize, or expose `auth.json` or credential files.
 Treat the following files as supporting evidence. Edit them only with explicit

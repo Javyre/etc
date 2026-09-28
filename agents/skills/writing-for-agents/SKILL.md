@@ -18,8 +18,9 @@ A **context pointer** names deferred material and the condition for loading it.
 A skill description, an instruction-file link, and a reference link all do this.
 A **branch** is a distinct case the document handles.
 
-The pointer's wording decides when the agent reaches the material. If required
-material is missed, sharpen the pointer first. Inline it only if that fails.
+The pointer's wording decides when the agent reaches the material. If the agent
+misses required material, sharpen the pointer first. Inline it only if that
+fails.
 
 - Front-load the **leading word**, the concept used to request the material.
 - Include one trigger per branch. Collapse synonyms for the same branch.
@@ -77,8 +78,8 @@ when the required evidence is already present.
 
 **Premature completion** means leaving a step before meeting its criterion.
 Visible **post-completion steps**, the steps still ahead, can draw attention away
-from the current work. Sharpen the criterion first. Only if the bound must remain
-fuzzy and the agent still rushes should you split the sequence to hide later work.
+from the current work. Sharpen the criterion first. Split the sequence to hide
+later work only if the bound must remain fuzzy and the agent still rushes.
 
 That split needs a real context boundary. Dispatching a bounded task to a fresh
 agent or handing off to a fresh session can create one. An inline skill call does
@@ -108,8 +109,9 @@ behavior unclear. State the positive target. Keep explicit prohibitions for hard
 boundaries and pair them with the permitted behavior.
 
 Treat word choice and negation guidance as heuristics. Their value depends on the
-model and task. When observed failures or a behavior-changing comparison warrant
-a trial, use `$experiment`; prose alone does not prove improved behavior.
+model and task. When an observed failure motivates an edit, or readers disagree
+whether a wording change alters behavior, run a trial with `$experiment`. Prose
+alone does not prove improved behavior.
 
 ## Pruning
 

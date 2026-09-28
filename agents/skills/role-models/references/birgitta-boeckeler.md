@@ -4,16 +4,16 @@ Reach for when:
 - studying context engineering
 - studying harness design and quality controls
 - studying human-on-loop framing
-- studying where controls belong in coding-agent workflow
+- studying where controls belong in a coding-agent workflow
 
 Transferable patterns:
 - harness quality comes from feedforward guides plus feedback sensors
 - context curation is engineering, not prompt tidying
 - keep quality left with cheap deterministic controls where possible
-- human should steer loop, not inspect every token
+- the human should steer the loop, not inspect every token
 
 Watch:
-- more synthesis and systems framing than raw operator diary
+- more synthesis and systems framing than a raw operator diary
 - pair with a more hands-on fieldcraft source when you need gritty workflow detail
 
 Orientation reads:

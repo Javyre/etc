@@ -8,12 +8,13 @@ Reach for when:
 
 Transferable patterns:
 - make memory and layout constraints explicit
-- do not pretend unusual machinery is ordinary if that lies about contract
+- do not pretend unusual machinery is ordinary if that lies about the contract
 - judge API elegance against representation and semantics
 - use concrete counterexamples to break bad intuition
 
 Watch:
-- easiest to overfit if you import low-level machinery without needing its exact representation pressure
+- easiest to overfit: adopt this low-level machinery only when your problem has
+  the layout, provenance, or representation constraints that justified it
 
 Orientation reads:
 - https://faultlore.com/blah/rust-layouts-and-abis/

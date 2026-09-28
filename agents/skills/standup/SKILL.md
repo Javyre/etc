@@ -15,9 +15,9 @@ Goal: short, spoken notes about meaningful company progress.
 Use the requested window. Default to the previous local working day through now;
 Monday covers Friday through now.
 
-**Buffer** — follow older traces as needed to recover context for continued or
-follow-up work. Buffered activity informs the summary only when the active window
-contains relevant progress.
+**Buffer.** Follow older traces as needed to recover context for continued or
+follow-up work. Buffered activity informs the summary only when the active
+window contains relevant progress.
 
 ## Mine
 
@@ -33,8 +33,8 @@ recovers missing context.
 
 ## Admit
 
-**Company** — work serving a company deliverable, decision, incident, teammate,
-or active technical investigation.
+**Company** means work serving a company deliverable, decision, incident,
+teammate, or active technical investigation.
 
 Keep:
 
@@ -52,13 +52,14 @@ Exclude:
 - commands, file inventories, routine checks, and abandoned paths
 - implementation detail without team impact
 
-Purpose governs admission. Repo location is weak evidence. Exclude uncertain
-company relevance.
+Purpose governs admission. Repo location is weak evidence. Exclude work whose
+company relevance is uncertain.
 
 ## Synthesize
 
-Merge repeated activity into one outcome-led bullet. Preserve enough cause and
-context for team relevance. Never convert activity into claimed progress.
+Merge repeated activity into one bullet that leads with the outcome. Preserve
+enough cause and context for team relevance. Never convert activity into claimed
+progress.
 
 Repeat active work after meaningful progress. Repeat unresolved blockers while
 they remain actionable.
@@ -73,7 +74,7 @@ Use first-person, spoken bullets under:
 - `Blocked`
 
 Omit empty sections. Default to one line per item. Expand only high-impact items.
-Avoid agent, session, command, and file-centric language.
+Avoid language centered on agents, sessions, commands, and files.
 
 ## Done
 

@@ -2,20 +2,22 @@
 
 Reach for when:
 - studying Zig/C interop boundaries
-- studying build graph design under native vs web split
-- studying generated binding surfaces with explicit platform policy
+- studying build graph design under a native vs web split
+- studying generated bindings with explicit platform policy
 - studying practical low-level examples instead of framework-style architecture
 - studying scoped initialization and compact keys to packed data
 
 Transferable patterns:
-- keep platform and backend choice explicit in build surface
-- make foreign-library integration feel native without lying about underlying system
+- keep platform and backend choice explicit in the build configuration
+- make foreign-library integration feel native without lying about the
+  underlying system
 - use generation where bindings need it, but keep build and runtime seams inspectable
 - keep sample code close to the application integration path
 
 Watch:
 - heavy C and platform glue means some good patterns are interop-specific
-- generated bindings can look cleaner than hand-written design reality
+- generated bindings hide the hand-written glue and platform detail beneath
+  them; judge the design by that code, not by the generated API
 
 Orientation reads:
 - https://github.com/floooh/sokol-zig

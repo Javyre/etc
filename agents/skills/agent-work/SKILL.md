@@ -11,7 +11,7 @@ description: >-
 Owns agent loops, mining, context, tool boundaries, verification, trust, traces,
 and evals.
 
-**Friction** — human effort that buys no useful judgment, control, or proof:
+**Friction** is human effort that buys no useful judgment, control, or proof:
 steering, correction, recovery, checking, or workaround.
 
 ```text
@@ -20,7 +20,7 @@ friction → cause → owning seam → structural remedy
 
 ## Mining
 
-**Mine** — recover prior intent, evidence, and state from work history.
+**Mine** means to recover prior intent, evidence, and state from work history.
 
 ```text
 scope → index → exact trace → current truth
@@ -38,7 +38,7 @@ When mining Codex history, instructions, or machine state, load
   behavior. Prompt polish has less effect.
 - Keep one inspectable loop while one agent can follow its state and evidence
   cheaply. Split when decomposition costs less than keeping one coherent loop.
-  Clear owners and independent proof are signs that decomposition may cost less.
+  Clear owners and independent proof signal that decomposition may cost less.
   Every extra agent, handoff, or synthesis step adds coordination, hidden state,
   and eval cost.
 - Context is a budget. Keep root context small, current, and high-signal. Rules,
@@ -52,11 +52,11 @@ When mining Codex history, instructions, or machine state, load
 
 ## Control
 
-- Verification limits autonomy. Delegation safety rises with the observability of
-  success and failure.
-- Trust is earned by task class, not granted globally.
-- Human owns goals, guardrails, irreversible actions, acceptance, escalation,
-  and loop changes.
+- Verification limits autonomy. Delegation grows safer as success and failure
+  grow easier to observe.
+- Agents earn trust per task class. No one grants it globally.
+- The human owns goals, guardrails, irreversible actions, acceptance,
+  escalation, and loop changes.
 - Human attention has a cost. Spend it on judgment, control, and proof.
 - Prefer local, versioned truth over recall. Keep constraints, references, and
   current state discoverable near the work.
@@ -86,5 +86,5 @@ When mining Codex history, instructions, or machine state, load
 - no cheap verification path
 - prompt patching before friction reaches its owning seam
 - autonomy widening faster than trust earned
-- framework primitives copied as doctrine
+- framework primitives copied as fixed rules
 - operator attention thrash treated as acceptable overhead

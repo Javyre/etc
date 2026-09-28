@@ -6,10 +6,10 @@ description: Grill the user relentlessly about a plan, decision, or idea. Use wh
 Interview the user relentlessly until you reach a shared understanding within
 the agreed scope. Map the **decision tree** and the prerequisites of each choice.
 
-Work in **rounds**. Ask independent questions whose prerequisites are settled
-in small batches, normally no more than three. A complex decision can occupy a
-round alone. Number each question and recommend an answer. Use the available
-question UI and wait for the user's answers before the next round.
+Work in **rounds**. Ask independent questions whose prerequisites are settled.
+Ask them in small batches, normally no more than three. A complex decision can
+occupy a round alone. Number each question and recommend an answer. Use the
+available question UI and wait for the user's answers before the next round.
 
 Recompute the open decisions after each round. A question that depends on an
 unanswered question belongs to a later round.

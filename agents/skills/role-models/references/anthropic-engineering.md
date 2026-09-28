@@ -8,10 +8,10 @@ Reach for when:
 
 Transferable patterns:
 - start simple and compose late
-- tool design often is agent design
+- tool design is often agent design
 - use multiple agents for clean breadth or context splits. Keep one agent as the
   default
-- evals, traces, and delegation quality must be designed intentionally
+- design evals, traces, and delegation quality intentionally
 
 Watch:
 - vendor/runtime bias

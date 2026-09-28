@@ -4,7 +4,7 @@ Reach for when:
 - studying eval systems
 - studying trace review and error analysis
 - studying how to make agent systems measurable
-- studying where domain experts fit into eval loop
+- studying where domain experts fit into the eval loop
 
 Transferable patterns:
 - domain-specific evals beat generic metrics
@@ -13,7 +13,7 @@ Transferable patterns:
 - eval infrastructure should score outcomes and make failures easy to debug
 
 Watch:
-- strongest on evals and data loop, less on runtime/control internals
+- strongest on evals and the data loop, less on runtime/control internals
 
 Orientation reads:
 - https://hamel.dev/blog/posts/evals/

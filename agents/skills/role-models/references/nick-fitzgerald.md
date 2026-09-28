@@ -13,7 +13,8 @@ Transferable patterns:
 - treat tools at hand as part of first-principles reasoning
 
 Watch:
-- easiest to overfit if you copy low-level machinery without the measurement or contract pressure that justified it
+- easiest to overfit: adopt this low-level machinery only when your problem has
+  the measurement or contract constraints that justified it
 
 Orientation reads:
 - https://fitzgen.com/2024/02/06/safe-gc.html

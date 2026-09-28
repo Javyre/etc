@@ -21,7 +21,7 @@ For executable-code design or changes, verification decisions, or review of
 tests and assertions, load [`references/testing.md`](references/testing.md)
 before choosing implementation or test shape.
 
-## Coding Loop
+## Coding loop
 
 1. Scope: infer intent and design scope from the request and repository
    contracts. Apply Code Work within them. Preserve project behavior unless
@@ -46,8 +46,8 @@ before choosing implementation or test shape.
    must correspond.
 
 Establish the semantic shape before implementation. Use authorized edits and tests
-to refine it. Readiness requires Coherence and completion of Fallout for contract
-or model changes.
+to refine it. Readiness requires Coherence and, after contract or
+model changes, completed Fallout.
 
 ## Sketch
 
@@ -62,7 +62,7 @@ When trying a code change or comparison is the cheapest way to choose, reject,
 or refine a direction, apply `$experiment` and load
 [`references/experiments.md`](references/experiments.md).
 
-## Code Expression
+## Code expression
 
 - Reader order: lead with policy and minimal types; show the public story
   before machinery. Keep private helpers near the code they serve.
@@ -81,14 +81,14 @@ or refine a direction, apply `$experiment` and load
 - Character: preserve useful character without manufacturing quirks.
   Stop when further changes merely exchange equally suitable forms.
 
-## Behaviour Locality
+## Behaviour locality
 
 - Ownership: keep behaviour and policy in the subsystem, phase, or caller that
   owns the decision.
 - Special cases: keep ugliness near the phase that needs it.
 - Sharing: prefer local duplication when reuse blurs ownership.
 
-## Change Scope
+## Change scope
 
 - Tight diff: isolate semantic change from cleanup churn and avoid needless allocs. Scan nearby for the same pattern; report matches before expanding the diff.
 
@@ -112,11 +112,11 @@ Complete when affected sites have a current justification, compose coherently,
 and preserve the required behavior and cost contracts. Report deferred fallout
 with its scope and impact.
 
-## Program Shape
+## Program shape
 
 - Caller story: prefer direct, procedural, data-oriented flow; keep policy, phase order, and main dataflow visible.
-- Concrete shape: preserve user-named shapes unless asked to redesign them.
-- Plain first: check correctness and easy perf wins before compressing med/large work; compress only while semantics stay clear.
+- Concrete shape: preserve user-named shapes unless the user asks to redesign them.
+- Plain first: check correctness and easy perf wins before compressing medium or large work; compress only while semantics stay clear.
 - Proof ladder: names, visual symmetry, assertions, then types or helpers. Escalate when risk or ownership earns the weight.
 - Deletion test: a helper, type, or layer earns its place through owned state,
   invariants, mechanics, a cheap proof boundary, or caller complexity that
@@ -133,7 +133,7 @@ with its scope and impact.
 - Control flow: keep the successful path visible. Exit early for boundary failures.
 - Type truth: parse and validate external values at the boundary. Keep internal types honest; do not weaken them to accommodate implementation friction.
 
-## Names And Imports
+## Names and imports
 
 - Scope: naming grows with scope. Use short local names when nearby context
   supplies the meaning; use descriptive names across wider scopes.
@@ -148,7 +148,7 @@ with its scope and impact.
 - Imports: prefer scoped local imports, then go-style imports. Use qualified paths
   when import blocks get noisy.
 
-## Code Comments
+## Code comments
 
 - Contribution: let code state what it does. Comments earn space through
   reasoning, constraints, representation keys, useful mental pictures,

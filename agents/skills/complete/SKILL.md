@@ -12,12 +12,11 @@ its placement, description, and surrounding code.
 On `$complete`, inspect the relevant code and draft the completion in chat. Show
 its `./path:line` and exact diff.
 
-Keep inspection proximal. Read outward until the proposed names and APIs are
-defined and local types, contracts, control flow, and conventions support the
-diff.
-Research only when a missing fact can change it. Then stop.
+Keep inspection close to the anchor. Read outward until the proposed names and
+APIs are defined, and until local types, contracts, control flow, and
+conventions support the diff. Research only when a missing fact can change it. Then stop.
 
-Make the result boring and predictable. Follow the request and nearest local
+Make the result boring and predictable. Follow the request and the nearest local
 shapes. Prefer the smallest behavior and diff supported by the evidence. Expose
 any remaining choice instead of guessing.
 

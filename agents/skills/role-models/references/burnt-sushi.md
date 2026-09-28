@@ -3,7 +3,7 @@
 Reach for when:
 - studying honest library APIs
 - studying perf-sensitive layering
-- studying explicit low-level seams under usable top-level surfaces
+- studying explicit low-level seams under usable top-level APIs
 - studying practical engineering writing
 
 Transferable patterns:

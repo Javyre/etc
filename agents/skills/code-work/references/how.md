@@ -7,8 +7,9 @@ failure paths, and material costs. Read the controlling code. Follow callers
 and callees until the path is complete.
 
 Complete when the path contains no guessed transition and the evidence
-supports the conclusion. Unresolved premises must limit dependent rankings
-and exclusions.
+supports the conclusion. When a ranking or exclusion depends on an
+unresolved premise, demote it in proportion to that uncertainty and name the
+premise.
 
 For change work, return only the constraints that affect the proposed change.
 For an explanation request, cite the controlling symbols and explain the path.

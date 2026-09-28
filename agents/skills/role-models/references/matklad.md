@@ -13,11 +13,12 @@ Transferable patterns:
 - keep big codebases navigable
 - avoid detached abstraction
 - make ids, seams, and ownership obvious
-- keep policy close to call-site and owner
+- keep policy close to the call site and owner
 
 Watch:
-- higher macro tolerance than Casey/Kelley pole
-- use more for architecture and abstraction judgment than for purity on hidden-work axis
+- higher macro tolerance than Casey or Kelley
+- use more for architecture and abstraction judgment than for strict avoidance
+  of hidden work
 
 Orientation reads:
 - https://matklad.github.io/2021/05/31/how-to-test.html

@@ -1,4 +1,4 @@
-# Rust Code Style Guide
+# Rust code style guide
 
 Owns Rust-specific code-style deltas.
 
@@ -10,7 +10,7 @@ Goal: mechanically honest Rust with the least language machinery.
 - Boring default: prefer concrete types, funcs, enums, loops, and explicit ownership.
 - Earned ugliness: accept local friction when tidier Rust adds clones, allocs, indirection, hidden phases, or weaker proof.
 
-## Ownership And Variation
+## Ownership and variation
 
 - Borrow pressure: reshape scopes, ownership, and data first. Treat cloning,
   `Arc`, boxing, dyn dispatch, interior mutability, and `unsafe` as explicit design
@@ -25,16 +25,17 @@ Goal: mechanically honest Rust with the least language machinery.
 
 ## Failure
 
-- Recovery demand: return `Result` when callers need branchable failure now or reasonably soon.
+- Recovery demand: return `Result` when callers need to branch on failure now or reasonably soon.
 - Recovery scope: panic, `.unwrap()`, or `.expect()` may be honest when recovery is deliberately outside the program or component scope.
 - Preconditions: assertions may enforce internal invariants and documented programmer obligations.
-- Debug proof: use `debug_assert!` for dispensable checking cost; never make soundness depend on it.
+- Debug proof: use `debug_assert!` for checks whose cost you can drop; never make soundness depend on it.
 - Translation: preserve source errors unless domain translation improves control flow or diagnostics.
 - Convention: follow neighbouring error style when the semantic choice is tied.
 
-## Representation And Codegen
+## Representation and codegen
 
-- Narrow ints: use for representation fidelity; widen ordinary arithmetic when it improves safety or codegen.
+- Narrow ints: use them when the value's range fits the width or a layout
+  requires it; widen ordinary arithmetic when it improves safety or codegen.
 - Sentinel state: encode meaningful nullability with types such as `Option<NonZeroU32>`; verify layout when layout is the reason.
 - Iteration: use direct loops when iterator chains obscure mutation, allocation, or hot-loop shape.
 - Unsafe proof: keep the unsafe region narrow and state its exact validity, aliasing, lifetime, and concurrency obligations.

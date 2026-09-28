@@ -2,7 +2,7 @@
 
 Audience: the next worker starting without the conversation.
 
-Purpose: make cold continuation safe and efficient.
+Purpose: make resuming the work from a cold start safe and efficient.
 
 Include:
 

@@ -10,8 +10,8 @@ context. Use a fresh session when prior output or manual context loading could
 hide a routing or retrieval failure.
 
 Keep the prompt, loaded context, action trace, final artifact, and side effects
-inspectable. Distinguish a bad pilot, failed treatment, and wrong agent-system
-model.
+inspectable. Distinguish a bad pilot, a failed treatment, and a wrong
+agent-system model.
 
 Scouts or model judges can widen evidence. The experiment owner verifies claims,
 resolves disagreement, and owns acceptance. Add task breadth, repetition, or

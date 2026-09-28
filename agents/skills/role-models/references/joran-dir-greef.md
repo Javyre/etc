@@ -10,7 +10,7 @@ Transferable patterns:
 - put limits on everything that matters
 - let safety, perf, and operator predictability shape data and API design
 - use assertions and simulation as force multipliers, not substitutes for thought
-- keep first-principles cost reasoning tied to concrete workload
+- keep first-principles cost reasoning tied to a concrete workload
 
 Watch:
 - easiest to overfit extreme OLTP and safety pressure into everyday software

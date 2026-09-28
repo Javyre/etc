@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Dream
 
-Apply `$agent-work`. Apply `$jv-review` with Dream as Governing skill.
+Apply `$agent-work`. Apply `$jv-review` with Dream as the Governing skill.
 
 Goal: turn user friction into the smallest durable skill, guide, or doc change.
 
@@ -31,9 +31,9 @@ Study is warm when every material candidate has source, cause, cost, and owner.
 friction → cause → owner → remedy → regression risk
 ```
 
-**Durable** — useful after the original context is gone.
+**Durable** means useful after the original context is gone.
 
-Repeated friction is strongest evidence; one severe trust break can qualify.
+Repeated friction is the strongest evidence; one severe trust break can qualify.
 Admit only remedies likely to change future behavior.
 
 ```text
@@ -45,7 +45,7 @@ mechanical cause → tool, check, or interface
 covered already  → check why it failed before deciding no edit
 ```
 
-One meaning, one owner. Prefer the smallest owner-local change.
+One meaning, one owner. Prefer the smallest change local to its owner.
 
 Review completes when every candidate is admitted, excluded with proof, or
 bounded `q:`.
@@ -55,8 +55,9 @@ bounded `q:`.
 Use jv-review's report. Focus its System model on the friction loop and
 instruction seam.
 
-Each finding shows the episode visually, the current and suggested owner snippet,
-proof, expected relief, and regression risk. Merge repeated episodes by cause.
+Each finding shows the episode visually, the current and suggested owner
+snippets, proof, expected relief, and regression risk. Merge repeated episodes
+by cause.
 
 ## Fix Delta
 

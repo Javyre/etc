@@ -3,18 +3,19 @@
 Reach for when:
 - studying broad coding-agent fieldcraft
 - studying testing and review posture under cheap codegen
-- studying subagents as context-control tool
+- studying subagents as a context-control tool
 - studying prompt-injection and trust-boundary realism
 
 Transferable patterns:
-- good code still costly after code gets cheap
-- subagents are mainly context-pressure tool, not magic multiplier
+- good code is still costly after code gets cheap
+- subagents are mainly a context-pressure tool, not a magic multiplier
 - keep examples small and working
 - distrust unreviewed output and shallow benchmark theater
 
 Watch:
 - strongest on coding-agent practice, less on enterprise workflow org design
-- current guide is still growing, so use it as living field guide, not final doctrine
+- the current guide is still growing, so use it as a living field guide, not
+  a final rulebook
 
 Orientation reads:
 - https://simonwillison.net/guides/agentic-engineering-patterns/

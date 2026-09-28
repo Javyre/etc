@@ -14,7 +14,7 @@ Use runtime assertions liberally along the paths those tests exercise.
 - Cover relevant state transitions, failure and cost contracts, and composition.
   Consider reachability, retry, invalidation, deletion, rebuild, recovery, and
   publication. These are coverage questions, not a test-per-item checklist.
-- Use lower-level tests for distinct invariants, otherwise hidden execution
+- Use lower-level tests for distinct invariants, otherwise-hidden execution
   paths, state-space coverage, or substantially better diagnosis.
 - Repeated difficulty testing important behavior calls for a better design or
   test interface. Avoid making expensive testing a permanent reason to skip it.

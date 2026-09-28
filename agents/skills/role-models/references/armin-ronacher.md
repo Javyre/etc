@@ -1,10 +1,11 @@
 # Armin Ronacher
 
-Useful more as contrarian runtime and environment corrective than as full canon.
+More useful as a contrarian check on runtime and environment choices than as a
+complete reference.
 
 Reach for when:
 - studying stable environments and tool-speed economics
-- studying what agent automation patterns failed in practice
+- studying which agent automation patterns failed in practice
 - studying skepticism toward abstraction and framework comfort
 
 Orientation reads:

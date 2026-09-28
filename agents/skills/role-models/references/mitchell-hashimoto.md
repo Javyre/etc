@@ -1,15 +1,15 @@
 # Mitchell Hashimoto
 
-## Agentic Engineering Context
+## Agentic engineering context
 
 Reach for when:
 - studying the adoption path from chat to a repeatable agent workflow
-- studying task shaping and planning/execution split
+- studying task shaping and the planning/execution split
 - studying harness-first pragmatism
 - studying when to trust background autonomy and when not to
 
 Transferable patterns:
-- stop using chat as default coding surface
+- stop using chat as the default coding interface
 - reproduce your own work first
 - give agents strong verification paths
 - repeated misses should graduate into harness improvements
@@ -22,7 +22,7 @@ Orientation reads:
 - https://mitchellh.com/writing/my-ai-adoption-journey
 - https://mitchellh.com/writing/non-trivial-vibing
 
-## Zig Context
+## Zig context
 
 Reach for when:
 - studying large native app architecture in Zig
@@ -34,7 +34,7 @@ Transferable patterns:
 - keep platform-specific ugliness below explicit seams
 - use Zig for large apps without hiding system truths
 - pair ergonomic top-level APIs with lower-level escape hatches
-- make docs and build surface reflect platform constraints
+- make docs and the build configuration reflect platform constraints
 
 Watch:
 - easiest to overfit terminal or GUI structure instead of seam and boundary ideas

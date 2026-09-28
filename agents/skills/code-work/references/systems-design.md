@@ -1,11 +1,11 @@
-# Systems Design Guide
+# Systems design guide
 
 Owns system shape: primitives, composition, ownership, seams, policy, truth, layers, phases, lifecycle, and module boundaries.
 
-Goal: find the smallest complete primitive set. Its composition stays simple,
-and its owners expose deep, honest interfaces.
+Goal: find the smallest complete primitive set whose composition stays simple
+and whose owners expose deep, honest interfaces.
 
-## Design Vocabulary
+## Design vocabulary
 
 - Primitive: a semantic building block that its consumers treat as indivisible
   within the current scope. It has one stable role, owner, cost, and failure
@@ -23,8 +23,8 @@ and its owners expose deep, honest interfaces.
   states, ordering, failure, config, and cost. State domain intent precisely.
   Expose mechanical constraints that callers must choose around. Keep mechanical
   primitives with their owner.
-- Depth: caller value per interface fact. Concentrate coherent owner-local
-  behavior behind a small interface. Keep mechanics, cost, policy, and phase
+- Depth: caller value per interface fact. Concentrate coherent behavior local
+  to its owner behind a small interface. Keep mechanics, cost, policy, and phase
   visible where callers must reason about them.
 - Canonical truth: minimal state owning legality, identity, and lifecycle.
   Derived state declares its owner, invalidation, and rebuild.
@@ -33,8 +33,8 @@ and its owners expose deep, honest interfaces.
 - Phase: admit one when valid state, authority, visibility, retry semantics, or
   effects require a handoff. Each phase hands off a valid state or a declared
   reduced mode. Account for passes, buffering, sync, latency, and retained state.
-- Semantic checkpoint: use naming conventions. Prefer POD and phase-local
-  discipline. Guards must earn their complexity.
+- Semantic checkpoint: use naming conventions. Prefer POD and discipline local
+  to each phase. Guards must earn their complexity.
 - Tie-break: semantic correctness first. When choices are otherwise equal, prefer
   the mechanical minimum, then the smaller primitive set, then caller ease. Run
   primitive-set changes by the user.
@@ -55,15 +55,14 @@ and its owners expose deep, honest interfaces.
 - Canonical source: reuse source-of-truth types, parsing, and validation. Local
   copies require a narrower or clearer contract.
 
-## Interfaces And Composition
+## Interfaces and composition
 
 - Depth pressure: repeated caller-side invariant glue is evidence of awkward
   composition. Tolerate minor duplication while it keeps the primitive set
   smaller. Deepen the interface when moving mechanics to their owner removes
-  enough caller glue to justify the deeper interface without adding a weak
-  primitive.
-- Semantic translation: translate once between domain primitives and owner-local
-  mechanics. Put the translation at the seam whose owner understands both.
+  enough caller glue to justify it without adding a weak primitive.
+- Semantic translation: translate once between domain primitives and mechanics
+  local to their owner. Put the translation at the seam whose owner understands both.
   Change primitive vocabulary only when meaning, invariant, lifecycle, cost, or
   failure changes.
 - Policy API: when policy is fixed, expose the caller's concrete intent and let
@@ -73,8 +72,9 @@ and its owners expose deep, honest interfaces.
   must preserve cost, mutation, policy, and phase truth.
 - Lower seam: understand the lower contract before shaping the higher interface.
   Keep it reachable when callers need its contract, cost choice, or escape hatch.
-- Transparent combinator: after useful repetition, name policy-free choreography.
-  Accept minor awkwardness first. Add sparingly.
+- Transparent combinator: when a call sequence recurs and makes no policy
+  choice, name it. Keep policy at the call site. Accept minor awkwardness
+  first. Add sparingly.
 - Variant seam: keep semantically distinct operations separate until evidence
   establishes a shared contract.
 - Coordinator/worker: the coordinator owns order, staging, retry, and shared
@@ -83,21 +83,23 @@ and its owners expose deep, honest interfaces.
   coordinator that has enough context and authority to choose them.
 - Caller workaround: repeated refresh, retry, ordering, or caveat glue indicates
   a false seam or wrong owner.
-- Interchange seam: variable implementations share the smallest stable carrier.
+- Interchange seam: implementations of one role share the smallest stable
+  contract, an interface or a data format.
   Implementation mechanics remain local.
-- Canonical mutation: shared truth changes through owner-controlled paths. Those
-  paths normalize inputs and preserve invariants.
+- Canonical mutation: shared truth changes through paths its owner controls.
+  Those paths normalize inputs and preserve invariants.
 - Local duplication: duplicate small compositions until shared semantics establish
   a primitive with one owner, cost, and failure model.
 
-## Layers And Dependencies
+## Layers and dependencies
 
-- Dependency direction: pass stable facts downward. Keep higher policy and
-  ambient reach-through out of lower owners.
+- Dependency direction: pass stable facts downward. Keep higher policy out of
+  lower owners. Lower owners do not read global or ambient state or call up
+  into higher layers.
 - Dependency scope: place context-wide services with the highest owner responsible
   for their full scope. Keep local dependencies local.
 
-## State And Lifecycle
+## State and lifecycle
 
 - Model shape: ownership, lifecycle, invalidation, creation, and scope shape
   subsystem boundaries.
@@ -112,13 +114,13 @@ and its owners expose deep, honest interfaces.
 - Future-shaped hole: place incomplete work with its eventual owner and dataflow
   seam. Name the missing primitive. Avoid speculative layers and adapters.
 
-## Locality And Modules
+## Locality and modules
 
 - Local mess: keep scratch state, fixups, synthetic objects, and special rules
   with their owner and phase.
 - Seam pressure: higher-layer contortions indicate a bad seam. Confine repair or
   translation to the edge owned by the responsible component.
-- Extraction: split by ownership of complexity. Reuse alone provides weak evidence.
+- Extraction: split by ownership of complexity. Reuse alone is weak evidence.
 - Stable import point: use a thin facade when it contains internal churn and
   stabilizes dependency edges.
 - Module split: follow ownership and lifecycle boundaries.
