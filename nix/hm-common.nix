@@ -64,7 +64,6 @@ in
     gh
     jujutsu
     codexBin
-    inputs'.llm-agents.packages.claude-code
     wget
     htop
     jq

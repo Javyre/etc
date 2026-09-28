@@ -1,29 +1,55 @@
-{ config, ... }:
+{
+  config,
+  lib,
+  inputs',
+  ...
+}:
 let
   ln = config.lib.jv.ln;
+  agentsMd = ln "agents/AGENTS.md";
 
-  skill-ln = name: {
-    ".agents/skills/${name}".source = ln "agents/skills/${name}";
-    ".claude/skills/${name}".source = ln "agents/skills/${name}";
-  };
+  sharedSkills = lib.genAttrs [
+    "agent-work"
+    "code-work"
+    "complete"
+    "conflicts"
+    "dream"
+    "experiment"
+    "grilling"
+    "hindsight-prompt"
+    "jv-review"
+    "role-models"
+    "standup"
+    "unslop"
+    "writing-artifacts"
+    "writing-for-agents"
+  ] (name: ln "agents/skills/${name}");
 in
 {
+  imports = [ ./hm-claude.nix ];
+
   home.file = {
-    ".codex/AGENTS.md".source = ln "agents/AGENTS.md";
-    ".claude/CLAUDE.md".source = ln "agents/AGENTS.md";
+    ".codex/AGENTS.md".source = agentsMd;
   }
-  // skill-ln "agent-work"
-  // skill-ln "code-work"
-  // skill-ln "complete"
-  // skill-ln "conflicts"
-  // skill-ln "dream"
-  // skill-ln "experiment"
-  // skill-ln "grilling"
-  // skill-ln "hindsight-prompt"
-  // skill-ln "jv-review"
-  // skill-ln "role-models"
-  // skill-ln "standup"
-  // skill-ln "unslop"
-  // skill-ln "writing-artifacts"
-  // skill-ln "writing-for-agents";
+  // lib.mapAttrs' (
+    name: source: lib.nameValuePair ".agents/skills/${name}" { inherit source; }
+  ) sharedSkills;
+
+  jv.claude = {
+    enable = true;
+    package = inputs'.llm-agents.packages.claude-code;
+    refuseDefaultConfigDir = true;
+    configDirs.personal = {
+      bin = "claude-personal";
+      dir = ".claude-personal";
+      inherit agentsMd;
+      skills = sharedSkills;
+    };
+    configDirs.work = {
+      bin = "claude-work";
+      dir = ".claude-work";
+      inherit agentsMd;
+      skills = sharedSkills;
+    };
+  };
 }
