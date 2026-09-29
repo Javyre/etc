@@ -1,6 +1,6 @@
-// brief.js: shared behavior for a brief page set. Classic script, no
-// dependencies, works on file://. Every feature is optional: the pages read
-// fine with this file missing.
+// brief.js: behavior for the page kit (README.md). Classic script, no
+// dependencies, works on file://. Every feature is optional: pages still read
+// without this file.
 //
 // Browser storage holds only per-reader conveniences. Theme, tuning and the
 // tuning panel state are shared by every page that uses the kit (key prefix
@@ -19,23 +19,23 @@
   function gget(k) { try { return localStorage.getItem("brief:" + k); } catch (e) { return null; } }
   function gset(k, v) { try { localStorage.setItem("brief:" + k, v); } catch (e) {} }
 
-  // ---- theme: auto -> light -> dark -> auto. Applied before first paint.
-  var theme = gget("theme");
-  if (theme === "light" || theme === "dark") root.setAttribute("data-theme", theme);
-  var dark = matchMedia("(prefers-color-scheme: dark)");
-  function effectiveTheme() {
-    return root.getAttribute("data-theme") || (dark.matches ? "dark" : "light");
-  }
+  // ---- theme: the toggle cycles auto, light, dark. html[data-theme] always
+  // holds the theme in effect, set before first paint; storage holds the
+  // choice.
+  const dark = matchMedia("(prefers-color-scheme: dark)");
+  const choice = () => ["light", "dark"].includes(gget("theme")) ? gget("theme") : null;
+  const effectiveTheme = () => root.dataset.theme;
+  const resolve = () => { root.dataset.theme = choice() ?? (dark.matches ? "dark" : "light"); };
+  resolve();
   function setTheme(t) {
-    if (t === "light" || t === "dark") root.setAttribute("data-theme", t); else root.removeAttribute("data-theme");
     gset("theme", t || "auto");
+    resolve();
     applyTune();
-    var btn = document.querySelector(".theme-toggle");
+    const btn = document.querySelector(".theme-toggle");
     if (btn) themeLabel(btn);
   }
   function themeLabel(btn) {
-    var t = root.getAttribute("data-theme");
-    btn.textContent = t === "light" ? "Light" : t === "dark" ? "Dark" : "Auto";
+    btn.textContent = { light: "Light", dark: "Dark" }[choice()] ?? "Auto";
   }
 
   // ---- tuning: overrides saved by the tuning panel, applied to every page
@@ -59,7 +59,7 @@
     Object.keys(s.o || {}).forEach(function (k) { root.setAttribute("data-o-" + k, s.o[k]); });
     layout();
   }
-  dark.addEventListener("change", applyTune);
+  dark.addEventListener("change", () => { resolve(); applyTune(); });
 
   // ---- layout tiers, from the rule in brief.css:
   // html.rail when gutter >= rail + 2 * rail-gap; html.hang when
@@ -100,17 +100,30 @@
   function initChrome() {
     var bar = document.querySelector(".topbar");
     if (!bar) return;
-    // Current section name, between the set link and the position.
+    // Current section name, between the set link and the position. It opens
+    // the map as a drop-down: a popover copy of the contents list, which
+    // closes on Escape, an outside click, or a chosen link.
     if (!bar.querySelector(".cur")) {
-      var cur = document.createElement("span");
-      cur.className = "cur";
-      bar.insertBefore(cur, bar.children[1] || null);
+      const cur = document.createElement("button");
+      cur.className = "cur"; cur.type = "button";
+      cur.append(document.createElement("span"));
+      bar.insertBefore(cur, bar.children[1] ?? null);
+      const list = document.querySelector("nav.toc ol");
+      if (list) {
+        const drop = document.createElement("div");
+        drop.className = "mapdrop"; drop.popover = "auto";
+        drop.append(list.cloneNode(true));
+        bar.append(drop);
+        cur.title = "Contents";
+        cur.popoverTargetElement = drop;
+        drop.addEventListener("click", (e) => { if (e.target.closest("a")) drop.hidePopover(); });
+      }
     }
     var btn = bar.querySelector(".theme-toggle");
     if (btn) {
       themeLabel(btn);
-      btn.addEventListener("click", function () {
-        var t = root.getAttribute("data-theme");
+      btn.addEventListener("click", () => {
+        const t = choice();
         setTheme(!t ? "light" : t === "light" ? "dark" : null);
       });
       var tb = document.createElement("button");
@@ -126,17 +139,19 @@
   function initScroll() {
     var main = document.querySelector("main");
     var pager = document.querySelector(".pager");
-    var curName = document.querySelector(".topbar .cur");
+    var curName = document.querySelector(".topbar .cur > span");
     var saved = +get("y:" + page);
     // Resume only unfinished pages; a finished page reopens at the top.
     if (!location.hash && saved > 0 && !get("done:" + page)) window.scrollTo(0, saved);
 
-    // Map links in document order, each with its target heading.
+    // Map links in document order, each with its target heading and its copy
+    // in the drop-down.
     var map = [];
     var links = document.querySelectorAll('nav.toc a[href^="#"]');
+    var copies = document.querySelectorAll('.mapdrop a[href^="#"]');
     for (var i = 0; i < links.length; i++) {
       var h = document.getElementById(decodeURIComponent(links[i].hash.slice(1)));
-      if (h) map.push([links[i], h]);
+      if (h) map.push([links[i], h, copies[i]]);
     }
     // Section index of each child of main: -1 before the first h2.
     var kids = main ? Array.prototype.slice.call(main.children) : [];
@@ -156,20 +171,28 @@
       set("y:" + page, String(Math.round(scrollY)));
       if (pager && pager.getBoundingClientRect().top < innerHeight) set("done:" + page, "1");
 
-      // Current = last heading above the top third of the viewport.
+      // The current section is the last heading above the top third of the
+      // viewport.
       var next = null, idx = -1;
       for (var j = 0; j < map.length; j++) {
-        if (map[j][1].getBoundingClientRect().top < innerHeight / 3) next = map[j][0];
+        if (map[j][1].getBoundingClientRect().top < innerHeight / 3) next = map[j];
       }
       for (var k = 0; k < heads.length; k++) {
         if (heads[k].getBoundingClientRect().top < innerHeight / 3) idx = k;
       }
       if (next !== current) {
-        if (current) current.classList.remove("current");
-        if (next) next.classList.add("current");
+        [current, next].forEach(function (e, on) {
+          if (!e) return;
+          e[0].classList.toggle("current", !!on);
+          if (e[2]) e[2].classList.toggle("current", !!on);
+        });
         current = next;
       }
-      if (curName) curName.textContent = idx >= 0 ? titleOf(heads[idx]) : "";
+      // The bar names the section by its map label, which is shorter than
+      // the heading; a heading the map leaves out shows its own text.
+      if (curName) {
+        curName.textContent = idx < 0 ? "" : next?.[1] === heads[idx] ? next[0].textContent.trim() : titleOf(heads[idx]);
+      }
       var focus = root.getAttribute("data-o-focus") === "section" && idx >= 0;
       for (var m = 0; m < kids.length; m++) {
         var chrome = kids[m] === pager || kids[m].matches(".topbar, nav.toc");
@@ -191,8 +214,8 @@
     }
   }
 
-  // Keys: left/right follow the pager; "," opens the tuning panel. Only when
-  // nothing else wants the keys.
+  // Keys: left and right follow the pager, and "," opens the tuning panel.
+  // They apply only when no control other than a link or button has focus.
   function initKeys() {
     addEventListener("keydown", function (e) {
       if (e.altKey || e.ctrlKey || e.metaKey) return;
@@ -238,19 +261,24 @@
     }
   }
 
-  // Reading time: appended to the first .meta line, 230 words per minute,
-  // code counted at half weight.
+  // Reading time, 230 words per minute, code counted at half weight: fills
+  // an empty span.rt (the metadata grid has one), else is appended to the
+  // first .meta line.
   function initReadTime() {
     var meta = document.querySelector(".meta");
     var main = document.querySelector("main");
-    if (!meta || !main || meta.querySelector(".rt")) return;
+    if (!meta || !main) return;
+    var slot = meta.querySelector(".rt");
+    if (slot && slot.textContent) return;
     var codeWords = 0;
     var pres = main.querySelectorAll("pre");
     for (var i = 0; i < pres.length; i++) codeWords += pres[i].textContent.split(/\s+/).length;
     var words = main.textContent.split(/\s+/).length - codeWords + codeWords / 2;
+    var min = Math.max(1, Math.round(words / 230)) + " min read";
+    if (slot) { slot.textContent = min; return; }
     var s = document.createElement("span");
     s.className = "rt";
-    s.textContent = " · " + Math.max(1, Math.round(words / 230)) + " min read";
+    s.textContent = " · " + min;
     meta.appendChild(s);
   }
 

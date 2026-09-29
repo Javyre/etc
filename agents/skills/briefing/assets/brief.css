@@ -1,10 +1,9 @@
-/* brief.css: shared styles for a brief page set. Pages link this file
+/* brief.css: styles for the page kit (README.md). Pages link this file
    relatively. No build step, no external requests, works on file://.
 
-   Design rules: one column, one accent, no motion, no decoration. Color
-   carries meaning (kind, verdict, warning, highlight) or nothing.
+   Every choice here follows ../references/typesetting.md.
 
-   Color roles. Every color is OKLCH. Each role has ONE lightness (L) per
+   Color roles. Every color is OKLCH. Each role has one lightness (L) per
    theme; hue alone names the kind within a role, and emphasis inside a
    role comes from weight or an outline, never from a different L.
 
@@ -19,63 +18,64 @@
      mark     highlighter behind text                 page + Δ         mark
      text     body text                               --l-fg (base)    paper
      muted    secondary text                          text + Δ         paper
-     accent   links, map marker, emphasis lines       --l-accent (base) accent
-     signal   callout rules and labels, trace notes   accent + Δ       by kind
+     accent   links, figure emphasis                  --l-accent (base) accent
+     signal   warning rules, trace notes, diff lines  accent + Δ       ok/warn/bad
      code     syntax tokens                           accent + Δ       by kind
      label    text on a fill                          fill + Δ         by kind
 
    Kinds: accent, ok, warn, bad, neutral (neutral = paper hue at ink
-   chroma). A delta (--d-*, --dc-*) is signed and relative to its base, so
-   moving a base moves everything tied to it, and each role's contrast with
-   its surface stays put. The tuning panel (brief-tune.js, key ",") edits
-   these values live and shows the WCAG contrast of each pair.
+   chroma); the signal role has ok, warn, and bad only. A delta (--d-*,
+   --dc-*) is signed and relative to its base, so moving a base moves
+   everything tied to it, and each role's contrast with its surface holds.
+   The tuning panel (brief-tune.js, key ",") edits these values live and
+   shows the WCAG contrast of each pair.
 
-   Options: blocks marked "Option" below switch on html[data-o-NAME]. No
-   attribute means the default. brief.js sets them from the reader's saved
-   tuning; the tuning panel lists them. */
+   Caps. A colored role may carry --cap-ROLE (--cap-sig-ok, --cap-syn-num,
+   …), a ceiling on its chroma alone. The panel's "fit P3" sets one only
+   where the shared chroma would put that role, at its L and hue, outside
+   Display P3. No cap, no ceiling.
+
+   Themes. brief.js sets html[data-theme] to the theme in effect (the
+   reader's choice, else the system's) before first paint, so one block
+   per theme suffices. Without brief.js, pages render light. */
 
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 
   /* Hues (degrees). */
-  --h-accent: 259.7;  --h-mark: 90.6;
+  --h-accent: 260;  --h-mark: 91;
   --h-ok: 150;    --h-warn: 65;     --h-bad: 27;
   --h-str: 145;   --h-num: 60;      --h-ty: 230;   --h-mac: 100;
 
   /* Light theme. */
-  --l-bg: .9549;    --c-paper: .0118;  --h-paper: 85;
-  --d-card: -.052;  --d-rule: -.102;   --d-fill: -.09;   --d-mark: -.072;
-  --c-fill: .036;   --c-mark: .09;
-  --l-fg: .27;      --c-ink: .012;     --d-muted: .21;
-  --l-accent: .50;  --c-accent: .19;
-  --d-sig: -.03;    --dc-sig: -.07;
+  --l-bg: .995;     --c-paper: .005;   --h-paper: 85;
+  --d-card: -.03;   --d-rule: -.10;    --d-fill: -.08;   --d-mark: -.07;
+  --c-fill: .046;   --c-mark: .09;
+  --l-fg: .19;      --c-ink: 0;        --d-muted: .21;
+  --l-accent: .50;  --c-accent: .221;
+  --d-sig: -.035;   --dc-sig: -.02;
   --d-syn: -.035;   --dc-syn: -.085;
-  --d-label: -.425; --dc-label: -.085;
+  --d-label: -.485; --dc-label: -.047;
+  --bold-x: .012em;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --l-bg: .156;     --c-paper: .0098;  --h-paper: 29;
-    --d-card: .0473;  --d-rule: .1368;   --d-fill: .1152;  --d-mark: .1567;
-    --c-fill: .0688;  --c-mark: .05;
-    --l-fg: .869;     --c-ink: .0124;    --d-muted: -.2219;
-    --l-accent: .6931; --c-accent: .142;
-    --d-sig: 0;       --dc-sig: .005;
-    --d-syn: .03;     --dc-syn: -.01;
-    --d-label: .4435; --dc-label: -.0424;
-  }
+/* Light-theme caps. Not in :root, which the dark theme inherits. */
+:root:not([data-theme="dark"]) {
+  --cap-sig-ok: .179;   --cap-sig-warn: .12;   --cap-fill-accent: .045;
+  --cap-label-ok: .166; --cap-label-warn: .111;
+  --cap-syn-num: .125;  --cap-syn-ty: .122;    --cap-syn-mac: .112;
 }
 :root[data-theme="dark"] {
-  --l-bg: .156;     --c-paper: .0098;  --h-paper: 29;
-  --d-card: .0473;  --d-rule: .1368;   --d-fill: .1152;  --d-mark: .1567;
-  --c-fill: .0688;  --c-mark: .05;
-  --l-fg: .869;     --c-ink: .0124;    --d-muted: -.2219;
-  --l-accent: .6931; --c-accent: .142;
+  color-scheme: dark;
+  --l-bg: .155;     --c-paper: .01;    --h-paper: 29;
+  --d-card: .045;   --d-rule: .135;    --d-fill: .115;   --d-mark: .155;
+  --c-fill: .069;   --c-mark: .05;
+  --l-fg: .87;      --c-ink: .012;     --d-muted: -.22;
+  --l-accent: .695; --c-accent: .142;
   --d-sig: 0;       --dc-sig: .005;
   --d-syn: .03;     --dc-syn: -.01;
-  --d-label: .4435; --dc-label: -.0424;
+  --d-label: .445;  --dc-label: -.042;
+  --bold-x: .02em;
 }
-:root[data-theme="light"] { color-scheme: light; }
-:root[data-theme="dark"]  { color-scheme: dark; }
 
 :root {
   /* Derived lightness and chroma, one per role. */
@@ -96,43 +96,37 @@
   --card:    oklch(var(--l-card) var(--c-paper) var(--h-paper));
   --code-bg: var(--card);
   --rule:    oklch(var(--l-rule) var(--c-paper) var(--h-paper));
-  --mark-bg: oklch(var(--l-mark) var(--c-mark) var(--h-mark));
+  --mark-bg: oklch(var(--l-mark) min(var(--c-mark), var(--cap-mark, 1)) var(--h-mark));
 
   /* text, muted, accent */
   --fg:      oklch(var(--l-fg) var(--c-ink) var(--h-paper));
   --muted:   oklch(var(--l-muted) var(--c-ink) var(--h-paper));
-  --accent:  oklch(var(--l-accent) var(--c-accent) var(--h-accent));
+  --accent:  oklch(var(--l-accent) min(var(--c-accent), var(--cap-accent, 1)) var(--h-accent));
 
   /* signal, by kind */
-  --sig-accent:  oklch(var(--l-sig) var(--c-sig) var(--h-accent));
-  --sig-neutral: oklch(var(--l-sig) var(--c-ink) var(--h-paper));
-  --ok:          oklch(var(--l-sig) var(--c-sig) var(--h-ok));
-  --warn:        oklch(var(--l-sig) var(--c-sig) var(--h-warn));
-  --bad:         oklch(var(--l-sig) var(--c-sig) var(--h-bad));
+  --ok:          oklch(var(--l-sig) min(var(--c-sig), var(--cap-sig-ok, 1)) var(--h-ok));
+  --warn:        oklch(var(--l-sig) min(var(--c-sig), var(--cap-sig-warn, 1)) var(--h-warn));
+  --bad:         oklch(var(--l-sig) min(var(--c-sig), var(--cap-sig-bad, 1)) var(--h-bad));
 
   /* fill and label, by kind */
-  --fill-accent:   oklch(var(--l-fill) var(--c-fill) var(--h-accent));
+  --fill-accent:   oklch(var(--l-fill) min(var(--c-fill), var(--cap-fill-accent, 1)) var(--h-accent));
   --fill-neutral:  oklch(var(--l-fill) var(--c-paper) var(--h-paper));
-  --fill-ok:       oklch(var(--l-fill) var(--c-fill) var(--h-ok));
-  --fill-warn:     oklch(var(--l-fill) var(--c-fill) var(--h-warn));
-  --fill-bad:      oklch(var(--l-fill) var(--c-fill) var(--h-bad));
-  --label-accent:  oklch(var(--l-label) var(--c-label) var(--h-accent));
+  --fill-ok:       oklch(var(--l-fill) min(var(--c-fill), var(--cap-fill-ok, 1)) var(--h-ok));
+  --fill-warn:     oklch(var(--l-fill) min(var(--c-fill), var(--cap-fill-warn, 1)) var(--h-warn));
+  --fill-bad:      oklch(var(--l-fill) min(var(--c-fill), var(--cap-fill-bad, 1)) var(--h-bad));
+  --label-accent:  oklch(var(--l-label) min(var(--c-label), var(--cap-label-accent, 1)) var(--h-accent));
   --label-neutral: oklch(var(--l-label) var(--c-ink) var(--h-paper));
-  --label-ok:      oklch(var(--l-label) var(--c-label) var(--h-ok));
-  --label-warn:    oklch(var(--l-label) var(--c-label) var(--h-warn));
-  --label-bad:     oklch(var(--l-label) var(--c-label) var(--h-bad));
+  --label-ok:      oklch(var(--l-label) min(var(--c-label), var(--cap-label-ok, 1)) var(--h-ok));
+  --label-warn:    oklch(var(--l-label) min(var(--c-label), var(--cap-label-warn, 1)) var(--h-warn));
+  --label-bad:     oklch(var(--l-label) min(var(--c-label), var(--cap-label-bad, 1)) var(--h-bad));
 
   /* code, by kind; keywords take the accent hue */
-  --syn-kw:  oklch(var(--l-syn) var(--c-syn) var(--h-accent));
-  --syn-str: oklch(var(--l-syn) var(--c-syn) var(--h-str));
-  --syn-num: oklch(var(--l-syn) var(--c-syn) var(--h-num));
-  --syn-ty:  oklch(var(--l-syn) var(--c-syn) var(--h-ty));
-  --syn-mac: oklch(var(--l-syn) var(--c-syn) var(--h-mac));
+  --syn-kw:  oklch(var(--l-syn) min(var(--c-syn), var(--cap-syn-kw, 1)) var(--h-accent));
+  --syn-str: oklch(var(--l-syn) min(var(--c-syn), var(--cap-syn-str, 1)) var(--h-str));
+  --syn-num: oklch(var(--l-syn) min(var(--c-syn), var(--cap-syn-num, 1)) var(--h-num));
+  --syn-ty:  oklch(var(--l-syn) min(var(--c-syn), var(--cap-syn-ty, 1)) var(--h-ty));
+  --syn-mac: oklch(var(--l-syn) min(var(--c-syn), var(--cap-syn-mac, 1)) var(--h-mac));
 
-  /* Aliases kept for pages written against older names. */
-  --accent-soft: var(--fill-accent);
-  --ok-soft: var(--fill-ok);  --warn-soft: var(--fill-warn);  --bad-soft: var(--fill-bad);
-  --info: var(--accent);  --info-soft: var(--fill-accent);
   /* Data marks in bar charts: neutral = rule, emphasis = accent. */
   --bar-old: var(--rule);
   --bar-new: var(--accent);
@@ -170,20 +164,28 @@
 /* One pixel short of the bar, so a section reached by anchor tucks its rule
    under the bar's own hairline. */
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--bar-h) - 1px); }
+/* Perceptual size. from-font resolves to the body face's x-height ratio,
+   and every face inherits that number, so sans and mono set at a size show
+   the same x-height as the serif at that size. A size below 1em means
+   "smaller than the text", never a correction for a face. */
+html { font-family: var(--body); font-size-adjust: from-font; }
 body {
   margin: 0; background: var(--bg); color: var(--fg);
   font-size: var(--text); line-height: var(--leading); font-family: var(--body);
   font-kerning: normal; text-rendering: optimizeLegibility;
+  /* Grayscale antialiasing. Without it macOS thickens light-on-dark glyphs,
+     and regular serif text reads close to bold. */
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
 }
 main { max-width: calc(var(--col) + 32px); margin: 0 auto; padding: 0 16px 96px; }
 
 h1, h2, h3, h4, table, nav, figcaption, summary, .sans, .kicker, .meta,
-.needs, .callout-title, .topbar, .pager, .tag, .cards, .part-title {
+.callout-title, .topbar, .pager, .tag, .cards, .part-title {
   font-family: var(--sans);
 }
-h1 { font-size: 2.1rem; line-height: 1.15; margin: 10px 0 12px; letter-spacing: -0.02em; font-weight: 600; }
+h1 { font-size: 2.2rem; line-height: 1.15; margin: 10px 0 12px; letter-spacing: -0.02em; font-weight: 600; }
 h2 {
-  font-size: 1.25rem; line-height: 1.3; margin: 44px 0 12px; padding-top: 14px;
+  font-size: 1.32rem; line-height: 1.3; margin: 44px 0 12px; padding-top: 14px;
   border-top: 1px solid var(--rule); letter-spacing: -0.01em; font-weight: 600;
 }
 /* Section numbers: inline with a tight gap; hanging left of the text edge
@@ -197,9 +199,23 @@ html.hang h2 .n, html.hang h2 a.n {
   position: absolute; right: 100%; margin-right: 0; padding-right: .7em;
 }
 h2 a.n:hover { color: var(--accent); }
-h3 { font-size: 1.02rem; margin: 28px 0 6px; }
+h3 { font-size: 1.08rem; margin: 28px 0 6px; }
 p { margin: 8px 0; }
-b, strong { font-weight: 650; }
+/* Balanced lines in headings, no one-word last line in prose. */
+h1, h2, h3, h4 { text-wrap: balance; }
+p, li, dd, figcaption { text-wrap: pretty; }
+/* Serif bold. Iowan and Charter ship Roman, Bold, and Black only: Bold sits
+   too close to Roman on screen, most of all light on dark, and Black is too
+   heavy. A hairline stroke (--bold-x, per theme) sets the weight between
+   them. Sans contexts keep a plain semibold. */
+b, strong { font-weight: 700; -webkit-text-stroke: var(--bold-x) currentColor; }
+:is(h1, h2, h3, h4, table, nav, figcaption, summary, .sans, .kicker, .meta,
+    .callout-title, .topbar, .pager, .tag, .cards, .part-title, .side,
+    .flow, .bars) :is(b, strong),
+html[data-o-font="sans"] :is(b, strong) { font-weight: 650; -webkit-text-stroke: 0; }
+/* Run-in head: the label that opens a paragraph ("Inference.", "Watch
+   for."). The sans face is its one signal. */
+.rh { font-family: var(--sans); }
 ul, ol { padding-left: 22px; }
 li { margin: 3px 0; }
 li::marker { color: var(--muted); }
@@ -209,24 +225,34 @@ a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset:
 a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
 
-.kicker {
-  color: var(--muted); font-size: .76rem; font-weight: 600;
-  letter-spacing: .08em; text-transform: uppercase; margin-top: 36px;
-}
-.meta { color: var(--muted); font-size: .84rem; line-height: 1.5; }
-.needs { color: var(--muted); font-size: .84rem; margin: 6px 0 0; }
-.needs a { color: var(--fg); }
+.kicker { color: var(--muted); font-size: .8rem; margin-top: 36px; }
+.meta { color: var(--muted); font-size: .76rem; line-height: 1.5; }
+
+/* Page metadata, one row per key:
+     <dl class="meta"><div><dt>Pins</dt><dd>…</dd></div> … </dl>
+   The rows run together and wrap between rows, not inside one; the key
+   separates them. A row marked .own takes a line of its own. Option
+   metaform=grid sets one row per line instead. */
+dl.meta { display: flex; flex-wrap: wrap; gap: 2px 20px; margin: 2px 0; }
+dl.meta > div { max-width: 100%; }
+dl.meta > div > * { display: inline; }
+dl.meta > div.own { flex-basis: 100%; }
+dl.meta dt { margin-right: .4em; align-self: baseline; }
+dl.meta dd { margin: 0; align-self: baseline; color: var(--fg); }
+dl.meta a { color: inherit; text-decoration-color: var(--rule); }
+dl.meta a:hover { color: var(--accent); text-decoration-color: currentColor; }
+dl.meta :not(pre) > code { background: transparent; padding: 0; }
 
 /* ---------------------------------------------------------------- code */
 
-code, pre, kbd { font-family: var(--mono); font-size: .84em; }
+code, pre, kbd { font-family: var(--mono); }
 :not(pre) > code {
   background: var(--code-bg); padding: .08em .35em; border-radius: 4px;
   overflow-wrap: anywhere;
 }
 a > code { color: inherit; }
-/* On a card surface, inline code steps back to the page color. */
-.callout :not(pre) > code, .cards code, .flow code, details.more code { background: var(--bg); }
+/* On a card surface, inline code uses the page color. */
+.callout.tldr :not(pre) > code, .flow code { background: var(--bg); }
 pre {
   background: var(--code-bg); padding: 8px 12px; border-radius: 8px;
   overflow-x: auto; font-size: .8em; line-height: 1.45; margin: 14px 0; tab-size: 4;
@@ -237,7 +263,7 @@ kbd {
 }
 
 /* Trace annotations, written by hand in <pre> blocks:
-   .k heading   .c aside   .w cost/warning   .b failure   .o success
+   .k frame     .c aside   .w cost/warning   .b failure   .o success
    .add / .del  diff lines */
 pre .k   { color: var(--fg); font-weight: 700; }
 pre .c   { color: var(--muted); }
@@ -274,6 +300,22 @@ figure.excerpt figcaption a { color: var(--fg); }
 figure.excerpt pre { margin: 0; background: transparent; border-radius: 0; }
 figure.excerpt blockquote { margin: 0; padding: 10px 14px; font-size: .95rem; }
 
+/* Source line: the citations for the block it closes, so the prose above
+   carries no path:line.
+     <p>Claim … <span class="cite"><a href="…">path.rs:12</a> · <a>:40</a></span></p>
+   After a block that cannot hold it (pre, table, figure), use <p class="cite">.
+   Option cites: line (default) gives it a muted line of its own; inline
+   runs it into the text in parentheses. */
+.cite { display: block; font: .72rem/1.5 var(--mono); color: var(--muted); }
+.cite::before { content: "↳ "; }
+.cite a { color: inherit; text-decoration-color: var(--rule); }
+.cite a:hover { color: var(--accent); text-decoration-color: currentColor; }
+p.cite { margin: 2px 0 10px; }
+:is(pre, .table-wrap, figure) + p.cite { margin-top: -10px; }
+html[data-o-cites="inline"] span.cite { display: inline; font-size: .76em; }
+html[data-o-cites="inline"] span.cite::before { content: "("; }
+html[data-o-cites="inline"] span.cite::after { content: ")"; }
+
 /* ---------------------------------------------------------------- tables */
 
 table {
@@ -282,56 +324,51 @@ table {
 }
 th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
 th {
-  color: var(--muted); font-weight: 600; font-size: .68rem;
-  text-transform: uppercase; letter-spacing: .05em;
+  color: var(--muted); font-weight: normal;
   border-bottom-color: color-mix(in srgb, var(--muted) 45%, var(--bg));
 }
-td.num, th.num { text-align: right; }
+td.num, th.num { text-align: right; white-space: nowrap; }
+/* Diff sizes: one column for + and one for −, colored by sign. */
+td .add { color: var(--ok); }
+td .del { color: var(--bad); }
 .table-wrap { overflow-x: auto; }
 
 /* ---------------------------------------------------------------- blocks */
 
-/* Callouts: a card with a rule and a label in the signal role, hue by kind
-   (tldr accent, report neutral, warn, ok, bad). A note is quieter: rule
-   and muted label. */
+/* Callouts. The bottom line (.tldr) is the one card on a page. A warning
+   (.warn, .bad) gets a rule in its kind's color; a closing list or ledger
+   (.report) a plain rule. The label is a muted sans line. */
 .callout {
-  background: var(--card); border-left: 3px solid var(--muted);
-  border-radius: 0 6px 6px 0; padding: 8px 12px; margin: 14px 0;
+  margin: 14px 0; padding: 2px 0 2px 14px; border-left: 2px solid var(--rule);
   font-size: .95rem; line-height: 1.55;
 }
+.callout.tldr { border-left: 0; border-radius: 6px; padding: 10px 14px; background: var(--card); }
+.callout.warn { border-left-color: var(--warn); }
+.callout.bad  { border-left-color: var(--bad); }
 .callout > :first-child { margin-top: 0; }
 .callout > :last-child { margin-bottom: 0; }
 .callout p { margin: 6px 0; }
 .callout li { margin: 3px 0; }
-.callout-title {
-  font-size: .7rem; font-weight: 700; letter-spacing: .07em;
-  text-transform: uppercase; color: var(--muted); margin-bottom: 2px;
-}
-.callout.tldr   { border-left-color: var(--sig-accent); }
-.callout.tldr .callout-title { color: var(--sig-accent); }
-.callout.report { border-left-color: var(--sig-neutral); }
-.callout.report .callout-title { color: var(--sig-neutral); }
-.callout.warn   { border-left-color: var(--warn); }
-.callout.warn .callout-title { color: var(--warn); }
-.callout.ok     { border-left-color: var(--ok); }
-.callout.ok .callout-title { color: var(--ok); }
-.callout.bad    { border-left-color: var(--bad); }
-.callout.bad .callout-title { color: var(--bad); }
-.callout.note   { border-left-color: var(--rule); }
 .callout ul, .callout ol { margin: 4px 0; }
+.callout-title { font: .8rem/1.4 var(--sans); color: var(--muted); margin-bottom: 2px; }
 
-/* Decision questions on page 1: numbered, answered by the set. */
+/* Numbered questions. The label shares the text's baseline and sits a word
+   space from it; with html.hang it hangs left of the text edge, like the
+   section numbers. */
 ol.questions { counter-reset: q; list-style: none; padding: 0; margin: 10px 0; }
-ol.questions > li { counter-increment: q; position: relative; padding-left: 2.2em; }
-ol.questions > li::before {
-  content: "Q" counter(q); position: absolute; left: 0; top: .1em;
-  font: 700 .74rem/1.9 var(--sans); color: var(--accent);
+ol.questions > li {
+  counter-increment: q; display: grid; grid-template-columns: 1.7em 1fr;
+  column-gap: .45em; align-items: baseline;
 }
+ol.questions > li::before {
+  content: "Q" counter(q); justify-self: end;
+  font: .84em var(--sans); color: var(--muted); font-variant-numeric: tabular-nums;
+}
+html.hang ol.questions > li { margin-left: -2.15em; }
 
-/* Verdict tags. Fixed vocabulary: holds, partly, fixed at head, wrong, unverified. */
+/* Kind tags: the fill carries the kind. */
 .tag {
-  display: inline-block; font-size: .66rem; font-weight: 700; line-height: 1.6;
-  letter-spacing: .05em; text-transform: uppercase; padding: 0 7px;
+  display: inline-block; font-size: .76rem; line-height: 1.5; padding: 0 6px;
   border-radius: 4px; vertical-align: 1px; white-space: nowrap;
 }
 .tag.ok    { background: var(--fill-ok);      color: var(--label-ok); }
@@ -340,19 +377,16 @@ ol.questions > li::before {
 .tag.info  { background: var(--fill-accent);  color: var(--label-accent); }
 .tag.muted { background: var(--fill-neutral); color: var(--label-neutral); }
 
-/* Gap-fill the reader may already know: collapsed by default. */
-details.more {
-  margin: 14px 0; border: 1px solid var(--rule); border-radius: 8px; padding: 0 14px;
-}
+/* Background the reader may already know: collapsed by default, opened
+   under a plain rule. */
+details.more { margin: 14px 0; }
 details.more > summary {
-  cursor: pointer; list-style: none; padding: 8px 0; font-size: .86rem; color: var(--muted);
+  cursor: pointer; list-style: none; font: .86rem var(--sans); color: var(--muted);
 }
 details.more > summary::-webkit-details-marker { display: none; }
-details.more > summary::before {
-  content: "+"; display: inline-block; width: 1.2em; font-weight: 700; color: var(--accent);
-}
+details.more > summary::before { content: "+"; display: inline-block; width: 1.1em; }
 details.more[open] > summary::before { content: "−"; }
-details.more[open] { padding-bottom: 6px; }
+details.more[open] > :not(summary) { margin-left: 0; padding-left: 14px; border-left: 2px solid var(--rule); }
 
 /* Side notes: inline, small and muted; in the right gutter with html.rail. */
 .side {
@@ -412,16 +446,13 @@ svg.fig .rule   { stroke: var(--rule); }
 .strip .sb { background: var(--fill-bad);     color: var(--label-bad); }
 .strip .so { background: var(--fill-ok);      color: var(--label-ok); }
 
-/* Before -> after */
+/* Before and after */
 .flow {
   display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: stretch;
   margin: 18px 0; font-family: var(--sans); font-size: .84rem;
 }
 .flow .box { background: var(--card); border-radius: 8px; padding: 10px 12px; }
-.flow .box b.h {
-  display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em;
-  color: var(--muted); margin-bottom: 6px;
-}
+.flow .box b.h { display: block; font-weight: normal; color: var(--muted); margin-bottom: 6px; }
 .flow .arrow { align-self: center; color: var(--muted); font-size: 1.2rem; }
 .flow code { font-size: .78rem; }
 
@@ -449,12 +480,27 @@ svg.fig .rule   { stroke: var(--rule); }
 .topbar a { color: var(--muted); text-decoration: none; }
 .topbar a:hover { color: var(--fg); }
 .topbar > span { display: flex; align-items: center; gap: 10px; }
-/* Current section name, filled by brief.js. Shown when the map is not. */
+/* Current section name, a button made by brief.js. Shown when the map is
+   not; it opens the map as a drop-down (.mapdrop). */
 .topbar .cur {
-  display: none; flex: 1; min-width: 0; text-align: center; color: var(--fg);
-  font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  display: none; flex: 1; min-width: 0; justify-content: center; align-items: baseline;
+  background: transparent; border: 0; padding: 4px 6px; cursor: pointer;
+  font: 500 .8rem var(--sans); color: var(--fg);
 }
-html:not(.rail) .topbar .cur { display: block; }
+.topbar .cur > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.topbar .cur::after { content: "▾"; margin-left: .4em; color: var(--muted); font-size: .9em; }
+/* No caret, and nothing to open, above the first section or without a map. */
+.topbar .cur:has(> span:empty), .topbar:not(:has(.mapdrop)) .cur { cursor: default; }
+.topbar .cur:has(> span:empty)::after, .topbar:not(:has(.mapdrop)) .cur::after { content: none; }
+.topbar .cur:hover::after, .topbar:has(.mapdrop:popover-open) .cur::after { color: var(--fg); }
+html:not(.rail) .topbar .cur { display: flex; }
+/* A popover in the top layer, just below the bar's hairline. */
+.mapdrop {
+  position: fixed; inset: calc(var(--bar-h) - 1px) auto auto 50%; translate: -50% 0; margin: 0;
+  width: min(22rem, calc(100vw - 32px)); max-height: min(70vh, 34rem); overflow-y: auto;
+  background: var(--card); color: var(--fg); border: 1px solid var(--rule); border-radius: 0 0 8px 8px;
+  padding: 8px 14px 10px 10px; font: .86rem/1.3 var(--sans);
+}
 .theme-toggle, .tune-toggle {
   background: transparent; color: var(--muted); cursor: pointer;
   border: 1px solid var(--rule); border-radius: 6px; padding: 3px 9px;
@@ -464,36 +510,42 @@ html:not(.rail) .topbar .cur { display: block; }
 .tune-toggle { border-color: transparent; padding: 3px 4px; }
 .theme-toggle:hover, .tune-toggle:hover { color: var(--fg); }
 
-/* Contents */
+/* Contents. Items use padding, not margin: a column break cuts margins,
+   which misaligns the columns. */
 nav.toc {
   border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
   padding: 12px 0; margin: 24px 0; font-size: .88rem;
 }
-nav.toc > b {
-  display: block; color: var(--muted); font-size: .72rem; font-weight: 700;
-  letter-spacing: .07em; text-transform: uppercase;
-}
+nav.toc > b { display: block; color: var(--muted); font-size: .8rem; font-weight: normal; }
 nav.toc ol { margin: 6px 0 0; padding-left: 1.6em; columns: 2; column-gap: 32px; }
-nav.toc li { margin: 0; padding: 2px 0; break-inside: avoid; }  /* padding, not margin: margins are cut at column breaks, which misaligns the columns */
+nav.toc li { margin: 0; padding: 2px 0; break-inside: avoid; }
 nav.toc li::marker { font-variant-numeric: tabular-nums; }
 nav.toc a { color: var(--fg); text-decoration: none; }
 nav.toc a:hover { color: var(--accent); }
 
 /* With html.rail, the contents list becomes a fixed map in the left gutter,
-   --rail-gap from the text. brief.js marks the section in view .current. */
-html.rail {
-  nav.toc {
-    position: fixed; top: 80px; width: var(--rail); margin: 0;
-    left: calc(var(--gutter) - var(--rail) - var(--rail-gap));
-    max-height: calc(100vh - 120px); overflow-y: auto;
-    border: 0; padding: 0; font-size: .8rem; line-height: 1.4;
-  }
-  nav.toc ol { columns: 1; padding-left: 0; list-style: none; margin-top: 10px; border-left: 1px solid var(--rule); }
-  nav.toc li { margin: 0; padding: 0; }
-  nav.toc a { display: block; padding: 4px 0 4px 12px; margin-left: -1px; color: var(--muted); border-left: 2px solid transparent; }
-  nav.toc a:hover { color: var(--fg); }
-  nav.toc a.current { color: var(--fg); border-left-color: var(--accent); }
+   --rail-gap from the text. The drop-down map (.mapdrop) has the same list.
+   brief.js marks the section in view .current. A label that wraps keeps
+   tight leading and a hanging indent, so the gap between items stays wider
+   than the gap between its lines. */
+html.rail nav.toc {
+  position: fixed; top: 80px; width: var(--rail); margin: 0;
+  left: calc(var(--gutter) - var(--rail) - var(--rail-gap));
+  max-height: calc(100vh - 120px); overflow-y: auto;
+  border: 0; padding: 0; font-size: .8rem; line-height: 1.3;
 }
+html.rail nav.toc ol, .mapdrop ol {
+  columns: 1; padding-left: 0; list-style: none; margin: 10px 0 0;
+  border-left: 1px solid var(--rule);
+}
+.mapdrop ol { margin: 0; }
+html.rail nav.toc li, .mapdrop li { margin: 0; padding: 0; }
+html.rail nav.toc a, .mapdrop a {
+  display: block; padding: 5px 0 5px 20px; text-indent: -8px; margin-left: -1px;
+  color: var(--muted); text-decoration: none; border-left: 2px solid transparent;
+}
+html.rail nav.toc a:hover, .mapdrop a:hover { color: var(--fg); }
+html.rail nav.toc a.current, .mapdrop a.current { color: var(--fg); border-left-color: var(--fg); }
 
 /* Pager */
 .pager {
@@ -501,19 +553,13 @@ html.rail {
   padding-top: 16px; border-top: 1px solid var(--rule); font-size: .9rem;
 }
 .pager a { text-decoration: none; color: var(--fg); padding: 8px 0; }
-.pager a small {
-  display: block; color: var(--muted); font-size: .7rem;
-  text-transform: uppercase; letter-spacing: .06em; margin-bottom: 2px;
-}
+.pager a small { display: block; color: var(--muted); font-size: .8rem; margin-bottom: 2px; }
 .pager a:hover { color: var(--accent); }
 .pager .next { grid-column: 2; text-align: right; }
 
 /* Index: one row per page (number, title, one-line description). */
 .parts { margin: 28px 0; }
-.part-title {
-  font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-  color: var(--muted); margin: 32px 0 6px;
-}
+.part-title { font-size: .8rem; color: var(--muted); margin: 32px 0 6px; }
 .cards { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
 .cards li { margin: 0; }
 .cards a {
@@ -530,76 +576,33 @@ html.rail {
 }
 /* Set by brief.js when the reader reached the end of that page. */
 .cards a.done .num { color: var(--ok); }
-.cards a.done::after {
-  content: "read"; grid-column: 4; font-size: .66rem; font-weight: 700;
-  letter-spacing: .06em; text-transform: uppercase; color: var(--ok);
-}
+.cards a.done::after { content: "read"; grid-column: 4; font-size: .8rem; color: var(--ok); }
 
 .src li { font-size: .86rem; }
 
 /* ---------------------------------------------------------------- options
-   Each switches on html[data-o-NAME="value"]; no attribute = default. */
+   Maintainer settings from the tuning panel. Each switches on
+   html[data-o-NAME="value"]; no attribute = default. */
 
 /* Option density: compact (default) | normal | airy */
 html[data-o-density="normal"] main p { margin: 12px 0; }
 html[data-o-density="normal"] main li { margin: 6px 0; }
 html[data-o-density="normal"] h2 { margin-top: 64px; padding-top: 18px; }
 html[data-o-density="normal"] pre { padding: 14px 16px; margin: 18px 0; }
-html[data-o-density="normal"] .callout { padding: 10px 14px; margin: 18px 0; }
+html[data-o-density="normal"] .callout { margin: 18px 0; }
 html[data-o-density="airy"] main p { margin: 18px 0; }
 html[data-o-density="airy"] main li { margin: 8px 0; }
 html[data-o-density="airy"] h2 { margin-top: 84px; padding-top: 20px; }
 html[data-o-density="airy"] pre { padding: 16px 18px; margin: 22px 0; }
-html[data-o-density="airy"] .callout { padding: 14px 18px; margin: 22px 0; }
+html[data-o-density="airy"] .callout { margin: 22px 0; }
 
-/* Option tables: compact (default) | roomy */
-html[data-o-tables="roomy"] main table { font-size: .88rem; line-height: 1.45; }
-html[data-o-tables="roomy"] main th, html[data-o-tables="roomy"] main td { padding: 8px 10px; }
-html[data-o-tables="roomy"] main th { font-size: .74rem; }
-
-/* Option code: compact (default) | normal */
-html[data-o-code="normal"] pre { font-size: .84em; line-height: 1.55; padding: 10px 14px; }
-html[data-o-code="normal"] figure.excerpt figcaption { padding: 8px 14px 7px; }
-
-/* Option lists: normal (default) | tight */
-html[data-o-lists="tight"] main li { margin: 1px 0; }
-html[data-o-lists="tight"] main ul, html[data-o-lists="tight"] main ol { padding-left: 18px; }
-
-/* Option index: rows (default) | cards */
-html[data-o-index="cards"] .cards { gap: 8px; }
-html[data-o-index="cards"] .cards a {
-  grid-template-columns: 2.4em 1fr auto; align-items: start;
-  background: var(--card); border: 0; border-radius: 8px; padding: 12px 16px;
+/* Option metaform: line (default) | grid */
+html[data-o-metaform="grid"] dl.meta {
+  display: grid; grid-template-columns: max-content 1fr; gap: 1px 14px;
 }
-html[data-o-index="cards"] .cards .num { grid-row: span 2; }
-html[data-o-index="cards"] .cards .d { grid-column: 2; white-space: normal; }
-html[data-o-index="cards"] .cards a.done::after { grid-column: 3; grid-row: 1; }
-
-/* Option title: normal (default) | compact */
-html[data-o-title="compact"] h1 { font-size: 1.65rem; margin: 4px 0 6px; }
-html[data-o-title="compact"] .kicker { margin-top: 24px; font-size: .7rem; }
-
-/* Option meta: normal (default) | condensed */
-html[data-o-meta="condensed"] .meta, html[data-o-meta="condensed"] .needs { font-size: .76rem; margin: 2px 0; }
-
-/* Option contents (no map): list (default) | inline */
-html:not(.rail)[data-o-contents="inline"] nav.toc ol {
-  columns: auto; display: flex; flex-wrap: wrap; gap: 2px 16px; list-style: none; padding: 0;
-}
-html:not(.rail)[data-o-contents="inline"] nav.toc { padding: 8px 0; font-size: .82rem; }
-
-/* Option pager: normal (default) | compact */
-html[data-o-pager="compact"] .pager { margin-top: 36px; padding-top: 8px; font-size: .82rem; }
-html[data-o-pager="compact"] .pager a small { display: inline; margin-right: 6px; }
-
-/* Option callout label: block (default) | inline (runs into the first line) */
-html[data-o-label="inline"] .callout-title { display: inline; margin-right: .6em; }
-html[data-o-label="inline"] .callout-title + p { display: inline; }
-
-/* Option callout: rule-card (default) | card | rule */
-html[data-o-callout="card"] .callout { border-left: 0; border-radius: 6px; padding-left: 14px; }
-html[data-o-callout="rule"] .callout { background: transparent; border-radius: 0; }
-html[data-o-callout="rule"] .callout :not(pre) > code { background: var(--card); }
+html[data-o-metaform="grid"] dl.meta > div { display: contents; }
+html[data-o-metaform="grid"] dl.meta > div > * { display: block; }
+html[data-o-metaform="grid"] dl.meta dt { margin-right: 0; }
 
 /* Option section numbers: hang (default) | inline | none */
 html[data-o-num="inline"] h2 .n, html[data-o-num="inline"] h2 a.n {
@@ -607,17 +610,8 @@ html[data-o-num="inline"] h2 .n, html[data-o-num="inline"] h2 a.n {
 }
 html[data-o-num="none"] h2 .n, html[data-o-num="none"] h2 a.n { display: none; }
 
-/* Option heading weight: medium (default) | bold */
-html[data-o-heading="bold"] h1, html[data-o-heading="bold"] h2 { font-weight: 700; }
-
-/* Option section rule: on (default) | off */
-html[data-o-hrule="off"] h2 { border-top: 0; padding-top: 0; }
-
-/* Option bar hairline: on (default) | off */
-html[data-o-bar="off"] .topbar::after { display: none; }
-
 /* Option bar section: auto (default: when no map) | on | off */
-html[data-o-barsection="on"] .topbar .cur { display: block; }
+html[data-o-barsection="on"] .topbar .cur { display: flex; }
 html[data-o-barsection="off"] .topbar .cur { display: none; }
 
 /* Option side notes without rail: inline (default) | hidden */
@@ -634,9 +628,8 @@ html[data-o-font="sans"] { --body: var(--sans); }
 html[data-o-links="quiet"] main a:not(.n) { color: var(--fg); text-decoration-color: var(--accent); }
 html[data-o-links="quiet"] main a:not(.n):hover { color: var(--accent); }
 
-/* Option code keywords: color (default) | bold | plain */
-html[data-o-keywords="bold"], html[data-o-keywords="plain"] { --syn-kw: var(--fg); }
-html[data-o-keywords="bold"] pre .t-k { font-weight: 600; }
+/* Option code keywords: color (default) | plain */
+html[data-o-keywords="plain"] { --syn-kw: var(--fg); }
 
 /* Option map numbers: off (default) | on */
 html.rail[data-o-mapnum="on"] nav.toc ol { counter-reset: m; }
@@ -659,7 +652,12 @@ html.rail[data-o-mapnum="on"] nav.toc a::before {
   .strip { font-size: .58rem; }
   .pager { grid-template-columns: 1fr; }
   .pager .next { grid-column: 1; }
-  .topbar > a { max-width: 40vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* The section name needs the room more than the set name; the tuning
+     panel does not fit a phone. */
+  .topbar { gap: 8px; }
+  .topbar > a { flex: 0 1 auto; min-width: 0; max-width: 26vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .topbar .cur { min-width: 6em; padding: 4px 0; }
+  .tune-toggle { display: none; }
   .cards a { grid-template-columns: 2.4em 1fr auto; }
   .cards .d { grid-column: 2; grid-row: 2; white-space: normal; }
 }
@@ -667,6 +665,5 @@ html.rail[data-o-mapnum="on"] nav.toc a::before {
 @media print {
   .topbar, .pager, .theme-toggle, .tune-toggle { display: none; }
   body { font-size: 11pt; background: #fff; color: #000; }
-  details.more { border: 0; padding: 0; }
   a { color: inherit; }
 }

@@ -10,17 +10,20 @@
 <body>
 <main>
 <div class="topbar">
-  <a href="components.html">Brief kit</a>
+  <a href="components.html">Page kit</a>
   <span>Reference <button class="theme-toggle" type="button" aria-label="Theme">Auto</button></span>
 </div>
 
-<div class="kicker">Kit reference</div>
+<div class="kicker">Page kit</div>
 <h1>Components, and when each earns its place</h1>
-<p class="meta">Checked against <code>brief.css</code> and <code>brief.js</code> in this kit on 2026-09-28.</p>
+<dl class="meta">
+  <div><dt>Checked</dt><dd><code>brief.css</code>, <code>brief.js</code> · 2026-09-29</dd></div>
+  <div><dt>Page</dt><dd>kit reference · <span class="rt"></span></dd></div>
+</dl>
 
 <div class="callout tldr">
   <div class="callout-title">Bottom line</div>
-  <p>A page has one column, one accent, and no motion. Color means a verdict, a warning, or a highlight, and nothing else. Every block below exists because prose alone did a worse job in a real brief. If prose does the job, use prose.</p>
+  <p>Every visible difference on a page names a kind of thing, one signal at a time. Color means a kind (a verdict, a warning, a link, a highlight) and nothing else. Each block below exists because prose alone did a worse job; if prose does the job, use prose. The reasons are in <code>references/typesetting.md</code>.</p>
 </div>
 
 <nav class="toc"><b>Contents</b><ol>
@@ -36,28 +39,30 @@
 </ol></nav>
 
 <h2 id="prose"><span class="n">1</span>Prose, links, inline code</h2>
-<p>Body text is a serif at 17 px in a 45 rem column, about 75 characters per line. Headings, tables and chrome use the system sans. Links use the accent with a thin underline; <a href="https://github.com/rust-lang/rust">a normal link</a> looks like this, and <a href="#excerpt"><code>path/to/file.rs:42</code></a> is a code reference link. Inline <code>code</code> sits on a faint card. A <mark>highlight</mark> is a soft amber marker in both themes.</p>
-<aside class="side">Side note. With room in the gutters it sits in the right gutter; without room it drops inline, small and muted. Use it for an aside the reader can skip without losing the thread.</aside>
+<p>Body text is a serif at 17 px in a 45 rem column, about 75 characters per line. Headings, tables and chrome use the system sans. All faces share the serif's x-height, so one size reads as one size in every face. Links use the accent with a thin underline; <a href="https://github.com/rust-lang/rust">a normal link</a> looks like this, and <a href="#excerpt"><code>path/to/file.rs:42</code></a> is a code reference link. Inline <code>code</code> sits on a faint card. A <mark>highlight</mark> is a soft amber marker in both themes.</p>
+<p><span class="rh">Inference.</span> A run-in head opens a paragraph of a kind the reader scans for: Inference, Rule, Watch for. It is set in the sans, so it stays apart from a <b>bold term</b> in the serif. Line citations go in the source line that closes the block, not in the sentence. <span class="cite"><a href="brief.css">brief.css</a> · <a href="brief.js">brief.js</a></span></p>
+<p>After a block that cannot hold a source line (a trace, a table, a figure without a caption), use <code>&lt;p class="cite"&gt;</code> right after it. The tuning panel can run source lines into the text in parentheses instead (<code>cites</code>).</p>
+<aside class="side">Side note. With room in the gutters it sits in the right gutter; without room it drops inline, small and muted. Use it for an aside the reader can skip without missing the argument.</aside>
 <p>Keyboard: <kbd>←</kbd> and <kbd>→</kbd> follow the pager. The section number next to each heading is its permalink.</p>
 
 <h2 id="callouts"><span class="n">2</span>Callouts and verdicts</h2>
-<p>A callout is a neutral card with one colored rule and one colored label. The color names the kind; the card never changes, so a page with six callouts still reads as one surface.</p>
+<p>The bottom line is the one card on a page. A warning gets a rule in its kind's color; a closing list or ledger gets a plain rule. Labels are muted sans lines. A claim that holds needs no box, and an aside is a side note.</p>
 
 <div class="callout warn">
   <div class="callout-title">Warning</div>
-  <p>A fact that changes what the reader does next. At most one or two per page.</p>
+  <p>A fact that changes what the reader does next. Use it rarely.</p>
 </div>
 <div class="callout report">
   <div class="callout-title">In the seed</div>
   <ul>
-    <li><b>Claim 1</b> <span class="tag ok">holds</span> <span class="ev">Evidence in one line, with a link.</span></li>
-    <li><b>Claim 2</b> <span class="tag warn">partly</span> <span class="ev">What holds, what does not.</span></li>
-    <li><b>Claim 3</b> <span class="tag info">fixed at head</span> <span class="ev">The commit that fixed it.</span></li>
-    <li><b>Claim 4</b> <span class="tag bad">wrong</span> <span class="ev">The correction and its proof.</span></li>
-    <li><b>Claim 5</b> <span class="tag muted">unverified</span> <span class="ev">What evidence is missing.</span></li>
+    <li>"Claim 1" <span class="tag ok">holds</span> <span class="ev">Evidence in one line, with a link.</span></li>
+    <li>"Claim 2" <span class="tag warn">partly</span> <span class="ev">What holds, what does not.</span></li>
+    <li>"Claim 3" <span class="tag info">fixed at head</span> <span class="ev">The commit that fixed it.</span></li>
+    <li>"Claim 4" <span class="tag bad">wrong</span> <span class="ev">The correction and its proof.</span></li>
+    <li>"Claim 5" <span class="tag muted">unverified</span> <span class="ev">What evidence is missing.</span></li>
   </ul>
 </div>
-<p>Decision questions go on page 1 and each gets its answer somewhere in the set:</p>
+<p>Numbered questions hang their labels in the margin:</p>
 <ol class="questions">
   <li>Is the change safe to merge before the next release?</li>
   <li>Which of the seed's fixes can ship without a program upgrade?</li>
@@ -65,17 +70,16 @@
 
 <h2 id="excerpt"><span class="n">3</span>Source excerpts</h2>
 <p>Quote the few pieces of source that carry the argument: a constant, an enforcing check, a defining sentence. The caption links the exact lines at a pinned commit. The text is the source's own, from the file itself.</p>
-<figure class="excerpt"><figcaption><a href="brief.css">brief.css:331-337</a> · verdict tags use a fixed vocabulary</figcaption><pre>/* Verdict tags. Fixed vocabulary: holds, partly, fixed at head, wrong, unverified. */
+<figure class="excerpt"><figcaption><a href="brief.css">brief.css:369-374</a> · the fill carries the kind</figcaption><pre>/* Kind tags: the fill carries the kind. */
 .tag {
-  display: inline-block; font-size: .66rem; font-weight: 700; line-height: 1.6;
-  letter-spacing: .05em; text-transform: uppercase; padding: 0 7px;
+  display: inline-block; font-size: .76rem; line-height: 1.5; padding: 0 6px;
   border-radius: 4px; vertical-align: 1px; white-space: nowrap;
 }
 .tag.ok    { background: <mark>var(--fill-ok)</mark>;      color: var(--label-ok); }</pre></figure>
-<figure class="excerpt"><figcaption><a href="brief.js">brief.js:126-132</a> · a finished page reopens at the top</figcaption><pre>  function initScroll() {
+<figure class="excerpt"><figcaption><a href="brief.js">brief.js:139-145</a> · a finished page reopens at the top</figcaption><pre>  function initScroll() {
     var main = document.querySelector("main");
     var pager = document.querySelector(".pager");
-    var curName = document.querySelector(".topbar .cur");
+    var curName = document.querySelector(".topbar .cur &gt; span");
     var saved = +get("y:" + page);
     // Resume only unfinished pages; a finished page reopens at the top.
     if (!location.hash &amp;&amp; saved &gt; 0 &amp;&amp; <mark>!get("done:" + page)</mark>) window.scrollTo(0, saved);</pre></figure>
@@ -101,13 +105,18 @@
 <span class="add">+ let (hash, last_valid) = rpc.get_latest_blockhash_with_commitment(confirmed)?;</span></pre>
 
 <h2 id="tables"><span class="n">6</span>Tables</h2>
-<p>Numbers are tabular and right-aligned with <code>td.num</code>. A wide table scrolls inside its own box; the page never scrolls sideways.</p>
+<p>Numbers are tabular and right-aligned with <code>td.num</code>. Sizes of a change take two columns, <code>+</code> and <code>−</code>, with <code>.add</code> and <code>.del</code> spans, so every row keeps one line and the digits align. A wide table scrolls inside its own box; the page never scrolls sideways.</p>
 <div class="table-wrap"><table>
   <tr><th>Slot time</th><th class="num">Blocks</th><th class="num">Window (s)</th><th>Status</th></tr>
   <tr><td>400 ms</td><td class="num">150</td><td class="num">60.0</td><td><span class="tag muted">past</span></td></tr>
   <tr><td>250 ms</td><td class="num">150</td><td class="num">37.5</td><td><span class="tag ok">live</span></td></tr>
   <tr><td>200 ms</td><td class="num">150</td><td class="num">30.0</td><td><span class="tag warn">planned</span></td></tr>
 </table></div>
+<table>
+  <tr><th>Group</th><th class="num">+</th><th class="num">−</th><th>Risk</th></tr>
+  <tr><td>Archive move</td><td class="num"><span class="add">678</span></td><td class="num"><span class="del">676</span></td><td><span class="tag bad">high</span></td></tr>
+  <tr><td>Dry run (new)</td><td class="num"><span class="add">199</span></td><td class="num"></td><td><span class="tag ok">inert</span></td></tr>
+</table>
 
 <h2 id="more"><span class="n">7</span>Gap-fill and side notes</h2>
 <p>Background the reader may already know goes in a collapsed block. An expert skips it at no cost; a reader who needs it opens it.</p>
@@ -124,7 +133,7 @@
   <div class="s2" style="flex:2">instruction data</div>
   <div class="sw" style="flex:1">pad</div>
 </div>
-<p class="meta" style="margin-top:0">A segmented strip: proportions at a glance, labels inside.</p>
+<p class="meta" style="margin-top:0">A segmented strip shows proportions, with labels inside.</p>
 <figure>
 <svg class="fig" viewBox="0 0 560 70" role="img" aria-label="State machine: pending, then confirmed after a vote, then finalized after 32 slots">
   <rect x="4" y="18" width="120" height="34" rx="6" style="fill:var(--fill-neutral)"/>
@@ -148,12 +157,13 @@
 
 <h2 id="chrome"><span class="n">9</span>Page chrome</h2>
 <ul>
-  <li><b>Top bar.</b> Stays in place. Shows the set, the current section when there is no map, the position, the tuning panel, and the theme (Auto, Light, Dark).</li>
-  <li><b>Map.</b> With room in the gutters the contents list sits in the left gutter and marks the section you are reading; side notes sit in the right gutter. Without room the contents list stays at the top and notes sit inline.</li>
-  <li><b>Tune.</b> The Tune button or the <kbd>,</kbd> key opens a panel that edits colors, type, layout and options for every page that uses the kit, in this browser, and exports them.</li>
-  <li><b>Resume.</b> An unfinished page reopens where you left it. A page counts as read once its pager comes into view; the index then marks it <span class="tag ok">read</span>.</li>
-  <li><b>Reading time.</b> Added to the first meta line.</li>
-  <li><b>Storage.</b> Only these conveniences, in the browser: theme and tuning for every kit page, resume and read marks per set. Nothing leaves the machine.</li>
+  <li><span class="rh">Metadata.</span> Opens every page: one row per key, keys muted. The rows run together and wrap between rows; a row marked <code>.own</code> keeps a line of its own. The tuning panel switches to one row per line (<code>metaform</code>).</li>
+  <li><span class="rh">Top bar.</span> Stays in place. Shows the set, the current section when there is no map, the position, the tuning panel, and the theme (Auto, Light, Dark).</li>
+  <li><span class="rh">Map.</span> With room in the gutters the contents list sits in the left gutter and marks the section you are reading; side notes sit in the right gutter. Without room the contents list stays at the top, notes sit inline, and the section name in the top bar opens the map as a drop-down. Map entries are short labels; the headings state the claims.</li>
+  <li><span class="rh">Tune.</span> For the kit's maintainer, not for reading: the Tune button or the <kbd>,</kbd> key opens a panel that edits colors, type, layout and a few options for every page that uses the kit, in this browser, and exports them.</li>
+  <li><span class="rh">Resume.</span> An unfinished page reopens where you left it. A page counts as read once its pager comes into view; the index then marks it <span class="tag ok">read</span>.</li>
+  <li><span class="rh">Reading time.</span> Fills <code>span.rt</code> in the metadata block.</li>
+  <li><span class="rh">Storage.</span> Only these conveniences, in the browser: theme and tuning for every kit page, resume and read marks per set. Nothing leaves the machine.</li>
 </ul>
 
 <h2 id="sources"><span class="n">↳</span>Sources</h2>

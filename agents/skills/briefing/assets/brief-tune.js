@@ -30,11 +30,11 @@
     { k: "l-accent", l: "accent L", s: "t", g: "Accent", span: .1, step: .001 },
     { k: "c-accent", l: "accent C", s: "t", g: "Accent", span: .08, step: .001 },
     { k: "h-accent", l: "accent hue", s: "c", g: "Accent", span: 60, step: .1 },
-    { k: "d-sig", l: "signal L", s: "t", g: "Signal (callouts, trace notes)", base: "l-accent", span: .1, step: .001 },
-    { k: "dc-sig", l: "signal C", s: "t", g: "Signal (callouts, trace notes)", base: "c-accent", span: .1, step: .001 },
-    { k: "h-ok", l: "ok hue", s: "c", g: "Signal (callouts, trace notes)", span: 30, step: 1 },
-    { k: "h-warn", l: "warn hue", s: "c", g: "Signal (callouts, trace notes)", span: 30, step: 1 },
-    { k: "h-bad", l: "bad hue", s: "c", g: "Signal (callouts, trace notes)", span: 30, step: 1 },
+    { k: "d-sig", l: "signal L", s: "t", g: "Signal (warnings, trace notes)", base: "l-accent", span: .1, step: .001 },
+    { k: "dc-sig", l: "signal C", s: "t", g: "Signal (warnings, trace notes)", base: "c-accent", span: .1, step: .001 },
+    { k: "h-ok", l: "ok hue", s: "c", g: "Signal (warnings, trace notes)", span: 30, step: 1 },
+    { k: "h-warn", l: "warn hue", s: "c", g: "Signal (warnings, trace notes)", span: 30, step: 1 },
+    { k: "h-bad", l: "bad hue", s: "c", g: "Signal (warnings, trace notes)", span: 30, step: 1 },
     { k: "d-label", l: "label L", s: "t", g: "Label (text on fills)", base: "l-fill", span: .1, step: .001 },
     { k: "dc-label", l: "label C", s: "t", g: "Label (text on fills)", base: "c-accent", span: .1, step: .001 },
     { k: "d-syn", l: "code L", s: "t", g: "Code", base: "l-accent", span: .1, step: .001 },
@@ -45,11 +45,18 @@
     { k: "h-mac", l: "macro hue", s: "c", g: "Code", span: 40, step: 1 },
     { k: "text", l: "size", s: "c", g: "Type", span: 2, step: .25, u: "px" },
     { k: "leading", l: "leading", s: "c", g: "Type", span: .2, step: .01 },
+    { k: "bold-x", l: "bold stroke", s: "t", g: "Type", span: .02, step: .001, u: "em" },
     { k: "col", l: "column", s: "c", g: "Layout", span: 6, step: .25, u: "rem" },
     { k: "rail", l: "rail", s: "c", g: "Layout", span: 3, step: .25, u: "rem" },
     { k: "rail-gap", l: "rail gap", s: "c", g: "Layout", span: 2.5, step: .25, u: "rem" },
     { k: "hang", l: "hang", s: "c", g: "Layout", span: 1.5, step: .25, u: "rem" }
   ];
+  // Chroma caps, one per colored role (see "Caps" in brief.css). Only "fit P3"
+  // sets them, so they get no rows of their own.
+  var CAPS = ["accent", "mark", "sig-ok", "sig-warn", "sig-bad",
+    "fill-accent", "fill-ok", "fill-warn", "fill-bad", "label-accent", "label-ok", "label-warn", "label-bad",
+    "syn-kw", "syn-str", "syn-num", "syn-ty", "syn-mac"];
+  CAPS.forEach(function (r) { P.push({ k: "cap-" + r, l: r + " cap", s: "t", cap: true }); });
   var PK = {}; P.forEach(function (p) { PK[p.k] = p; });
   var BASE_NAME = { "l-bg": "page L", "l-fill": "fill L", "l-fg": "text L", "l-accent": "accent L", "c-accent": "accent C" };
 
@@ -57,26 +64,15 @@
   // html[data-o-NAME] in brief.css.
   var O = [
     ["density", "density", ["compact", "normal", "airy"], "vertical rhythm of every block"],
-    ["tables", "tables", ["compact", "roomy"]],
-    ["code", "code blocks", ["compact", "normal"]],
-    ["lists", "lists", ["normal", "tight"]],
-    ["index", "index", ["rows", "cards"], "the page list on the index"],
-    ["title", "page title", ["normal", "compact"]],
-    ["meta", "meta lines", ["normal", "condensed"]],
-    ["contents", "contents", ["list", "inline"], "contents at the page top, when there is no map"],
-    ["pager", "pager", ["normal", "compact"]],
-    ["label", "callout label", ["block", "inline"], "inline: the label runs into the first line"],
-    ["callout", "callout", ["rule-card", "card", "rule"]],
+    ["metaform", "metadata", ["line", "grid"], "line: rows run together; grid: one row per key"],
+    ["cites", "citations", ["line", "inline"], "line: a muted source line under the block; inline: in parentheses at its end"],
     ["num", "section no.", ["hang", "inline", "none"]],
-    ["heading", "headings", ["medium", "bold"]],
-    ["hrule", "section rule", ["on", "off"]],
-    ["bar", "bar hairline", ["on", "off"]],
     ["barsection", "bar section", ["auto", "on", "off"], "current section name in the top bar; auto = when there is no map"],
     ["notes", "side notes", ["inline", "hidden"], "side notes when there is no right gutter"],
     ["focus", "focus", ["off", "section"], "dims everything outside the section you are reading"],
     ["font", "body font", ["serif", "sans"]],
     ["links", "links", ["accent", "quiet"], "quiet: ink text, accent underline"],
-    ["keywords", "code keywords", ["color", "bold", "plain"], "color: accent hue at code lightness; bold and plain: text color"],
+    ["keywords", "code keywords", ["color", "plain"], "plain: keywords in the text color"],
     ["mapnum", "map numbers", ["off", "on"]]
   ];
   var OK = {}; O.forEach(function (o) { OK[o[0]] = o; });
@@ -88,7 +84,9 @@
 
   function fromStore() {
     var s = B.loadTune();
-    st = { light: {}, dark: {}, c: {}, o: s.o || {} };
+    // Options the kit no longer has are dropped.
+    const o = Object.fromEntries(Object.entries(s.o ?? {}).filter(([k, v]) => OK[k]?.[2].includes(v)));
+    st = { light: {}, dark: {}, c: {}, o };
     [["light", "light"], ["dark", "dark"], ["both", "c"]].forEach(function (m) {
       var src = s[m[0]] || {};
       Object.keys(src).forEach(function (k) { if (PK[k]) st[m[1]][k] = parseFloat(src[k]); });
@@ -123,7 +121,7 @@
         if (p.s === "t") defaults[t][p.k] = v; else defaults.c[p.k] = v;
       });
     });
-    if (had) root.setAttribute("data-theme", had); else root.removeAttribute("data-theme");
+    root.dataset.theme = had;
     B.applyTune();
   }
 
@@ -137,7 +135,12 @@
   function hueOf(kind, t) {
     return kind === "neutral" ? get("h-paper", t) : get("h-" + kind, t);
   }
-  function role(r, t) {
+  // raw: ignore the role's chroma cap.
+  function role(r, t, raw) {
+    var c = roleOf(r, t), cap = raw || !PK["cap-" + r] ? NaN : get("cap-" + r, t);
+    return isFinite(cap) ? [c[0], Math.min(c[1], cap), c[2]] : c;
+  }
+  function roleOf(r, t) {
     var g = function (k) { return get(k, t); };
     var bg = g("l-bg"), fg = g("l-fg"), la = g("l-accent"), ca = g("c-accent"), hp = g("h-paper");
     var fill = bg + g("d-fill");
@@ -187,13 +190,12 @@
   function ratio(a, b) { var x = Y(a), y = Y(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); }
 
   // [text role, surface role, WCAG target]. Each role is checked on the
-  // surface it is used on: signal on cards (callouts) and page (marks),
-  // labels on their own fill, code on cards.
+  // surface it is used on: signal on the page (warning rules) and cards
+  // (trace notes), labels on their own fill, code on cards.
   var KINDS = ["accent", "neutral", "ok", "warn", "bad"];
   var PAIRS = [["fg", "bg", 7], ["fg", "card", 7], ["fg", "mark", 7],
     ["muted", "bg", 4.5], ["muted", "card", 4.5], ["accent", "bg", 4.5], ["accent", "card", 4.5]]
-    .concat(KINDS.map(function (k) { return ["sig-" + k, "card", 4.5]; }))
-    .concat([["sig-ok", "bg", 4.5]])
+    .concat(["ok", "warn", "bad"].flatMap((k) => [["sig-" + k, "card", 4.5], ["sig-" + k, "bg", 4.5]]))
     .concat(KINDS.map(function (k) { return ["label-" + k, "fill-" + k, 4.5]; }))
     .concat(["kw", "str", "num", "ty", "mac"].map(function (k) { return ["syn-" + k, "card", 4.5]; }));
   // [surface, against, visibility floor]. The floors are judgment, not a
@@ -212,6 +214,50 @@
       var r = ratio(lin(role(p[0], t)), lin(role(p[1], t)));
       return { a: nameOf(p[0]), b: nameOf(p[1]), ra: p[0], ratio: +r.toFixed(2), floor: p[2], pass: r >= p[2] };
     });
+  }
+
+  // ---- fit P3: bring every role inside Display P3 by lowering chroma only,
+  // the direction CSS Color 4 gamut mapping takes: lightness and hue stay
+  // put, and contrast barely changes. A colored role that falls outside
+  // gets a cap at the most chroma P3 holds at its L and hue; every other
+  // role keeps its chroma, so the look changes only where a screen would
+  // clip anyway. The neutral groups have no caps and drop as a group.
+  var NGROUPS = [["c-paper", ["bg", "card", "rule", "fill-neutral"]],
+    ["c-ink", ["fg", "muted", "label-neutral"]]];
+  // Largest chroma, at .001, that keeps role r inside P3 at its L and hue.
+  function maxC(r, t) {
+    var c = role(r, t, true), inside = function (C) { return gamut(lin([c[0], C, c[2]])) !== "out"; };
+    if (inside(c[1])) return c[1];
+    var lo = 0, hi = c[1];
+    for (var i = 0; i < 30; i++) { var m = (lo + hi) / 2; if (inside(m)) lo = m; else hi = m; }
+    return Math.floor(lo * 1000) / 1000;
+  }
+  // Set a per-theme value; a value equal to the kit's is dropped instead.
+  function put(k, t, v) {
+    var d = def(PK[k], t);
+    if (v === d || (!isFinite(v) && !isFinite(d))) delete st[t][k]; else st[t][k] = v;
+  }
+  function fitP3() {
+    var moved = [];
+    ["light", "dark"].forEach(function (t) {
+      NGROUPS.forEach(function (g) {
+        var from = get(g[0], t), to = Math.min.apply(null, [from].concat(g[1].map(function (r) { return maxC(r, t); })));
+        if (to === from) return;
+        put(g[0], t, to);
+        moved.push(t + " " + PK[g[0]].l + " " + fmt(from) + " → " + fmt(to));
+      });
+      CAPS.forEach(function (r) {
+        var k = "cap-" + r, was = get(k, t), C = role(r, t, true)[1], m = maxC(r, t);
+        // When no cap is needed, drop it, or set 1 to lift a cap the kit sets.
+        var to = m < C ? m : isFinite(def(PK[k], t)) ? 1 : NaN;
+        put(k, t, to);
+        var now = get(k, t);
+        if (now === was || (!isFinite(now) && !isFinite(was))) return;
+        moved.push(t + " " + nameOf(r) + (m < C ? " C " + fmt(Math.min(C, was) || C) + " → " + fmt(m) : " cap lifted"));
+      });
+    });
+    commit();
+    note(moved.length ? "Fit P3: " + moved.join("; ") + "." : "Every color is already inside P3.");
   }
 
   // ---- apply: save to brief.js storage, which applies to the page.
@@ -247,10 +293,12 @@
   function cssText() {
     var out = [];
     ["light", "dark"].forEach(function (t) {
+      const line = (ps) => ps.map((p) => "--" + p.k + ": " + fmt(get(p.k, t)) + unit(p) + ";").join("  ");
       out.push("/* " + t + " */");
-      out.push(P.filter(function (p) { return p.s === "t"; }).map(function (p) {
-        return "--" + p.k + ": " + fmt(get(p.k, t)) + ";";
-      }).join("  "));
+      out.push(line(P.filter((p) => p.s === "t" && !p.cap)));
+      // Caps go in the theme's cap block, not with its tokens.
+      const caps = P.filter((p) => p.cap && isFinite(get(p.k, t)) && get(p.k, t) < 1);
+      if (caps.length) out.push("/* " + t + " caps */", line(caps));
     });
     out.push("/* both themes */");
     out.push(P.filter(function (p) { return p.s === "c"; }).map(function (p) {
@@ -339,6 +387,7 @@
       'Arrows step, Shift ×10, Alt ÷10. ↺ resets a row.</p><p class="hint" id="tune-note"></p>');
     var group = null;
     P.forEach(function (p) {
+      if (p.cap) return;
       if (p.g !== group) { if (group) h.push("</table>"); group = p.g; h.push("<h3>" + group + "</h3><table>"); }
       h.push('<tr data-k="' + p.k + '"><td class="k" title="--' + p.k + '">' + p.l +
         (p.base ? "<small>= " + BASE_NAME[p.base] + " +</small>" : "") +
@@ -359,7 +408,9 @@
     h.push('<h3>Contrast, theme shown</h3><table><thead><tr><th></th><th>text</th><th>on</th>' +
       '<th class="r">ratio</th><th class="r">need</th><th></th><th>gamut</th></tr></thead><tbody id="tune-contrast"></tbody></table>');
     h.push('<p class="hint">Ratio: WCAG 2 contrast, 1 to 21. Need: 7 for body text, 4.5 for other text. ' +
-      'Gamut: blank = any screen; P3 = exact only on wide-gamut screens (clipped on sRGB); out = no screen shows it.</p>');
+      'Gamut: blank = any screen; P3 = exact only on wide-gamut screens (clipped on sRGB); out = no screen shows it.</p>' +
+      '<div class="hdr"><button id="tune-fit" title="Lower chroma, never lightness or hue, until every color in both ' +
+      'themes is inside P3">fit P3</button></div>');
     h.push('<table><thead><tr><th></th><th>surface</th><th>vs</th><th class="r">ratio</th><th class="r">floor</th><th colspan=2></th></tr></thead>' +
       '<tbody id="tune-steps"></tbody></table><p class="hint">Surface steps: how far one surface stands off ' +
       'another. Floor: below it the two read as one plane; a judgment, not a standard. 1.00 means identical.</p>');
@@ -408,6 +459,7 @@
       var t = e.target.dataset && e.target.dataset.t; if (t) { B.setTheme(t); render(); }
     });
     document.getElementById("tune-save").addEventListener("click", saveFile);
+    document.getElementById("tune-fit").addEventListener("click", fitP3);
     document.getElementById("tune-close").addEventListener("click", toggle);
     document.getElementById("tune-copy").addEventListener("click", function () {
       var ta = document.getElementById("tune-css"); ta.select();
@@ -449,7 +501,7 @@
     document.getElementById("tune-tiers").innerHTML =
       "Page width now " + t.w + " px (without this panel: " + root.clientWidth + " px).<br>" +
       "Map and side notes in the gutters from " + t.rail + " px; below that, contents at the top, the section " +
-      "name in the top bar, notes inline.<br>Hanging section numbers from " + t.hang + " px.<br>Now: <b>" +
+      "name in the top bar opens the map as a drop-down, notes inline.<br>Hanging section numbers from " + t.hang + " px.<br>Now: <b>" +
       (root.classList.contains("rail") ? "map and notes in gutters" : "no gutters") + "</b>, numbers <b>" +
       (root.classList.contains("hang") ? "hanging" : "inline") + "</b>.";
     document.getElementById("tune-contrast").innerHTML = contrast(theme()).map(function (c) {

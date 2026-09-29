@@ -9,13 +9,31 @@ description: >-
 
 # Briefing
 
-Goal: after one linear read, the reader can judge the target on their own.
-They can explain its mechanisms, reach the primary source of any claim in one
-click, and see where the seed is wrong or stale.
+A brief brings a reader to judge a target on their own. The **seed**
+(report, PR, URL, spec, question) names the target. It does not define the
+content: teach what the reader needs to judge it, from the mechanism up, and
+treat each seed claim as a hypothesis to test.
 
-The **seed** (report, PR, URL, spec, question) names the target. It does not
-define the content: teach what the reader needs to judge it, from the
-mechanism up, and treat each seed claim as a hypothesis to test.
+## Ends
+
+The communication succeeds when the reader is:
+
+- **Oriented in a minute.** From the metadata, the bottom line, and the
+  headings alone, they know what the target is, what the brief concludes,
+  and where the risk sits.
+- **Able to judge.** After one linear read, they can explain the mechanisms
+  and decide the decision questions without the brief.
+- **Able to check.** Every claim reaches its primary source in one click,
+  and they can tell fact from inference from the unverified.
+- **Calibrated.** They know where the seed and the brief are wrong, weak, or
+  stale, and what nobody checked.
+- **Able to return.** Later, the headings and the map take them back to any
+  point.
+
+Everything below serves these ends. "A finished set" is the acceptance
+check, and each item there records a real failure, so meet it. The rest are
+defaults that usually serve the ends well. Use judgment, and depart from one
+when the brief in hand is better served another way.
 
 ## Invocation
 
@@ -32,14 +50,15 @@ mechanism up, and treat each seed claim as a hypothesis to test.
 
 ## A finished set
 
-- **Framed.** The index states the **frame**: 1 to 5 decision questions, the
-  assumed reader baseline, the pins, and the scale and audit setting. The
-  baseline comes from the loaded instructions (global and project
-  `AGENTS.md`/`CLAUDE.md`), project context documents, and memory; it sets
+- **Framed.** The index states the **frame**: a few decision questions, and
+  a metadata block of what the reader acts on, in terse values (the seed and
+  its state, the pins, the date checked, and the assumed reader baseline).
+  The baseline comes from the loaded instructions (global and project
+  `AGENTS.md`/`CLAUDE.md`), project context documents, and memory. It sets
   what pages skip, the vocabulary, the prose style, and which code is the
   reader's own. When the seed is pinned older than the repository head, the
-  index lists the later commits that touch its claims, and claims are judged
-  against head.
+  index lists the later commits that touch its claims, and the brief judges
+  claims against head.
 - **Mapped.** Every decision question and seed claim maps to the pages that
   answer it (a table on the index), and every page serves a question or a
   later page. Pages follow concept dependency: none needs a later page.
@@ -47,88 +66,112 @@ mechanism up, and treat each seed claim as a hypothesis to test.
   preferring live system state, then code, then specifications, then official
   documentation, then secondary writing. Where sources disagree, the higher
   one wins and the page says so. Quotes are the source's own text, from the
-  file or page itself rather than a tool's summary of it: 3 to 15 lines, with
-  the decisive part marked. Fact and inference are marked apart.
+  file or page itself rather than a tool's summary of it, long enough to
+  carry the point, with the decisive part marked. Fact and inference are
+  marked apart.
 - **Linked.** Every reference links to its exact target: code line
   permalinks, specification sections, documentation pages, registry or
   on-chain objects. Identifiers in prose (specification numbers, `path:line`,
   API names, commits, versions) count as references, across the whole set.
   Links point at pushed revisions, or at `file://` with a note when the code
-  is local.
+  is local. Line citations go in the source line of the block they support,
+  not in its sentences.
 - **Consistent.** `facts.md` in the set holds every number, version, date,
   and claim used on more than one page, each with its source. Writers work
   from it and the frame; a correction lands in `facts.md` first, then
   in every page.
 - **Judged.** With the audit on, each seed claim has a verdict (holds,
-  partly, fixed at head, wrong, unverified) with one line of evidence, on the
-  pages it touches.
+  partly, fixed at head, wrong, unverified) and its evidence, on the pages it
+  touches.
 - **Refuted first.** Every claim survived an attempt to disprove it against
   its source before delivery.
 
 ## Teaching
 
-Aids that help novices slow experts down (**expertise reversal**). Size
+Aids that help novices slow experts down (expertise reversal). Size
 every aid below to the baseline: cut what the baseline surely covers, and
 collapse what it may cover into a "Background" block, one level deep.
 
-- **Why before how.** After a section's claim, give the problem the mechanism
-  solves and the constraint that shaped it, then the mechanism, then its
-  consequences.
+The baseline cuts explanation, not facts. A reader who knows an area does
+not hold its details in mind: restore the specific mechanisms and
+invariants the target and the brief's own claims rely on, compactly and
+linked, where they will be needed (a **refresher**). Surface the nuances
+that decide how to read the seed and the brief: names that mislead,
+conditions under which a claim flips, and which claims come from reading
+code rather than a run.
+
+- **Why before how.** Give the problem a mechanism solves and the
+  constraint that shaped it before the mechanism itself, and its
+  consequences after.
 - **Anchor to the known.** Map a new concept to one the baseline holds,
   ideally from the reader's own field, and say where the analogy breaks.
 - **Name the wrong model.** Where a tempting misconception exists (in the
   seed, in common writing, or suggested by a name), state it, show the
-  evidence against it, then give the right model (**refutation**).
+  evidence against it, then give the right model (refutation).
 - **One name per concept.** Define each term where it first appears and keep
-  that name; no synonyms afterwards. On later pages, link back to it. A
-  section that needs more than a few new terms is two sections
-  (**segmenting**).
+  that name; no synonyms afterwards. On later pages, link back to it. When a
+  section introduces many new terms at once, split it (segmenting).
 - **No skipped steps.** Each "so" follows from something already on the page
-  (**curse of knowledge**). Write a causal chain of three or more links as a
-  trace.
+  (curse of knowledge). A long causal chain often reads best as a trace.
 - **Real values.** Show mechanisms with real inputs and outputs: measured
   values, actual command output, the numbers from the source. When the reader
-  must run a check, give one complete **worked example** with its real output.
+  must run a check, give one complete worked example with its real output.
 - **Keep it together.** Put each explanation next to what it explains: the
-  excerpt beside its claim, the label on the figure (**spatial
-  contiguity**).
-- **Predict, then show.** At the one or two least intuitive results on a
-  page, ask the question first and answer it right after, so the reader
-  commits to a guess (**pre-questions**).
+  excerpt beside its claim, the label on the figure (spatial
+  contiguity).
 - **Cut decoration.** Each sentence, figure, and emphasis must change the
-  reader's understanding (**coherence**).
+  reader's understanding (coherence).
+
+## Communication
+
+Structure the brief around the reader's questions, not around the order of
+the work. Readers scan the headings and read the body only under a heading
+that matters to them (the layer-cake pattern), so the page should read
+correctly at both depths.
+
+- **Functions, not an outline.** A brief does jobs: orient, refresh,
+  explain, locate risk, point to sources, record who said what. Give a job
+  its own section, spread it across the sections that need it, or put it
+  inline, whichever puts it where the reader needs it next.
+- **Answer first.** Lead pages, sections, and paragraphs with their
+  conclusion; the support follows.
+- **Headings state the claim**, with the information-bearing words first:
+  "Promotion can fork the archive", not "Hazard". The contents entry can be
+  a shorter label for the map and the top bar.
+- **Chunks.** Keep paragraphs short, with one idea each. Parallel items read
+  best as a list, and compared items as a table.
+- **Three layers, kept apart.** What to absorb (prose, figures, tables),
+  where it comes from (source lines), and what people said about it (review
+  threads, stated intent, open questions) each have their own place, so the
+  teaching prose holds only what to absorb.
+- **Say it once.** Each fact has one home; elsewhere, link to it.
 
 ## Page contract
 
-- Open with the bottom line: the claim the page proves, in two to four
-  sentences. Then the "Needs" line and the contents list.
-- Build each section as claim, then one real artifact (excerpt, trace,
-  table, figure), then the general rule.
-- Put skippable asides in side notes.
-- Draw a figure only for a relation that prose hides: a layout, a window, a
-  state machine, an order. Label it on the figure; do not restate it in
-  prose. Use pseudo stack traces for control flow and before/after pairs for
-  changes.
-- With the audit on, end with the seed callout, then the source list and the
-  pager.
-- The decision questions open the set and the verdicts close it; add no
-  quiz, homework, or closing question list.
+- Open with the metadata and the bottom line: the claim the page proves, as
+  briefly as it allows. Then the contents list.
+- A section usually works as claim, evidence (an excerpt, trace, table, or
+  figure), then the general rule.
+- With the audit on, the seed verdicts come last, then the source list and
+  the pager. Verdicts use the kit's kind tags: holds `ok`, partly `warn`,
+  fixed at head `info`, wrong `bad`, unverified `muted`.
+- State each result where it belongs. A brief does not quiz its reader, so it
+  has no pre-questions, homework, or closing question list.
+
+## Form
+
+Set the pages by [`references/typesetting.md`](references/typesetting.md):
+what earns a visible difference, emphasis, color, boxes, figures, and
+asides. Express them with the page kit in [`assets/`](assets/); its
+[`README.md`](assets/README.md) maps each need to a block, and
+`components.html` holds the markup to copy.
 
 ## Output
 
 Write the set to `${XDG_DATA_HOME:-$HOME/.local/share}/briefs/<YYYY-MM-DD>-<slug>/`:
 `index.html`, `NN-<slug>.html` per page, `facts.md`, and the kit files
-`brief.css`, `brief.js`, and `brief-tune.js` from [`assets/`](assets/),
 copied so the set stands alone. Start pages from `assets/template.html` and
-the index from `assets/index.html`; `assets/components.html` shows every
-block, and its source is the markup to copy. The kit handles layout, themes,
-code highlighting, navigation, and reader settings.
-
-Color carries meaning, through kit classes and tokens. The kinds are
-`accent`, `neutral`, `ok`, `warn`, and `bad`; a figure paints areas with
-`--fill-KIND` and the text on them with `--label-KIND`. Verdict tags: holds
-`.ok`, partly `.warn`, fixed at head `.info`, wrong `.bad`, unverified
-`.muted`.
+the index from `assets/index.html`.
 
 Open the index in the default browser. Report the location, the bottom line,
 the verdicts with wrong and partly first, what stays unverified, and what you
