@@ -5,6 +5,7 @@ Reach for when:
 - pruning context load, duplication, and no-op prose
 - separating workflow steps from reference
 - delegating primary-source research into a cited repo artifact
+- designing teaching or explanation workflows (the `teach` skill)
 
 Transferable patterns:
 - optimize for a repeatable process; output may vary
@@ -13,12 +14,21 @@ Transferable patterns:
 - use shared language and strong leading words to compress instructions
 - keep skills small, adaptable, and composable
 - send reading legwork to a background agent; keep results in one cited Markdown file
+- anchor every choice to one mission, with an explicit out-of-scope list
+- never trust parametric knowledge: cite each claim, one primary source per unit
 
 Watch:
 - skill-design advice transfers to workflow docs only when those docs steer agent behavior
 - brevity cannot erase the evidence bar or completion condition
+- `teach` has no assessment step in session one; its top user complaint is
+  lessons pitched at the wrong level. State the assumed baseline instead
+- its course shape (quizzes, spacing, learning records) serves delayed
+  retention, not a one-pass read before a decision
+- relative output paths resolved against the skill directory (open bug): name
+  the output location explicitly
 
 Orientation reads:
 - https://github.com/mattpocock/skills
 - https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-for-agents/SKILL.md
 - https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md
+- https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md

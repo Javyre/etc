@@ -43,6 +43,7 @@ Goal: resolve the choice, control context use, and grow a reusable evidence inde
   `./references/simon-willison.md`
 - Agent loops and context: `./references/poteto.md`, `./references/matt-pocock.md`, `./references/simon-willison.md`, `./references/birgitta-boeckeler.md`, `./references/mitchell-hashimoto.md`, `./references/armin-ronacher.md`, `./references/anthropic-engineering.md`, `./references/nuno-campos.md`, `./references/kief-morris.md`
 - Evals and trust: `./references/poteto.md`, `./references/hamel-husain.md`, `./references/anthropic-engineering.md`, `./references/simon-willison.md`, `./references/birgitta-boeckeler.md`
+- Explanation and briefing: `./references/poteto.md`, `./references/matt-pocock.md`, `./references/simon-willison.md`
 
 ## Flow
 

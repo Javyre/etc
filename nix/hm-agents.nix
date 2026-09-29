@@ -10,6 +10,7 @@ let
 
   sharedSkills = lib.genAttrs [
     "agent-work"
+    "briefing"
     "code-work"
     "complete"
     "conflicts"

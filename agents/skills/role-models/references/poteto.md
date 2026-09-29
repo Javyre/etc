@@ -18,6 +18,12 @@ Transferable patterns:
 - isolate parallel candidates, select a base against a rubric, and graft only the strongest ideas
 - judge skill behavior from artifacts and traces; blind candidates to eval intent
 - turn recurring corrections into checks, tools, metadata, or skill edits
+- give confidence tiers fixed phrasing; "because" needs an adjacent citation
+  (`why` epistemics)
+- treat a hypothesis in the question as a prompt to investigate, not to validate
+- pin the target before fan-out; log every source checked, null results too
+- explain as plain definition, then this case, then mechanism; for three or
+  more moving parts, use a diagram sequence that adds one part per step
 
 Watch:
 - the central mode and large catalog can create routing and context pressure
@@ -31,6 +37,8 @@ Orientation reads:
 - https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL.md
 - https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/playbooks/authoring-a-skill.md
 - https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/playbooks/eval.md
+- https://github.com/cursor/plugins/blob/main/pstack/skills/why/references/epistemics.md
+- https://github.com/cursor/plugins/blob/main/pstack/skills/teach/SKILL.md
 
 Code or systems reads:
 - https://github.com/cursor/plugins/blob/main/pstack/skills/architect/SKILL.md

@@ -5,6 +5,7 @@ Reach for when:
 - studying testing and review posture under cheap codegen
 - studying subagents as a context-control tool
 - studying prompt-injection and trust-boundary realism
+- studying agent-written explanations and code walkthroughs
 
 Transferable patterns:
 - good code is still costly after code gets cheap
@@ -21,3 +22,4 @@ Orientation reads:
 - https://simonwillison.net/guides/agentic-engineering-patterns/
 - https://simonwillison.net/guides/agentic-engineering-patterns/code-is-cheap/
 - https://simonwillison.net/2024/Mar/5/prompt-injection-and-jailbreaking-are-not-the-same-thing/
+- https://simonwillison.net/guides/agentic-engineering-patterns/linear-walkthroughs/
