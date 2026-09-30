@@ -2,8 +2,9 @@
 name: agent-work
 description: >-
   Agent work through loop shape, context, mining, tools, verification, trust,
-  traces, and evals. Use for agent-system design, work-history mining, or when
-  another skill names it as a dependency.
+  traces, and evals. Use for agent-system design, work-history mining,
+  handoffs and task specs for another agent, or when another skill names it
+  as a dependency.
 ---
 
 # Agent Work
@@ -45,6 +46,9 @@ When mining Codex history, instructions, or machine state, load
   docs, tools, plans, memory, and live state have different costs.
 - Context pointer: name the trigger and owner. Its wording decides whether the
   agent loads deferred truth. Sharpen the pointer before inlining.
+- Handing work to another agent or a fresh session: write a handoff
+  ([`references/handoff.md`](references/handoff.md)) or a task contract
+  ([`references/task-contract.md`](references/task-contract.md)).
 - Tool boundaries shape reasoning. Bad tools make the model recreate missing
   interface logic on every run.
 - Expose state and interfaces. Use deterministic checks and reproducible

@@ -1,11 +1,11 @@
-// brief.js: behavior for the page kit (README.md). Classic script, no
+// page.js: behavior for the page kit (README.md). Classic script, no
 // dependencies, works on file://. Every feature is optional: pages still read
 // without this file.
 //
 // Browser storage holds only per-reader conveniences. Theme, tuning and the
 // tuning panel state are shared by every page that uses the kit (key prefix
-// "brief:"); scroll position and pages read belong to one set (prefix
-// "brief:<set dir>"), since file:// pages in one browser share one origin.
+// "page:"); scroll position and pages read belong to one set (prefix
+// "page:<set dir>"), since file:// pages in one browser share one origin.
 
 (function () {
   var root = document.documentElement;
@@ -14,10 +14,10 @@
   var base = (document.currentScript && document.currentScript.src || "").replace(/[^/]*$/, "");
   var panelW = 0;
 
-  function get(k) { try { return localStorage.getItem("brief:" + dir + k); } catch (e) { return null; } }
-  function set(k, v) { try { localStorage.setItem("brief:" + dir + k, v); } catch (e) {} }
-  function gget(k) { try { return localStorage.getItem("brief:" + k); } catch (e) { return null; } }
-  function gset(k, v) { try { localStorage.setItem("brief:" + k, v); } catch (e) {} }
+  function get(k) { try { return localStorage.getItem("page:" + dir + k); } catch (e) { return null; } }
+  function set(k, v) { try { localStorage.setItem("page:" + dir + k, v); } catch (e) {} }
+  function gget(k) { try { return localStorage.getItem("page:" + k); } catch (e) { return null; } }
+  function gset(k, v) { try { localStorage.setItem("page:" + k, v); } catch (e) {} }
 
   // ---- theme: the toggle cycles auto, light, dark. html[data-theme] always
   // holds the theme in effect, set before first paint; storage holds the
@@ -61,7 +61,7 @@
   }
   dark.addEventListener("change", () => { resolve(); applyTune(); });
 
-  // ---- layout tiers, from the rule in brief.css:
+  // ---- layout tiers, from the rule in page.css:
   // html.rail when gutter >= rail + 2 * rail-gap; html.hang when
   // gutter >= hang. The tuning panel, when open, takes panelW from the page.
   function px(name) {
@@ -79,16 +79,16 @@
   applyTune();
   addEventListener("resize", layout);
 
-  // ---- tuning panel: brief-tune.js, next to this file, loaded on demand.
+  // ---- tuning panel: page-tune.js, next to this file, loaded on demand.
   function toggleTuner() {
-    if (window.briefTune) { window.briefTune.toggle(); return; }
+    if (window.pageKitTune) { window.pageKitTune.toggle(); return; }
     var s = document.createElement("script");
-    s.src = base + "brief-tune.js";
-    s.onload = function () { window.briefTune.toggle(); };
+    s.src = base + "page-tune.js";
+    s.onload = function () { window.pageKitTune.toggle(); };
     document.head.appendChild(s);
   }
 
-  window.brief = {
+  window.pageKit = {
     get: get, set: set, loadTune: loadTune, applyTune: applyTune,
     saveTune: function (s) { gset("tune", JSON.stringify(s)); applyTune(); },
     gget: gget, gset: gset,
@@ -202,7 +202,7 @@
     addEventListener("scroll", function () {
       if (!pending) { pending = true; requestAnimationFrame(update); }
     }, { passive: true });
-    window.brief.refresh = update;
+    window.pageKit.refresh = update;
     update();
   }
 

@@ -1,13 +1,13 @@
-// brief-tune.js: the tuning panel. brief.js loads it on demand (the Tune
+// page-tune.js: the tuning panel. page.js loads it on demand (the Tune
 // button, or the "," key). It edits the palette, type, layout and options
 // live on every page of the set, saves them in this browser, and exports
-// them as CSS or as a JSON file to paste back into brief.css.
+// them as CSS or as a JSON file to paste back into page.css.
 //
 // Classic script, no dependencies, works on file://.
 
 (function () {
   var root = document.documentElement;
-  var B = window.brief;
+  var B = window.pageKit;
   var PANEL = 360;
 
   // Parameters. s: "t" = per theme, "c" = both themes. span: the slider
@@ -51,7 +51,7 @@
     { k: "rail-gap", l: "rail gap", s: "c", g: "Layout", span: 2.5, step: .25, u: "rem" },
     { k: "hang", l: "hang", s: "c", g: "Layout", span: 1.5, step: .25, u: "rem" }
   ];
-  // Chroma caps, one per colored role (see "Caps" in brief.css). Only "fit P3"
+  // Chroma caps, one per colored role (see "Caps" in page.css). Only "fit P3"
   // sets them, so they get no rows of their own.
   var CAPS = ["accent", "mark", "sig-ok", "sig-warn", "sig-bad",
     "fill-accent", "fill-ok", "fill-warn", "fill-bad", "label-accent", "label-ok", "label-warn", "label-bad",
@@ -61,7 +61,7 @@
   var BASE_NAME = { "l-bg": "page L", "l-fill": "fill L", "l-fg": "text L", "l-accent": "accent L", "c-accent": "accent C" };
 
   // Options: [name, label, values (first = kit default), hint]. Each maps to
-  // html[data-o-NAME] in brief.css.
+  // html[data-o-NAME] in page.css.
   var O = [
     ["density", "density", ["compact", "normal", "airy"], "vertical rhythm of every block"],
     ["metaform", "metadata", ["line", "grid"], "line: rows run together; grid: one row per key"],
@@ -109,7 +109,7 @@
   function fmt(n) { return String(+(+n).toFixed(4)).replace(/^(-?)0\./, "$1."); }
   function opt(name) { return st.o[name] || OK[name][2][0]; }
 
-  // Kit values come from brief.css: drop overrides, read each theme, restore.
+  // Kit values come from page.css: drop overrides, read each theme, restore.
   function readDefaults() {
     var had = root.getAttribute("data-theme");
     P.forEach(function (p) { root.style.removeProperty("--" + p.k); });
@@ -125,7 +125,7 @@
     B.applyTune();
   }
 
-  // ---- color roles, mirroring the role table in brief.css. Kinds: accent,
+  // ---- color roles, mirroring the role table in page.css. Kinds: accent,
   // neutral, ok, warn, bad. Returns [L, C, h] for either theme.
   function derived(k, t) {
     var g = function (x) { return get(x, t); };
@@ -260,7 +260,7 @@
     note(moved.length ? "Fit P3: " + moved.join("; ") + "." : "Every color is already inside P3.");
   }
 
-  // ---- apply: save to brief.js storage, which applies to the page.
+  // ---- apply: save to page.js storage, which applies to the page.
   function commit() {
     B.saveTune(toStore());
     root.classList.toggle("tune-guides", guides);
@@ -318,14 +318,14 @@
     return c;
   }
   function saveFile() {
-    var data = { what: "brief kit tuning", saved: new Date().toISOString(), page: location.pathname,
+    var data = { what: "page kit tuning", saved: new Date().toISOString(), page: location.pathname,
       changed: changed(), css: cssText(),
       contrast: { light: contrast("light"), dark: contrast("dark") } };
     var a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
-    a.download = "brief-tune.json";
+    a.download = "page-tune.json";
     document.body.appendChild(a); a.click(); a.remove();
-    note("Saved brief-tune.json to your downloads folder.");
+    note("Saved page-tune.json to your downloads folder.");
   }
   function note(s) { var el = document.getElementById("tune-note"); if (el) el.textContent = s; }
 
@@ -379,7 +379,7 @@
     var h = [];
     h.push('<div class="hdr"><b style="margin-right:4px">Tune</b><span class="chips" id="tune-theme">' +
       '<button data-t="light">light</button><button data-t="dark">dark</button></span>' +
-      '<span style="flex:1"></span><button id="tune-save" title="Download brief-tune.json">save file</button>' +
+      '<span style="flex:1"></span><button id="tune-save" title="Download page-tune.json">save file</button>' +
       '<button id="tune-close" title="Close (,)">close</button></div>');
     h.push('<p class="hint">Changes apply to every page that uses this kit, in this browser. Color rows edit the theme ' +
       'shown; hues, type, layout and options apply to both. Rows marked "base +" are offsets: the right column ' +
@@ -533,5 +533,5 @@
   fromStore();
   build();
   addEventListener("resize", function () { drawGuides(); render(); });
-  window.briefTune = { toggle: toggle };
+  window.pageKitTune = { toggle: toggle };
 })();

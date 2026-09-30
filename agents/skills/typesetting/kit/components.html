@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>01 · Components</title>
-<link rel="stylesheet" href="brief.css">
-<script src="brief.js"></script>
+<link rel="stylesheet" href="page.css">
+<script src="page.js"></script>
 </head>
 <body>
 <main>
@@ -17,13 +17,13 @@
 <div class="kicker">Page kit</div>
 <h1>Components, and when each earns its place</h1>
 <dl class="meta">
-  <div><dt>Checked</dt><dd><code>brief.css</code>, <code>brief.js</code> · 2026-09-29</dd></div>
+  <div><dt>Checked</dt><dd><code>page.css</code>, <code>page.js</code> · 2026-09-29</dd></div>
   <div><dt>Page</dt><dd>kit reference · <span class="rt"></span></dd></div>
 </dl>
 
 <div class="callout tldr">
   <div class="callout-title">Bottom line</div>
-  <p>Every visible difference on a page names a kind of thing, one signal at a time. Color means a kind (a verdict, a warning, a link, a highlight) and nothing else. Each block below exists because prose alone did a worse job; if prose does the job, use prose. The reasons are in <code>references/typesetting.md</code>.</p>
+  <p>Every visible difference on a page names a kind of thing, one signal at a time. Color means a kind (a verdict, a warning, a link, a highlight) and nothing else. Each block below exists because prose alone did a worse job; if prose does the job, use prose. The reasons are in the typesetting skill (<code>SKILL.md</code>).</p>
 </div>
 
 <nav class="toc"><b>Contents</b><ol>
@@ -40,7 +40,7 @@
 
 <h2 id="prose"><span class="n">1</span>Prose, links, inline code</h2>
 <p>Body text is a serif at 17 px in a 45 rem column, about 75 characters per line. Headings, tables and chrome use the system sans. All faces share the serif's x-height, so one size reads as one size in every face. Links use the accent with a thin underline; <a href="https://github.com/rust-lang/rust">a normal link</a> looks like this, and <a href="#excerpt"><code>path/to/file.rs:42</code></a> is a code reference link. Inline <code>code</code> sits on a faint card. A <mark>highlight</mark> is a soft amber marker in both themes.</p>
-<p><span class="rh">Inference.</span> A run-in head opens a paragraph of a kind the reader scans for: Inference, Rule, Watch for. It is set in the sans, so it stays apart from a <b>bold term</b> in the serif. Line citations go in the source line that closes the block, not in the sentence. <span class="cite"><a href="brief.css">brief.css</a> · <a href="brief.js">brief.js</a></span></p>
+<p><span class="rh">Inference.</span> A run-in head opens a paragraph of a kind the reader scans for: Inference, Rule, Watch for. It is set in the sans, so it stays apart from a <b>bold term</b> in the serif. Line citations go in the source line that closes the block, not in the sentence. <span class="cite"><a href="page.css">page.css</a> · <a href="page.js">page.js</a></span></p>
 <p>After a block that cannot hold a source line (a trace, a table, a figure without a caption), use <code>&lt;p class="cite"&gt;</code> right after it. The tuning panel can run source lines into the text in parentheses instead (<code>cites</code>).</p>
 <aside class="side">Side note. With room in the gutters it sits in the right gutter; without room it drops inline, small and muted. Use it for an aside the reader can skip without missing the argument.</aside>
 <p>Keyboard: <kbd>←</kbd> and <kbd>→</kbd> follow the pager. The section number next to each heading is its permalink.</p>
@@ -70,13 +70,13 @@
 
 <h2 id="excerpt"><span class="n">3</span>Source excerpts</h2>
 <p>Quote the few pieces of source that carry the argument: a constant, an enforcing check, a defining sentence. The caption links the exact lines at a pinned commit. The text is the source's own, from the file itself.</p>
-<figure class="excerpt"><figcaption><a href="brief.css">brief.css:369-374</a> · the fill carries the kind</figcaption><pre>/* Kind tags: the fill carries the kind. */
+<figure class="excerpt"><figcaption><a href="page.css">page.css:369-374</a> · the fill carries the kind</figcaption><pre>/* Kind tags: the fill carries the kind. */
 .tag {
   display: inline-block; font-size: .76rem; line-height: 1.5; padding: 0 6px;
   border-radius: 4px; vertical-align: 1px; white-space: nowrap;
 }
 .tag.ok    { background: <mark>var(--fill-ok)</mark>;      color: var(--label-ok); }</pre></figure>
-<figure class="excerpt"><figcaption><a href="brief.js">brief.js:139-145</a> · a finished page reopens at the top</figcaption><pre>  function initScroll() {
+<figure class="excerpt"><figcaption><a href="page.js">page.js:139-145</a> · a finished page reopens at the top</figcaption><pre>  function initScroll() {
     var main = document.querySelector("main");
     var pager = document.querySelector(".pager");
     var curName = document.querySelector(".topbar .cur &gt; span");
@@ -168,7 +168,7 @@
 
 <h2 id="sources"><span class="n">↳</span>Sources</h2>
 <ul class="src">
-  <li><a href="brief.css">brief.css</a> · <a href="brief.js">brief.js</a> · <a href="template.html">template.html</a> · <a href="index.html">index.html</a></li>
+  <li><a href="page.css">page.css</a> · <a href="page.js">page.js</a> · <a href="template.html">template.html</a> · <a href="index.html">index.html</a></li>
 </ul>
 
 </main>

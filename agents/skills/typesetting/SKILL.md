@@ -1,8 +1,16 @@
+---
+name: typesetting
+description: >-
+  Typesetting for rendered pages and documents: what earns a visible
+  difference, emphasis, color, labels, boxes, figures, and size. Use when
+  producing or styling HTML pages, rendered reports, or formatted documents.
+  Includes an HTML page kit.
+---
+
 # Typesetting
 
-A philosophy for setting informational pages on the web: briefs, reports,
-references. It names no kit; a kit documents how it follows these
-choices.
+A philosophy for setting informational pages and rendered documents:
+briefs, reports, references, guides.
 
 ## Philosophy
 
@@ -64,6 +72,11 @@ its shape, so each choice either helps the meaning or gets in its way
   there is room.
 - **Numbers** in tables are tabular and right-aligned; a change's size gets
   one column for additions and one for removals.
+
+## HTML pages
+
+Build HTML output with the page kit in [`kit/`](kit/). Its
+[`README.md`](kit/README.md) maps each need to a block and says what to copy.
 
 ## Sources
 

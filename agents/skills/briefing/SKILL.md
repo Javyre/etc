@@ -50,15 +50,13 @@ when the brief in hand is better served another way.
 
 ## A finished set
 
-- **Framed.** The index states the **frame**: a few decision questions, and
-  a metadata block of what the reader acts on, in terse values (the seed and
-  its state, the pins, the date checked, and the assumed reader baseline).
-  The baseline comes from the loaded instructions (global and project
-  `AGENTS.md`/`CLAUDE.md`), project context documents, and memory. It sets
-  what pages skip, the vocabulary, the prose style, and which code is the
-  reader's own. When the seed is pinned older than the repository head, the
-  index lists the later commits that touch its claims, and the brief judges
-  claims against head.
+- **Framed.** The index states the **frame**: a metadata block of what the
+  reader acts on, in terse values (the seed and its state, the pins, the date
+  checked, and the assumed reader baseline), and a few decision questions.
+  The baseline (from `$writing-for-humans`) sets what pages skip, the
+  vocabulary, the prose style, and which code is the reader's own. When the
+  seed is pinned older than the repository head, the index lists the later
+  commits that touch its claims, and the brief judges claims against head.
 - **Mapped.** Every decision question and seed claim maps to the pages that
   answer it (a table on the index), and every page serves a question or a
   later page. Pages follow concept dependency: none needs a later page.
@@ -124,27 +122,14 @@ code rather than a run.
 
 ## Communication
 
-Structure the brief around the reader's questions, not around the order of
-the work. Readers scan the headings and read the body only under a heading
-that matters to them (the layer-cake pattern), so the page should read
-correctly at both depths.
+Write the brief by `$writing-for-humans`. Readers scan the headings and read
+the body only under a heading that matters to them (the layer-cake
+pattern), so the page should read correctly at both depths.
 
-- **Functions, not an outline.** A brief does jobs: orient, refresh,
-  explain, locate risk, point to sources, record who said what. Give a job
-  its own section, spread it across the sections that need it, or put it
-  inline, whichever puts it where the reader needs it next.
-- **Answer first.** Lead pages, sections, and paragraphs with their
-  conclusion; the support follows.
-- **Headings state the claim**, with the information-bearing words first:
-  "Promotion can fork the archive", not "Hazard". The contents entry can be
-  a shorter label for the map and the top bar.
-- **Chunks.** Keep paragraphs short, with one idea each. Parallel items read
-  best as a list, and compared items as a table.
-- **Three layers, kept apart.** What to absorb (prose, figures, tables),
-  where it comes from (source lines), and what people said about it (review
-  threads, stated intent, open questions) each have their own place, so the
-  teaching prose holds only what to absorb.
-- **Say it once.** Each fact has one home; elsewhere, link to it.
+A brief does jobs: orient, refresh, explain, locate risk, point to sources,
+record who said what. Give a job its own section, spread it across the
+sections that need it, or put it inline, whichever puts it where the reader
+needs it next.
 
 ## Page contract
 
@@ -160,18 +145,13 @@ correctly at both depths.
 
 ## Form
 
-Set the pages by [`references/typesetting.md`](references/typesetting.md):
-what earns a visible difference, emphasis, color, boxes, figures, and
-asides. Express them with the page kit in [`assets/`](assets/); its
-[`README.md`](assets/README.md) maps each need to a block, and
-`components.html` holds the markup to copy.
+Set the pages by `$typesetting` and build them with its page kit.
 
 ## Output
 
 Write the set to `${XDG_DATA_HOME:-$HOME/.local/share}/briefs/<YYYY-MM-DD>-<slug>/`:
-`index.html`, `NN-<slug>.html` per page, `facts.md`, and the kit files
-copied so the set stands alone. Start pages from `assets/template.html` and
-the index from `assets/index.html`.
+`index.html`, `NN-<slug>.html` per page, `facts.md`, and the page kit's
+files copied so the set stands alone.
 
 Open the index in the default browser. Report the location, the bottom line,
 the verdicts with wrong and partly first, what stays unverified, and what you

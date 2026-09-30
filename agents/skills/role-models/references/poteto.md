@@ -8,6 +8,7 @@ Reach for when:
 - designing multi-model reviews, blinded skill evals, and long autonomous runs
 - mining work history into durable agent instructions
 - shaping concise prose without sterilizing its voice
+- scoping writing guidance for human readers
 
 Transferable patterns:
 - route each task through one operating mode into an explicit playbook
@@ -24,6 +25,10 @@ Transferable patterns:
 - pin the target before fan-out; log every source checked, null results too
 - explain as plain definition, then this case, then mechanism; for three or
   more moving parts, use a diagram sequence that adds one part per step
+- split human-read writing into one cross-cutting skill (`technical-writing`:
+  Diátaxis mode, style, STE, global English) and workflow playbooks that own
+  their deliverable's template (`opening-a-pr`: the PR body "is a briefing,
+  not the lab notebook", about 40 lines)
 
 Watch:
 - the central mode and large catalog can create routing and context pressure
@@ -39,6 +44,8 @@ Orientation reads:
 - https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/playbooks/eval.md
 - https://github.com/cursor/plugins/blob/main/pstack/skills/why/references/epistemics.md
 - https://github.com/cursor/plugins/blob/main/pstack/skills/teach/SKILL.md
+- https://github.com/cursor/plugins/blob/main/pstack/skills/technical-writing/SKILL.md
+- https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/playbooks/opening-a-pr.md
 
 Code or systems reads:
 - https://github.com/cursor/plugins/blob/main/pstack/skills/architect/SKILL.md

@@ -12,7 +12,7 @@ Active instructions set bounds. This skill owns the review loop.
 The **Governing skill** sets review standards. Use the one explicitly
 designated. Otherwise use `$writing-for-agents` for skills, agent instructions,
 and their linked reference documents, or `$code-work` for code and tests.
-Apply `$writing-artifacts` to the report.
+Write the report as findings by `$writing-for-humans`.
 
 Default to `review` (`readonly`, audit, report), which inspects and reports and
 leaves the workspace unchanged. Enter `fix` on any explicit edit request.

@@ -21,9 +21,10 @@ let
     "jv-review"
     "role-models"
     "standup"
+    "typesetting"
     "unslop"
-    "writing-artifacts"
     "writing-for-agents"
+    "writing-for-humans"
   ] (name: ln "agents/skills/${name}");
 in
 {

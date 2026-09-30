@@ -1,7 +1,7 @@
-/* brief.css: styles for the page kit (README.md). Pages link this file
+/* page.css: styles for the page kit (README.md). Pages link this file
    relatively. No build step, no external requests, works on file://.
 
-   Every choice here follows ../references/typesetting.md.
+   Every choice here follows ../SKILL.md.
 
    Color roles. Every color is OKLCH. Each role has one lightness (L) per
    theme; hue alone names the kind within a role, and emphasis inside a
@@ -27,7 +27,7 @@
    chroma); the signal role has ok, warn, and bad only. A delta (--d-*,
    --dc-*) is signed and relative to its base, so moving a base moves
    everything tied to it, and each role's contrast with its surface holds.
-   The tuning panel (brief-tune.js, key ",") edits these values live and
+   The tuning panel (page-tune.js, key ",") edits these values live and
    shows the WCAG contrast of each pair.
 
    Caps. A colored role may carry --cap-ROLE (--cap-sig-ok, --cap-syn-num,
@@ -35,9 +35,9 @@
    where the shared chroma would put that role, at its L and hue, outside
    Display P3. No cap, no ceiling.
 
-   Themes. brief.js sets html[data-theme] to the theme in effect (the
+   Themes. page.js sets html[data-theme] to the theme in effect (the
    reader's choice, else the system's) before first paint, so one block
-   per theme suffices. Without brief.js, pages render light. */
+   per theme suffices. Without page.js, pages render light. */
 
 :root {
   color-scheme: light;
@@ -140,7 +140,7 @@
   --bar-h: 48px;
 
   /* Layout tiers. The text column is --col wide and centered; the space on
-     each side is a gutter. brief.js measures the gutter and sets:
+     each side is a gutter. page.js measures the gutter and sets:
 
        html.rail  gutter >= rail + 2 * rail-gap. The contents list becomes a
                   map in the left gutter and side notes move to the right
@@ -150,7 +150,7 @@
      Without .rail the contents list stays at the top of the page, the top
      bar names the current section, and side notes sit inline. Without
      .hang, section numbers sit inline. --page-w is the viewport width
-     without the scrollbar (or the tuning panel), set by brief.js. */
+     without the scrollbar (or the tuning panel), set by page.js. */
   --col: 45rem;
   --rail: 12rem;
   --rail-gap: 4rem;
@@ -273,7 +273,7 @@ pre .o   { color: var(--ok); }
 pre .add { color: var(--ok); }
 pre .del { color: var(--bad); }
 
-/* Syntax classes, applied by brief.js to text nodes only. */
+/* Syntax classes, applied by page.js to text nodes only. */
 pre .t-c { color: var(--muted); font-style: italic; }
 pre .t-k { color: var(--syn-kw); }
 pre .t-s { color: var(--syn-str); }
@@ -480,7 +480,7 @@ svg.fig .rule   { stroke: var(--rule); }
 .topbar a { color: var(--muted); text-decoration: none; }
 .topbar a:hover { color: var(--fg); }
 .topbar > span { display: flex; align-items: center; gap: 10px; }
-/* Current section name, a button made by brief.js. Shown when the map is
+/* Current section name, a button made by page.js. Shown when the map is
    not; it opens the map as a drop-down (.mapdrop). */
 .topbar .cur {
   display: none; flex: 1; min-width: 0; justify-content: center; align-items: baseline;
@@ -525,7 +525,7 @@ nav.toc a:hover { color: var(--accent); }
 
 /* With html.rail, the contents list becomes a fixed map in the left gutter,
    --rail-gap from the text. The drop-down map (.mapdrop) has the same list.
-   brief.js marks the section in view .current. A label that wraps keeps
+   page.js marks the section in view .current. A label that wraps keeps
    tight leading and a hanging indent, so the gap between items stays wider
    than the gap between its lines. */
 html.rail nav.toc {
@@ -574,7 +574,7 @@ html.rail nav.toc a.current, .mapdrop a.current { color: var(--fg); border-left-
   font-size: .86rem; color: var(--muted);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-/* Set by brief.js when the reader reached the end of that page. */
+/* Set by page.js when the reader reached the end of that page. */
 .cards a.done .num { color: var(--ok); }
 .cards a.done::after { content: "read"; grid-column: 4; font-size: .8rem; color: var(--ok); }
 
@@ -617,7 +617,7 @@ html[data-o-barsection="off"] .topbar .cur { display: none; }
 /* Option side notes without rail: inline (default) | hidden */
 html:not(.rail)[data-o-notes="hidden"] .side { display: none; }
 
-/* Option focus: off (default) | section. brief.js marks main's children
+/* Option focus: off (default) | section. page.js marks main's children
    outside the current section with .dim. */
 html[data-o-focus="section"] main > .dim { opacity: .4; }
 
