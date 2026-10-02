@@ -70,13 +70,13 @@
 
 <h2 id="excerpt"><span class="n">3</span>Source excerpts</h2>
 <p>Quote the few pieces of source that carry the argument: a constant, an enforcing check, a defining sentence. The caption links the exact lines at a pinned commit. The text is the source's own, from the file itself.</p>
-<figure class="excerpt"><figcaption><a href="page.css">page.css:369-374</a> · the fill carries the kind</figcaption><pre>/* Kind tags: the fill carries the kind. */
+<figure class="excerpt"><figcaption><a href="page.css">page.css:410-415</a> · the fill carries the kind</figcaption><pre>/* Kind tags: the fill carries the kind. */
 .tag {
   display: inline-block; font-size: .76rem; line-height: 1.5; padding: 0 6px;
   border-radius: 4px; vertical-align: 1px; white-space: nowrap;
 }
 .tag.ok    { background: <mark>var(--fill-ok)</mark>;      color: var(--label-ok); }</pre></figure>
-<figure class="excerpt"><figcaption><a href="page.js">page.js:139-145</a> · a finished page reopens at the top</figcaption><pre>  function initScroll() {
+<figure class="excerpt"><figcaption><a href="page.js">page.js:145-151</a> · a finished page reopens at the top</figcaption><pre>  function initScroll() {
     var main = document.querySelector("main");
     var pager = document.querySelector(".pager");
     var curName = document.querySelector(".topbar .cur &gt; span");
@@ -105,7 +105,7 @@
 <span class="add">+ let (hash, last_valid) = rpc.get_latest_blockhash_with_commitment(confirmed)?;</span></pre>
 
 <h2 id="tables"><span class="n">6</span>Tables</h2>
-<p>Numbers are tabular and right-aligned with <code>td.num</code>. Sizes of a change take two columns, <code>+</code> and <code>−</code>, with <code>.add</code> and <code>.del</code> spans, so every row keeps one line and the digits align. A wide table scrolls inside its own box; the page never scrolls sideways.</p>
+<p>Numbers are tabular and right-aligned with <code>td.num</code>. Sizes of a change take two columns, <code>+</code> and <code>−</code>, with <code>.add</code> and <code>.del</code> spans, so every row keeps one line and the digits align. A table takes the width its content needs, at least most of the column, and its cells keep their lines; a wider one centers on the column, into the margins. When it still cannot fit, its long columns wrap, then it scrolls inside its own box; the page never scrolls sideways. Mark a table <code>.compare</code> when its rows are read against each other, so lines stay whole, or <code>.prose</code> when its cells are running text, so they wrap within the column.</p>
 <div class="table-wrap"><table>
   <tr><th>Slot time</th><th class="num">Blocks</th><th class="num">Window (s)</th><th>Status</th></tr>
   <tr><td>400 ms</td><td class="num">150</td><td class="num">60.0</td><td><span class="tag muted">past</span></td></tr>
@@ -161,7 +161,7 @@
   <li><span class="rh">Top bar.</span> Stays in place. Shows the set, the current section when there is no map, the position, the tuning panel, and the theme (Auto, Light, Dark).</li>
   <li><span class="rh">Map.</span> With room in the gutters the contents list sits in the left gutter and marks the section you are reading; side notes sit in the right gutter. Without room the contents list stays at the top, notes sit inline, and the section name in the top bar opens the map as a drop-down. Map entries are short labels; the headings state the claims.</li>
   <li><span class="rh">Tune.</span> For the kit's maintainer, not for reading: the Tune button or the <kbd>,</kbd> key opens a panel that edits colors, type, layout and a few options for every page that uses the kit, in this browser, and exports them.</li>
-  <li><span class="rh">Resume.</span> An unfinished page reopens where you left it. A page counts as read once its pager comes into view; the index then marks it <span class="tag ok">read</span>.</li>
+  <li><span class="rh">Resume.</span> An unfinished page reopens where you left it. A page counts as read once its pager comes into view; the index then marks its row <i>read</i> at the right end.</li>
   <li><span class="rh">Reading time.</span> Fills <code>span.rt</code> in the metadata block.</li>
   <li><span class="rh">Storage.</span> Only these conveniences, in the browser: theme and tuning for every kit page, resume and read marks per set. Nothing leaves the machine.</li>
 </ul>

@@ -21,11 +21,15 @@
 
   // ---- theme: the toggle cycles auto, light, dark. html[data-theme] always
   // holds the theme in effect, set before first paint; storage holds the
+  // choice. Paper is light, so printing takes the light theme whatever the
   // choice.
   const dark = matchMedia("(prefers-color-scheme: dark)");
   const choice = () => ["light", "dark"].includes(gget("theme")) ? gget("theme") : null;
   const effectiveTheme = () => root.dataset.theme;
-  const resolve = () => { root.dataset.theme = choice() ?? (dark.matches ? "dark" : "light"); };
+  let printing = false;
+  const resolve = () => {
+    root.dataset.theme = printing ? "light" : choice() ?? (dark.matches ? "dark" : "light");
+  };
   resolve();
   function setTheme(t) {
     gset("theme", t || "auto");
@@ -60,6 +64,8 @@
     layout();
   }
   dark.addEventListener("change", () => { resolve(); applyTune(); });
+  addEventListener("beforeprint", () => { printing = true; resolve(); applyTune(); });
+  addEventListener("afterprint", () => { printing = false; resolve(); applyTune(); });
 
   // ---- layout tiers, from the rule in page.css:
   // html.rail when gutter >= rail + 2 * rail-gap; html.hang when

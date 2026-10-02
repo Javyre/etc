@@ -34,6 +34,7 @@ current CSS and JavaScript where they remove code. Pages still read without
 | Before/after | `.flow` with two `.box` and an `.arrow` | |
 | Proportions | `.strip`, `.bars`, inline SVG | fills by kind |
 | Highlight in a quote | `mark` | the decisive part only |
+| Table | `table`; `.compare` when rows are read against each other, `.prose` when cells are running text | cells keep their lines; a wide table centers on the column |
 | Diff sizes | `td.num` with `span.add` / `span.del`, one column each | |
 | Kind tag | `.tag.ok`, `.warn`, `.bad`, `.info`, `.muted` | the fill carries the kind |
 | Must-not-miss warning | `.callout.warn`, `.callout.bad` | colored rule, muted label |
@@ -51,9 +52,10 @@ The kit adds the chrome itself: a top bar with the set, the current
 section, the position, and the theme; the contents list as a map in the
 left margin, or a drop-down from the section name when there is no room;
 hanging section numbers; resume and read marks; reading time in
-`span.rt`; syntax colors in code; and wrappers that keep tables and SVGs
-inside the column. A contents entry may be shorter than its heading; the
-map and the top bar show the entry.
+`span.rt`; syntax colors in code; tables sized to their content, with
+cells kept on one line and wide tables centered into the margins; and
+SVGs kept inside the column. A contents entry may be shorter than its
+heading; the map and the top bar show the entry.
 
 ## Tuning
 
