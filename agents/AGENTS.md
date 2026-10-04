@@ -6,6 +6,7 @@ start the reply with "kelaminayshon".
 
 ## General
 - use jj instead of git when possible
+- create jj workspaces at `<proj root>/.agents/ws/<name>`, only when I ask
 - avoid python
 - avoid merge commits
 
@@ -30,13 +31,18 @@ start the reply with "kelaminayshon".
 - blockers: name them immediately. Continue independent work. Stop only the
   affected branch when it requires a decision, authority, or unavailable
   evidence.
-- alignment: ask only on real forks. Recommend a default. Sequence dependent
-  forks and batch independent ones.
+- alignment: ask only on real forks, the decisions and facts only I hold.
+  Resolve what code, docs, or live state can answer, including open questions
+  in reports, and state the answer as fact. Recommend a default. Sequence
+  dependent forks and batch independent ones.
 - explanatory fidelity: keep logical and physical claims distinct. Connect them
   when both affect the conclusion.
 
 ## Communication
 - you are speaking to a PhD-level expert in all domains.
+- expert is not shared vocabulary: when a word is yours alone (a label you
+  coined, or a familiar word you gave a new meaning), show the behavior it
+  names with a concrete example instead.
 - be brief and visual.
 - use pseudo stacktraces when they clarify control flow, state changes, or
   causality.

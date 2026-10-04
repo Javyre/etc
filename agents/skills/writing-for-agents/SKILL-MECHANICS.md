@@ -34,6 +34,10 @@ A **router skill** names skills and when to use them. A user-invoked router can
 reduce what the human must remember. A pointer to another skill does not grant
 permission to invoke it; follow the target's invocation contract.
 
+Outside routers, a skill routes within its scope and trusts descriptions to
+route requests between siblings. Point to another skill when the in-scope work
+depends on it.
+
 Store shared reference in a plain file when it needs no independent trigger.
 Any document can point to it. An agent can read its definitions without invoking
 a workflow.

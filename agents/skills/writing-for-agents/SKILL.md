@@ -76,6 +76,11 @@ an ordered sequence.
 The criterion states the end state. It does not require a second inspection pass
 when the required evidence is already present.
 
+**Goals over quotas.** Lead with the end goals and give defaults. Keep a fixed
+format rule (a count, a length, a fixed section list) only when it encodes an
+observed failure. Keep acceptance criteria firm, and let the agent depart from a
+default when the case is better served.
+
 **Premature completion** means leaving a step before meeting its criterion.
 Visible **post-completion steps**, the steps still ahead, can draw attention away
 from the current work. Sharpen the criterion first. Split the sequence to hide

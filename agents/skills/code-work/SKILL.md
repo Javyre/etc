@@ -21,15 +21,20 @@ For executable-code design or changes, verification decisions, or review of
 tests and assertions, load [`references/testing.md`](references/testing.md)
 before choosing implementation or test shape.
 
+## System shape
+
+Before proposing or reviewing primitives, APIs, ownership, seams, phases, or
+composition, in code or in design discussion, load
+[`references/systems-design.md`](references/systems-design.md) and
+[`references/mechanics.md`](references/mechanics.md).
+
 ## Coding loop
 
 1. Scope: infer intent and design scope from the request and repository
    contracts. Apply Code Work within them. Preserve project behavior unless
    redesign is in scope.
-2. System shape: for primitives, ownership, seams, phases, or composition,
-   load `./references/systems-design.md` and
-   `./references/mechanics.md`. Choose the semantic shape. Use Sketch when the
-   shape remains unresolved.
+2. System shape: choose the semantic shape (see System shape). Use Sketch
+   when the shape remains unresolved.
 3. Mechanical realization: check that shape against state ownership, data layout,
    movement, control flow, cost, concurrency, and nearby proof. Use code and tests
    to expose mismatches. Fixed-shape mechanical work may start here.
@@ -52,8 +57,11 @@ model changes, completed Fallout.
 ## Sketch
 
 When semantic shape remains unresolved, sketch caller usage, core data,
-ownership, seams, key signatures, and control flow in commentary. Compare at
-most two credible shapes and recommend one. Proceed on reversible engineering
+ownership, seams, key signatures, and control flow in commentary. Derive each
+shape from first principles: the system's own state, invariants, and costs.
+Precedent checks the derivation for missed constraints; it never justifies the
+shape on its own. Compare at most two credible shapes and recommend
+one. Proceed on reversible engineering
 choices. Ask when product values or irreversible contracts decide the fork.
 
 ## Experiments
@@ -115,6 +123,10 @@ with its scope and impact.
 ## Program shape
 
 - Caller story: prefer direct, procedural, data-oriented flow; keep policy, phase order, and main dataflow visible.
+- Explicit inputs: take what callers may vary as arguments, rather than
+  deriving it from another input, discovering it, closing over it, or
+  retaining it. Deriving what is a true function of an input is fine; retained
+  state must earn its place, as a retained allocator sometimes does.
 - Concrete shape: preserve user-named shapes unless the user asks to redesign them.
 - Plain first: check correctness and easy perf wins before compressing medium or large work; compress only while semantics stay clear.
 - Proof ladder: names, visual symmetry, assertions, then types or helpers. Escalate when risk or ownership earns the weight.
@@ -137,8 +149,19 @@ with its scope and impact.
 
 - Scope: naming grows with scope. Use short local names when nearby context
   supplies the meaning; use descriptive names across wider scopes.
-- Domain language: use source-of-truth terms and established abbreviations.
-  Shorten only while distinctions survive.
+- Domain language: call a thing what its source of truth (upstream tool, docs,
+  domain) calls it, with established abbreviations. Shorten only while
+  distinctions survive.
+- Call site: a name reads right where callers write it, qualifier included;
+  `testing.parse` does not say what it parses. Operations are imperative
+  verbs, and API names match the user-facing names for the same action.
+  Accessors and very local helpers may bend this, as names grow with scope.
+- Plain words: prefer short, familiar names. Avoid jargon, vague nouns, two
+  names for one act, and words that already carry a different meaning for the
+  project's readers.
+- Precedent names: a precedent's name shows what people who know it will
+  expect. Weigh that expectation against fit with this system's meaning and
+  vocabulary; it is evidence, not a default to copy or avoid.
 - Honest names: names reveal waits, retries, allocation, fallback, normalization, and policy.
 - Contract drift: treat naming changes that alter the model or hide behaviour as contract changes.
 - New concepts: require a distinct meaning. Run names by the user.

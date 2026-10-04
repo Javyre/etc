@@ -8,7 +8,12 @@ The reader will review the change. After the brief, they can:
 - ask the questions most worth asking of this change;
 - see which earlier review threads still stand.
 
-Link every file at the base or head revision.
+Link changed lines to the PR's diff, so the reader can comment from the link:
+`https://github.com/<org>/<repo>/pull/<N>/files#diff-<sha256(path)>R<a>-R<b>`
+(`R` for head lines, `L` for base). Only lines inside a hunk (changed lines
+plus three of context) can take comments; clip a range that spans hunks to its
+largest in-hunk part. Link everything else at the base or head revision, and
+say why it has no diff link.
 
 ## Functions
 
@@ -16,6 +21,13 @@ A PR brief usually does the jobs below. Shape them to the change: a job can
 take a section, spread across several, fold into another, or shrink to
 nothing when the change does not need it.
 
+- **Since your review.** When the reader has already reviewed the PR, lead
+  with the interdiff from the revision their review threads sit on (the
+  threads' `original_commit_id`) to head. Check that both share a base before
+  calling the interdiff author-only. Group it by area with re-review, glance,
+  skim, or skip, give a re-review order, and mark on each page what changed
+  since that revision. Call out behaviour changes hidden in mechanical
+  refactors. Still judge claims against head.
 - **Why.** The problem, its cause and impact, and why now, from the
   description, linked issues, and history. When the author gives no reason,
   say so rather than invent one.

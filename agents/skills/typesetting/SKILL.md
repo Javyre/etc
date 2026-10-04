@@ -72,6 +72,11 @@ its shape, so each choice either helps the meaning or gets in its way
   there is room.
 - **Numbers** in tables are tabular and right-aligned; a change's size gets
   one column for additions and one for removals.
+- **Layout** never truncates; text wraps. Reach first for one intrinsic rule
+  that works at every width (wrapping, content sizing clamped by a minimum and
+  a maximum), then a media query, and only then a per-block opt-in class.
+  Tables size to their content between a minimum and a maximum, and nothing
+  widens the page on a phone.
 
 ## HTML pages
 
