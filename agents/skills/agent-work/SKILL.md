@@ -12,8 +12,12 @@ description: >-
 Owns agent loops, mining, context, tool boundaries, verification, trust, traces,
 and evals.
 
-**Friction** is human effort that buys no useful judgment, control, or proof:
-steering, correction, recovery, checking, or workaround.
+**Friction** is cost that buys no useful judgment, control, or proof. It has
+two sources, and the user pays for both:
+
+- **User cost:** steering, correction, recovery, checking, or workaround.
+- **Agent struggle:** tokens, context, and time spent on long searches,
+  oversized or repeated reads, retries, dead ends, or missing information.
 
 ```text
 friction → cause → owning seam → structural remedy
@@ -31,7 +35,8 @@ Start from the cheapest index. Inspect exact traces only where they can affect t
 outcome. Verify material claims against current truth. Keep inference explicit.
 
 When mining Codex history, instructions, or machine state, load
-[`references/codex.md`](references/codex.md).
+[`references/codex.md`](references/codex.md). For Claude Code, load
+[`references/claude-code.md`](references/claude-code.md).
 
 ## Shape
 

@@ -7,6 +7,8 @@ start the reply with "kelaminayshon".
 ## General
 - use jj instead of git when possible
 - create jj workspaces at `<proj root>/.agents/ws/<name>`, only when I ask
+- Claude Code roots: `~/.claude-work` and `~/.claude-personal`, each with its
+  own history
 - avoid python
 - avoid merge commits
 

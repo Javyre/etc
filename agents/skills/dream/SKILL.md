@@ -8,20 +8,23 @@ disable-model-invocation: true
 
 Apply `$agent-work`. Apply `$jv-review` with Dream as the Governing skill.
 
-Goal: turn user friction into the smallest durable skill, guide, or doc change.
+Goal: turn friction into the smallest durable skill, guide, or doc change.
 
 ## Study Delta
 
-Mine scoped history for friction throughout Study ⇄ Review.
+Mine scoped history for both kinds of friction throughout Study ⇄ Review.
 
 ```text
-intent → agent move → user cost → correction or recovery
+intent → agent move → user cost      → correction or recovery
+intent → agent move → agent struggle → eventual result
 ```
 
-Look for correction, repetition, recovery, babysitting, and trust breaks.
+User cost shows as correction, repetition, recovery, babysitting, and trust
+breaks. Agent struggle shows in the trace index as outliers in calls, output
+size, retries, or elapsed time; admit it only where the index shows one.
 
 Trace each candidate to its exact episode and current truth. Recover intended
-behavior, user cost, cause, recurrence or severity, and owner or ownership gap.
+behavior, cost, cause, recurrence or severity, and owner or ownership gap.
 
 Study is warm when every material candidate has source, cause, cost, and owner.
 
@@ -46,6 +49,10 @@ covered already  → check why it failed before deciding no edit
 ```
 
 One meaning, one owner. Prefer the smallest change local to its owner.
+
+Shared owners are project-agnostic. State the rule in the owner's terms, with
+examples that hold in any project; project specifics go to that project's
+instructions. Reread each shared edit as a stranger to the mined project.
 
 Review completes when every candidate is admitted, excluded with proof, or
 bounded `q:`.

@@ -1,0 +1,122 @@
+#!/usr/bin/env bash
+# Cheap views over Claude Code history for mining. Needs jq.
+set -euo pipefail
+
+usage() {
+	cat <<'EOF'
+usage: claude-log [-r ROOT]... COMMAND [ARGS]
+
+Roots default to $CLAUDE_CONFIG_DIR, else ~/.claude. Repeat -r for more.
+
+  sessions [PATTERN]        one row per session from history.jsonl: id, first
+                            and last prompt time, prompts, project, first
+                            prompt. PATTERN filters projects (regex).
+  prompts SESSION           user prompts with times
+  tools SESSION             tool calls: time, tool, result tokens (~chars/4,
+                            images counted apart), input
+  usage SESSION [FROM [TO]] assistant messages, output tokens, peak and final
+                            context; FROM and TO are ISO timestamp prefixes
+
+SESSION is a .jsonl path or a session id prefix. Subagent traces live under
+<session>/subagents/; pass their paths directly.
+Set CLAUDE_LOG_WIDTH (default 300; 0 for no limit) to clip text.
+EOF
+}
+
+roots=()
+while getopts r:h opt; do
+	case $opt in
+	r) roots+=("$OPTARG") ;;
+	*) usage; exit 64 ;;
+	esac
+done
+shift $((OPTIND - 1))
+[ ${#roots[@]} -gt 0 ] || roots=("${CLAUDE_CONFIG_DIR:-$HOME/.claude}")
+width=${CLAUDE_LOG_WIDTH:-300}
+
+clip='def clip(n): gsub("\\s+"; " ") | if n > 0 and length > n then .[0:n] + "…" else . end;'
+
+resolve() {
+	if [ -f "$1" ]; then
+		echo "$1"
+		return
+	fi
+	local r f
+	for r in "${roots[@]}"; do
+		for f in "$r"/projects/*/"$1"*.jsonl; do
+			[ -f "$f" ] && { echo "$f"; return; }
+		done
+	done
+	echo "claude-log: no session matching $1" >&2
+	exit 66
+}
+
+cmd=${1:-}
+[ -n "$cmd" ] || { usage; exit 64; }
+shift
+
+case $cmd in
+sessions)
+	pat=${1:-}
+	for r in "${roots[@]}"; do
+		[ -f "$r/history.jsonl" ] && cat "$r/history.jsonl"
+	done | jq -rs --arg pat "$pat" --argjson w "$width" "$clip"'
+		map(select(.sessionId and ($pat == "" or (.project | test($pat; "i")))))
+		| group_by(.sessionId)
+		| map(sort_by(.timestamp)) | sort_by(.[0].timestamp) | .[]
+		| [ .[0].sessionId[0:8],
+		    (.[0].timestamp / 1000 | strftime("%Y-%m-%d %H:%M")),
+		    (.[-1].timestamp / 1000 | strftime("%m-%d %H:%M")),
+		    length, .[0].project, (.[0].display | clip($w)) ]
+		| @tsv'
+	;;
+prompts)
+	f=$(resolve "$1")
+	jq -r --argjson w "$width" "$clip"'
+		select(.type == "user" and (.isMeta | not))
+		| .timestamp as $t
+		| (.message.content
+		   | if type == "string" then .
+		     else map(select(.type == "text") | .text) | join(" ") end) as $s
+		| select($s != "")
+		| "\($t[0:16])\t\($s | clip($w))"' "$f"
+	;;
+tools)
+	f=$(resolve "$1")
+	jq -rs --argjson w "$width" "$clip"'
+		( map(select(.type == "user") | .message.content
+		      | if type == "array" then .[] else empty end
+		      | select(.type == "tool_result"))
+		  | map({ key: .tool_use_id,
+		          value: (.content
+		                  | if type == "string" then { chars: length, img: 0 }
+		                    else { chars: (map(select(.type == "text") | .text | length) | add // 0),
+		                           img: (map(select(.type == "image")) | length) } end) })
+		  | from_entries ) as $res
+		| map(select(.type == "assistant") | .timestamp as $t
+		      | .message.content[]? | select(.type == "tool_use") | . + { t: $t })
+		| unique_by(.id) | sort_by(.t) | .[]
+		| ($res[.id] // { chars: 0, img: 0 }) as $r
+		| [ .t[0:16], .name, ($r.chars / 4 | floor),
+		    (if $r.img > 0 then "img=\($r.img)" else "" end),
+		    (.input | (.command // .file_path // .pattern // .skill // .description // .prompt // tostring)
+		            | tostring | clip(if $w > 0 then 160 else 0 end)) ]
+		| @tsv' "$f"
+	;;
+usage)
+	f=$(resolve "$1")
+	jq -s --arg from "${2:-}" --arg to "${3:-~}" '
+		map(select(.type == "assistant" and .timestamp >= $from and .timestamp < $to))
+		| unique_by(.message.id) | sort_by(.timestamp)
+		| map(.message.usage) as $u
+		| ($u | map((.input_tokens // 0) + (.cache_read_input_tokens // 0)
+		            + (.cache_creation_input_tokens // 0))) as $ctx
+		| { messages: length,
+		    output_tokens: ($u | map(.output_tokens // 0) | add),
+		    peak_context: ($ctx | max), final_context: ($ctx | last) }' "$f"
+	;;
+*)
+	usage
+	exit 64
+	;;
+esac

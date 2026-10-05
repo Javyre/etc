@@ -12,6 +12,8 @@ Choose invocation by who needs to reach the skill:
 - **User-invoked.** The human selects the skill explicitly. Set
   `disable-model-invocation: true`. Write the description as a short summary for
   humans. In Codex metadata, set `policy.allow_implicit_invocation: false`.
+  No skill can reach it, even by naming it. A skill that depends on it tells
+  the human to run it.
 
 Keep frontmatter and host metadata consistent. The host controls discovery and
 invocation; a description field alone does not establish either. Check the
