@@ -157,8 +157,9 @@ with its scope and impact.
   verbs, and API names match the user-facing names for the same action.
   Accessors and very local helpers may bend this, as names grow with scope.
 - Plain words: prefer short, familiar names. Avoid jargon, vague nouns, two
-  names for one act, and words that already carry a different meaning for the
-  project's readers.
+  names for one act, and words with a different meaning where the same reader
+  meets both. Separate modules or namespaces keep meanings apart. A word that
+  fits better and overlaps nothing still wins.
 - Precedent names: a precedent's name shows what people who know it will
   expect. Weigh that expectation against fit with this system's meaning and
   vocabulary; it is evidence, not a default to copy or avoid.

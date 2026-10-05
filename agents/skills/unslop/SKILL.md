@@ -116,9 +116,10 @@ Rule numbers are stable IDs; gaps mark removed rules.
     event that" becomes "if". The fancier synonym is rarely clearer.
 32. **Mannered prose.** Metaphor or flourish where a literal phrase exists:
     aphorisms ("wire it or delete it"), rhetorical fragments for effect,
-    personified code ("the plan holds it"), figurative verbs ("rides along",
-    "stands on"), stock framing phrases. "A dial worth turning" becomes
-    "a parameter worth varying". Say what you mean. Rule 26 covers metaphor nouns.
+    personified code ("the plan holds it", "the child keeps its lifetime"),
+    figurative verbs ("rides along", "stands on", "lands"), stock framing
+    phrases. "A dial worth turning" becomes "a parameter worth varying". Say
+    what you mean. Rule 26 covers metaphor nouns.
 33. **Over-compression.** Dropped articles, verbless fragments, symbol-speak,
     and abbreviations that make the reader decode instead of read. "Parser
     rejects bad date → exit 2, no write" becomes "The parser rejects a bad

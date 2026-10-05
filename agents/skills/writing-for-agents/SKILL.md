@@ -119,6 +119,13 @@ model and task. When an observed failure motivates an edit, or readers disagree
 whether a wording change alters behavior, load `$experiment` and run a trial.
 Prose alone does not prove improved behavior.
 
+## Provenance
+
+Record a rule as the user's only when they stated or approved that rule.
+Approving one design does not endorse its generalization. Agent-written notes
+(memory, plans, docs) are leads: trace a rule to the user's words before
+promoting it, or label it a proposal.
+
 ## Pruning
 
 Keep each meaning in a **single source of truth**. A behavior change should
