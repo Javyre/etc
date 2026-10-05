@@ -86,7 +86,8 @@ in
         _: d: wrapClaude cfg.package d.bin "${config.home.homeDirectory}/${d.dir}"
       ) cfg.configDirs;
 
-    # mkMerge, not //, so two config dirs that claim one path fail loudly.
+    # Give each config dir its own dir. Two that share one, with the same
+    # sources, merge silently into one login and history.
     home.file = lib.mkMerge (lib.mapAttrsToList (_: configDirFiles) cfg.configDirs);
   };
 }
