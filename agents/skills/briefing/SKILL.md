@@ -122,9 +122,9 @@ code rather than a run.
 
 ## Communication
 
-Write the brief by `$writing-for-humans`. Readers scan the headings and read
-the body only under a heading that matters to them (the layer-cake
-pattern), so the page should read correctly at both depths.
+Load `$writing-for-humans`; write the brief by it. Readers scan the
+headings and read the body only under a heading that matters to them (the
+layer-cake pattern), so the page should read correctly at both depths.
 
 A brief does jobs: orient, refresh, explain, locate risk, point to sources,
 record who said what. Give a job its own section, spread it across the
@@ -145,7 +145,7 @@ needs it next.
 
 ## Form
 
-Set the pages by `$typesetting` and build them with its page kit.
+Load `$typesetting`; set the pages by it and build them with its page kit.
 
 ## Output
 

@@ -65,7 +65,7 @@ Goal: resolve the choice, control context use, and grow a reusable evidence inde
 - Distillation: when recurring evidence suggests a stable lesson for a core
   guide, present the proposed owner, exact lesson, supporting pressure, and
   suggested edit. Ask the user to approve the proposed edit.
-- Approved edit: apply approved edits with `$writing-for-agents` active.
+- Approved edit: load `$writing-for-agents`, then apply the approved edits.
 
 Complete when the design choice is resolved or remaining uncertainty is
 explicit. Every adopted lesson carries enough primary evidence and pressure

@@ -2,7 +2,7 @@
 
 Default to fundamentals, bounded changes, normal use, and later friction mining.
 Use a deliberate experiment when a consequential fork, repeated failure, or
-trust claim needs earlier evidence. Apply `$experiment`.
+trust claim needs earlier evidence. Load `$experiment`.
 
 Choose an ordinary task from real work that exercises the mechanism under
 change. Compare current behavior with the treatment under equivalent task

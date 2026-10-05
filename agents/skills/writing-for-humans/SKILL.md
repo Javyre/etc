@@ -84,7 +84,7 @@ it. The destination sets the rest:
 | Repository document | a date or status where it can go stale; supersede a decision instead of rewriting it |
 | Text that leaves the repo | permalinks, never relative paths; `path:line` is for chat |
 
-Set rendered output (HTML, formatted documents) by `$typesetting`.
+For rendered output (HTML, formatted documents), load `$typesetting`.
 
 ## Communication
 

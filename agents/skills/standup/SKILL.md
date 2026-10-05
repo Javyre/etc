@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Standup
 
-Apply `$agent-work`.
+Load `$agent-work`.
 
 Goal: short, spoken notes about meaningful company progress.
 

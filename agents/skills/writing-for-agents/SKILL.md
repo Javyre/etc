@@ -116,8 +116,8 @@ boundaries and pair them with the permitted behavior.
 
 Treat word choice and negation guidance as heuristics. Their value depends on the
 model and task. When an observed failure motivates an edit, or readers disagree
-whether a wording change alters behavior, run a trial with `$experiment`. Prose
-alone does not prove improved behavior.
+whether a wording change alters behavior, load `$experiment` and run a trial.
+Prose alone does not prove improved behavior.
 
 ## Pruning
 

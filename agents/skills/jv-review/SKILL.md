@@ -10,9 +10,8 @@ description: >-
 Active instructions set bounds. This skill owns the review loop.
 
 The **Governing skill** sets review standards. Use the one explicitly
-designated. Otherwise use `$writing-for-agents` for skills, agent instructions,
+designated. Otherwise load `$writing-for-agents` for skills, agent instructions,
 and their linked reference documents, or `$code-work` for code and tests.
-Write the report as findings by `$writing-for-humans`.
 
 Default to `review` (`readonly`, audit, report), which inspects and reports and
 leaves the workspace unchanged. Enter `fix` on any explicit edit request.
@@ -154,6 +153,8 @@ or a named proof gap. Unresolved premises may remain in `q:` items. The report
 must name blocked scopes and proof gaps.
 
 ## Report
+
+Before writing the report, load `$writing-for-humans`; the report follows it.
 
 Start with the **System model**, the compact result of Study that the reader
 needs to understand the findings. Shape it to the system. Show material

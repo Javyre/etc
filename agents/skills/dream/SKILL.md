@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Dream
 
-Apply `$agent-work`. Apply `$jv-review` with Dream as the Governing skill.
+Load `$agent-work` and `$jv-review`; Dream is jv-review's Governing skill.
 
 Goal: turn friction into the smallest durable change: a check, tool, access
 path, or skill or instruction edit.
@@ -82,7 +82,7 @@ proof, expected relief, and regression risk. Merge repeated episodes by cause.
 
 ## Fix Delta
 
-Propose first. Fix only after user approval with `$writing-for-agents` active.
+Propose first. After user approval, load `$writing-for-agents` and fix.
 
 Update the owner in place, remove superseded truth, validate routing, and
 rereview the friction seam.

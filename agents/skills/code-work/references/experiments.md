@@ -1,6 +1,6 @@
 # Code experiments
 
-Apply `$experiment`.
+Load `$experiment`.
 
 Choose the probe form from the question. Prefer an ephemeral program, example,
 scratch target, or prototype when it shortens the edit-run-observe loop. Keep the

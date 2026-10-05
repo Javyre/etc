@@ -67,7 +67,7 @@ choices. Ask when product values or irreversible contracts decide the fork.
 ## Experiments
 
 When trying a code change or comparison is the cheapest way to choose, reject,
-or refine a direction, apply `$experiment` and load
+or refine a direction, load `$experiment` and
 [`references/experiments.md`](references/experiments.md).
 
 ## Code expression

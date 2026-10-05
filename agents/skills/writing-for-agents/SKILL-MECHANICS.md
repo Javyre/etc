@@ -40,6 +40,11 @@ Outside routers, a skill routes within its scope and trusts descriptions to
 route requests between siblings. Point to another skill when the in-scope work
 depends on it.
 
+Name a required dependency with the verb **load**: "Load `$x`." at the top, or
+"Before the report, load `$x`." at the step that needs it. Agents read "apply
+`$x`" or "write by `$x`" as a standard they already hold and often skip
+loading it.
+
 Store shared reference in a plain file when it needs no independent trigger.
 Any document can point to it. An agent can read its definitions without invoking
 a workflow.

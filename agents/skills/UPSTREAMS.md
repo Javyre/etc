@@ -43,10 +43,17 @@ Decisions:
   invocation.
 - adopted: shared skill text stays project-agnostic (`retro` docs on
   one-session overweighting). Owner: `dream` Review.
-- declined: write "call the Skill tool with X" instead of `$X`. On
-  2026-10-05, 20 of 20 headless runs (Claude Code 2.1.284, Opus 5.5) loaded
-  a `$X` dependency, whether it was on the first line or buried. `$X` is
-  native to Codex.
+- adopted in part: name the load explicitly; keep `$X`, native to Codex.
+  On 2026-10-05 (Claude Code 2.1.284, Opus 5.5), headless `/jvr review` runs
+  of jv-review on two small files loaded `writing-for-humans` in 6/6 runs
+  with "Load `$X`" at the top, 6/6 with "Before writing the report, load
+  `$X`", 6/6 with "call the Skill tool with X", 2/6 with "Apply `$X` to the
+  report", and 0/6 with "Write the report as findings by `$X`". An earlier
+  toy probe (a six-line skill, 20/20 loads) missed this because the pointer
+  had no competing work. Rerun: copy a skill into a scratch repo as a
+  project skill under a new name, vary one pointer, run `claude -p` with
+  `--no-session-persistence`, and count Skill calls. Owner:
+  `writing-for-agents` routing.
 - declined: `chief-of-staff`'s "all work in subagents". It conflicts with
   `agent-work`'s priced decomposition.
 - declined: phase rules from `ask-matt/PHASE-BOUNDARIES.md`. We state the
