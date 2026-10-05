@@ -13,11 +13,11 @@ let
   codexBin =
     let
       codex = inputs'.codex-nix.packages.default;
-      version = "0.159.0";
+      version = "0.160.1";
       platform = pkgs.stdenv.hostPlatform;
       hashes = {
-        "0.159.0" = {
-          aarch64-darwin = "sha256-d0jQfXkhpnuR0BXp0PQxd8Z1l35n+VWy+PuW3IgN1dc=";
+        "0.160.1" = {
+          aarch64-darwin = "sha256-9zUn7gnG24aay7N7cJhmsznqdO+R0t4lXpx07JYMYxQ=";
         };
       };
       target = "${platform.parsed.cpu.name}-apple-darwin";
