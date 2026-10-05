@@ -140,6 +140,13 @@ falsehood → assumption → callers/tests/siblings → owning seam
 Stop at the first owner able to choose correctly. Watch for niche edge cases
 that create global complexity. Report broader out-of-scope issues in one line.
 
+Merge findings by cause. When several symptoms trace to one owner or design
+pressure, report one finding: the cause, the symptoms it explains, and one
+remedy that resolves them together. Keep a symptom separate only when its fix is
+independent. When remedies constrain each other, such as names in one
+vocabulary, a set of primitives, or a type split, propose them as one design the
+reader can judge whole.
+
 Consider every candidate and scout disagreement before Review ends, then give
 each one a disposition: confirmed finding, exclusion grounded in source, or
 `q:`. Confirmed findings are bounded and carry proof; an exact source anchor may
@@ -170,10 +177,9 @@ Treat a semantic lie as a blocker when it invalidates caller reasoning,
 safety, or the claimed performance model.
 
 Report every confirmed in-scope finding and admitted `q:`, including minor
-findings. Group repeated instances under their shared cause and identify the
-affected locations. The top three findings may use up to 30 lines each. Later
-findings use up to six. These limits govern presentation, not review coverage
-or finding count.
+findings, merged by cause, with the affected locations. The top three findings
+may use up to 30 lines each. Later findings use up to six. These limits govern
+presentation, not review coverage or finding count.
 
 Prefix each finding with its primary scope. Put the prefix before the source
 location, as in `correctness: ./path:line`.
