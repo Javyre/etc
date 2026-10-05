@@ -11,13 +11,14 @@ stamp.
 
 - Config root: `$CLAUDE_CONFIG_DIR` when set; `~/.claude` otherwise.
 - A machine can run several roots, each with its own history. The user's
-  instructions name them; mine every root the scope covers.
+  instructions name them and say which ones you may read.
 
 ## Truth
 
 - `<root>/CLAUDE.md`: user instructions.
 - `<root>/skills/`: user skills.
 - `<root>/settings.json`: hooks, permissions, and environment.
+- `<root>/projects/<slug>/memory/MEMORY.md`: auto-memory, when enabled.
 - Current project instructions and docs: project truth.
 
 ## History
@@ -29,16 +30,23 @@ stamp.
 - `<session>/subagents/*.jsonl`: subagent traces.
 - `<session>/tool-results/`: tool output too large to inline.
 
-Start with [`scripts/claude-log`](../scripts/claude-log). It covers the index,
-prompts, tool calls with result sizes, and token usage. Write a new query only
-for a question it cannot answer.
+Start with [`scripts/claude-log`](../scripts/claude-log); `-h` lists its views.
+A view that leaves something out says so in a `#` footer. Write a new query
+only for a question the views cannot answer.
 
-Trace hazards:
+Trace hazards for new queries (the script handles each):
 
-- One assistant message spans several rows that repeat its `usage`.
-  Deduplicate by `message.id` before summing.
+- One assistant message spans several rows, one per content block. Count
+  messages by `message.id`; sum content over rows.
+- Subagent traces can log `usage` mid-stream, below the visible output.
 - Tool results can hold base64 images. Count them apart from text.
-- `isMeta` user rows are harness notes, not prompts.
+- A message the user sends mid-turn is an `attachment` row of type
+  `queued_command` with `origin.kind == "human"`, not a `user` row.
+- `isMeta` user rows are harness-injected: skill loads, agent messages,
+  scheduled prompts, image notes.
+- A failed `capture` or other empty jq expression drops its whole row.
+  Wrap it in an array.
+- `continued-in` rows link a session to its continuation.
 
 ## Machine state
 

@@ -8,7 +8,8 @@ disable-model-invocation: true
 
 Apply `$agent-work`. Apply `$jv-review` with Dream as the Governing skill.
 
-Goal: turn friction into the smallest durable skill, guide, or doc change.
+Goal: turn friction into the smallest durable change: a check, tool, access
+path, or skill or instruction edit.
 
 ## Study Delta
 
@@ -37,15 +38,29 @@ friction → cause → owner → remedy → regression risk
 **Durable** means useful after the original context is gone.
 
 Repeated friction is the strongest evidence; one severe trust break can qualify.
-Admit only remedies likely to change future behavior.
+Admit only remedies likely to change future behavior. Classify the cause
+first:
 
 ```text
-weak truth       → refine
-missing truth    → augment
-weak trigger     → reroute
-harmful truth    → prune
-mechanical cause → tool, check, or interface
-covered already  → check why it failed before deciding no edit
+mechanical → check, test, hook, or tool
+access gap → expose logs, state, or a read-only service
+judgment   → skill or instruction edit, placed by progressive disclosure
+             (`$writing-for-agents`)
+```
+
+A mechanical cause gets a mechanism, not prose. An existing check that did
+not run is the finding. A new check counts once it is seen failing on a
+planted violation and passing after its removal. Remove a check that fires
+on good code.
+
+For skill and instruction edits:
+
+```text
+weak truth      → refine
+missing truth   → augment
+weak trigger    → reroute
+harmful truth   → prune
+covered already → check why it failed before deciding no edit
 ```
 
 One meaning, one owner. Prefer the smallest change local to its owner.
@@ -62,9 +77,8 @@ bounded `q:`.
 Use jv-review's report. Focus its System model on the friction loop and
 instruction seam.
 
-Each finding shows the episode visually, the current and suggested owner
-snippets, proof, expected relief, and regression risk. Merge repeated episodes
-by cause.
+Each finding shows the episode visually, the proposal as a diff of its owner,
+proof, expected relief, and regression risk. Merge repeated episodes by cause.
 
 ## Fix Delta
 

@@ -47,8 +47,11 @@ When mining Codex history, instructions, or machine state, load
   Clear owners and independent proof signal that decomposition may cost less.
   Every extra agent, handoff, or synthesis step adds coordination, hidden state,
   and eval cost.
-- Context is a budget. Keep root context small, current, and high-signal. Rules,
-  docs, tools, plans, memory, and live state have different costs.
+- Context is a budget, and noise spends it before the window fills: reasoning
+  degrades on irrelevant tokens even in long-context models. Let into root
+  context only what can change the next decision. Bound queries, write bulk
+  output to a file and read the slice you need, and send large payloads to a
+  subagent that returns the finding.
 - Context pointer: name the trigger and owner. Its wording decides whether the
   agent loads deferred truth. Sharpen the pointer before inlining.
 - Handing work to another agent or a fresh session: write a handoff

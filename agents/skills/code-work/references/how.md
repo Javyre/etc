@@ -12,4 +12,5 @@ unresolved premise, demote it in proportion to that uncertainty and name the
 premise.
 
 For change work, return only the constraints that affect the proposed change.
-For an explanation request, cite the controlling symbols and explain the path.
+For an explanation request, cite the controlling symbols and show the path as
+a call tree or pseudo stack trace.

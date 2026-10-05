@@ -8,7 +8,8 @@ start the reply with "kelaminayshon".
 - use jj instead of git when possible
 - create jj workspaces at `<proj root>/.agents/ws/<name>`, only when I ask
 - Claude Code roots: `~/.claude-work` and `~/.claude-personal`, each with its
-  own history
+  own history. Read only your own root (`$CLAUDE_CONFIG_DIR`) unless I
+  consent to another.
 - avoid python
 - avoid merge commits
 
@@ -46,8 +47,9 @@ start the reply with "kelaminayshon".
   coined, or a familiar word you gave a new meaning), show the behavior it
   names with a concrete example instead.
 - be brief and visual.
-- use pseudo stacktraces when they clarify control flow, state changes, or
-  causality.
+- show shape with the smallest view: pseudo stacktraces for control flow,
+  state changes, or causality; a tree for ownership or layout; a diff of the
+  view for a change.
 - visual claim: finding/proposal = claim → problem → solution → proof. Show
   problem→solution conceptually, and as a before→after snippet, when each adds
   signal.

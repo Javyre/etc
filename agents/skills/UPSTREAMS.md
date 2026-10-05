@@ -40,13 +40,13 @@ Decisions:
   `dream` Study.
 - adopted: user-invoked skills are unreachable from other skills
   (`.agents/invocation.md`, `4aaccb5`). Owner: `writing-for-agents`
-  invocation. Pending: making `writing-for-agents` itself model-invoked.
+  invocation.
 - adopted: shared skill text stays project-agnostic (`retro` docs on
   one-session overweighting). Owner: `dream` Review.
 - declined: write "call the Skill tool with X" instead of `$X`. On
   2026-10-05, 20 of 20 headless runs (Claude Code 2.1.284, Opus 5.5) loaded
-  a `$X` dependency, whether it was on the first line or buried. Codex is
-  untested.
+  a `$X` dependency, whether it was on the first line or buried. `$X` is
+  native to Codex.
 - declined: `chief-of-staff`'s "all work in subagents". It conflicts with
   `agent-work`'s priced decomposition.
 - declined: phase rules from `ask-matt/PHASE-BOUNDARIES.md`. We state the
@@ -55,8 +55,12 @@ Decisions:
   hypothesis), requirement tracing in `code-review`, recording rejected
   proposals, and the forcing constraints in `DESIGN-IT-TWICE`. None showed
   friction in history; reopen when a dream pass finds some.
-- pending: `retro`'s mechanism-first remedies for `dream`, and the `pr`
-  views for `writing-for-humans`.
+- adopted: `retro`'s mechanism-first remedies (mechanical causes get a
+  check that is seen to fail). Owner: `dream` Review.
+- adopted: `pr`'s views, `writing-docs.md` refinements (lead with the
+  difference, observable acceptance, never invent an example, permalinks in
+  published text). Owner: `writing-for-humans`.
+- declined: `pr`'s "one-way or two-way door". Jargon; we say "undo".
 
 ## humanlayer/skills
 
@@ -68,8 +72,9 @@ Decisions:
 
 Decisions:
 
-- pending: the `show-me` views and the `visual-pr` change outline for
-  `writing-for-humans`.
+- adopted: the `show-me` views (without Mermaid) and the `visual-pr` change
+  outline (why first, what to watch). Owner: `writing-for-humans`
+  (`references/views.md`, the Change shape).
 
 ## cursor/plugins (pstack)
 
@@ -85,6 +90,7 @@ Decisions:
 
 - adopted: the latest `unslop` catalog, adapted for AI-authored prose and
   chat.
-- pending: `blast-radius`'s evidence ladder and the single fact a change's
-  safety rests on, for `writing-for-humans`; `guard-the-context-window` for
-  `agent-work`.
+- adopted: `blast-radius`'s evidence ladder, the single fact a change's
+  safety rests on, and the term "blast radius". Owner: `writing-for-humans`.
+- adopted: `guard-the-context-window`'s noise constraint. Owner: `agent-work`
+  Shape.

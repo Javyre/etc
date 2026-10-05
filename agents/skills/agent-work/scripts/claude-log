@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-# Cheap views over Claude Code history for mining. Needs jq.
+# Views over Claude Code history for mining. Needs jq and rg.
+#
+# Nothing is dropped silently: clipped text says how much it lost, and a view
+# that leaves something out says so in a `#` footer.
 set -euo pipefail
 
 usage() {
@@ -8,18 +11,29 @@ usage: claude-log [-r ROOT]... COMMAND [ARGS]
 
 Roots default to $CLAUDE_CONFIG_DIR, else ~/.claude. Repeat -r for more.
 
-  sessions [PATTERN]        one row per session from history.jsonl: id, first
-                            and last prompt time, prompts, project, first
-                            prompt. PATTERN filters projects (regex).
-  prompts SESSION           user prompts with times
-  tools SESSION             tool calls: time, tool, result tokens (~chars/4,
-                            images counted apart), input
-  usage SESSION [FROM [TO]] assistant messages, output tokens, peak and final
-                            context; FROM and TO are ISO timestamp prefixes
+  sessions [PATTERN]        one row per session, from trace files and the
+                            history.jsonl index; PATTERN filters projects
+                            (regex)
+  prompts SESSION           what the user said: prompts, mid-turn messages,
+                            slash commands, interrupts
+  tools SESSION             tool calls with result size, error, interrupt,
+                            user edits, images, and persisted output
+  events SESSION            harness events: compactions, turn durations,
+                            instruction loads, commands, API errors,
+                            notifications, recaps, truncated reads, hooks
+  timeline SESSION          prompts, assistant text, tools, and events in
+                            time order: the exact trace, condensed
+  usage SESSION [FROM [TO]] tokens, context, and time for the session and each
+                            subagent; FROM and TO are ISO timestamp prefixes
+  outliers [PATTERN [SINCE]] sessions whose struggle signals stand out from
+                            the others (at or above p90 and at least twice
+                            the median), then the heaviest and most repeated
+                            tool calls across them; PATTERN filters projects
+                            (regex), SINCE is an ISO date prefix
 
-SESSION is a .jsonl path or a session id prefix. Subagent traces live under
-<session>/subagents/; pass their paths directly.
-Set CLAUDE_LOG_WIDTH (default 300; 0 for no limit) to clip text.
+SESSION is a trace path or a session id prefix. Subagent traces live under
+<session>/subagents/; pass their paths to inspect one.
+CLAUDE_LOG_WIDTH clips text (default 300; 0 for no limit).
 EOF
 }
 
@@ -27,6 +41,7 @@ roots=()
 while getopts r:h opt; do
 	case $opt in
 	r) roots+=("$OPTARG") ;;
+	h) usage; exit 0 ;;
 	*) usage; exit 64 ;;
 	esac
 done
@@ -34,7 +49,145 @@ shift $((OPTIND - 1))
 [ ${#roots[@]} -gt 0 ] || roots=("${CLAUDE_CONFIG_DIR:-$HOME/.claude}")
 width=${CLAUDE_LOG_WIDTH:-300}
 
-clip='def clip(n): gsub("\\s+"; " ") | if n > 0 and length > n then .[0:n] + "…" else . end;'
+# Shared jq definitions. Rows are {t, kind, text} plus kind-specific fields.
+lib='
+def clip($n):
+	gsub("\\s+"; " ")
+	| if $n > 0 and length > $n then .[0:$n] + "… (+\(length - $n) chars)" else . end;
+def hm: (. // "") | .[0:16] | sub("T"; " ");
+def text_of:
+	if type == "string" then .
+	elif type == "array" then map(select(.type == "text") | .text) | join("\n")
+	else "" end;
+def images: if type == "array" then map(select(.type == "image")) | length else 0 end;
+def notification:
+	test("^\\s*(<task-notification>|<agent-message|Another Claude session sent)");
+# Arrays around capture keep a failed match from erasing the row.
+def command_line:
+	if test("<command-name>") then
+		([capture("<command-name>(?<n>[^<]*)</command-name>") | .n][0] // "") as $n
+		| ([capture("<command-args>(?<a>[\\s\\S]*?)</command-args>") | .a][0] // "") as $a
+		| "\($n) \($a)"
+	else . end;
+
+def input_of:
+	(.input // {}) as $i
+	| if .name == "Read" then
+		"\($i.file_path)"
+		+ (if $i.offset then " @\($i.offset)" else "" end)
+		+ (if $i.limit then "+\($i.limit)" else "" end)
+	  elif .name == "Grep" then "\($i.pattern) \($i.path // "") \($i.glob // "")"
+	  elif .name == "Agent" or .name == "Task" then
+		"\($i.subagent_type // "agent"): \($i.description // $i.prompt // "")"
+	  else ($i.command // $i.file_path // $i.pattern // $i.skill // $i.url
+	        // $i.query // $i.description // $i.prompt // ($i | tostring)) end
+	| tostring;
+
+# tool_use_id -> what came back
+def results:
+	[ .[] | select(.type == "user" and (.message.content | type) == "array") | . as $row
+	  | .message.content[] | select(.type == "tool_result")
+	  | (.content | text_of) as $txt
+	  | { key: .tool_use_id,
+	      value: { chars: ($txt | length), img: (.content | images),
+	               err: (.is_error == true), errtext: $txt,
+	               persisted: ((($txt | capture("Output too large \\((?<s>[^)]*)\\)")?) | .s) // ""),
+	               interrupted: (($row.toolUseResult | objects | .interrupted) // false),
+	               modified: (($row.toolUseResult | objects | .userModified) // false) } } ]
+	| from_entries;
+
+def prompt_rows($w):
+	.[] | select(.isMeta | not)
+	| if .type == "user" and ((.message.content | type) == "string"
+	      or (.message.content | map(select(.type == "tool_result")) | length) == 0) then
+		(.message.content | text_of) as $s | (.message.content | images) as $n
+		| select($s != "" or $n > 0)
+		| { t: .timestamp,
+		    kind: (if ($s | startswith("[Request interrupted")) then "interrupt"
+		           elif ($s | notification) then "notification"
+		           elif ($s | test("<command-name>")) then "command"
+		           else "prompt" end),
+		    text: (($s | command_line | clip($w))
+		           + (if $n > 0 then " [+\($n) images]" else "" end)) }
+	  elif .type == "attachment" and .attachment.type == "queued_command"
+	       and ((.attachment.origin.kind // "") == "human"
+	            or ((.attachment.origin.kind // "") == ""
+	                and (.attachment.prompt | tostring | notification | not))) then
+		{ t: .timestamp, kind: "mid-turn", text: (.attachment.prompt | tostring | clip($w)) }
+	  else empty end;
+
+def tool_rows($w):
+	results as $res
+	| [ .[] | select(.type == "assistant") | .timestamp as $t
+	    | .message.content[]? | select(.type == "tool_use") | . + { t: $t } ]
+	| unique_by(.id) | sort_by(.t) | .[]
+	| $res[.id] as $r
+	| { t, kind: "tool", name,
+	    tokens: (if $r then ($r.chars / 4 | floor) else null end),
+	    flags: ([ (if $r == null then "no-result" else empty end),
+	              (if $r.err then "error" else empty end),
+	              (if $r.interrupted then "interrupted" else empty end),
+	              (if $r.modified then "user-modified" else empty end),
+	              (if ($r.img // 0) > 0 then "img=\($r.img)" else empty end),
+	              (if ($r.persisted // "") != "" then "persisted=\($r.persisted)" else empty end) ]
+	            | join(",")),
+	    input: (input_of | clip(if $w > 0 then 200 else 0 end)),
+	    error: (if $r.err then ($r.errtext | clip($w)) else "" end) };
+
+def event_rows($w):
+	.[] |
+	if .type == "system" then
+		{ t: .timestamp } + (
+		if .subtype == "compact_boundary" then
+			{ kind: "compact", text: "\(.compactMetadata.trigger // "?") \(.compactMetadata.preTokens // "?") -> \(.compactMetadata.postTokens // "?") tokens" }
+		elif .subtype == "turn_duration" then
+			{ kind: "turn", text: "\(.durationMs / 1000 | floor)s, \(.messageCount) messages" }
+		elif .subtype == "local_command" then
+			{ kind: "command", text: "/\(.commandRun.command // "?") \(.commandRun.args // "")" }
+		elif .subtype == "away_summary" then { kind: "recap", text: (.content | tostring | clip($w)) }
+		elif .subtype == "informational" then { kind: "info", text: (.content | tostring | clip($w)) }
+		else { kind: "system:\(.subtype // "?")", text: ((.content // .prompt // "") | tostring | clip($w)) } end)
+	elif .type == "assistant" and .isApiErrorMessage == true then
+		{ t: .timestamp, kind: "api-error", text: (.message.content | text_of | clip($w)) }
+	elif .type == "user" and .isMeta == true then
+		# Harness-injected rows; the local-command caveat is boilerplate.
+		(.message.content | text_of) as $s | { t: .timestamp } + (
+		if ($s | startswith("Base directory for this skill:")) then
+			{ kind: "skill", text: (([$s | capture("skill: (?<p>\\S+)") | .p][0] // $s) | split("/") | last) }
+		elif ($s | notification) then { kind: "notification", text: ($s | clip($w)) }
+		elif ($s | startswith("<local-command-caveat>")) then empty
+		else { kind: "meta", text: ($s | clip($w)) } end)
+	elif .type == "attachment" then
+		.attachment as $a | { t: .timestamp } + (
+		if $a.type == "instructions" then
+			{ kind: "instructions", text: ($a.files // [] | map("\(.type // "?"):\(.path)") | join(" ")) }
+		elif $a.type == "queued_command" and (.attachment.origin.kind // "") != "human"
+		     and ((.attachment.origin.kind // "") != "" or (.attachment.prompt | tostring | notification)) then
+			{ kind: "notification", text: ($a.prompt | tostring | clip($w)) }
+		elif $a.type == "read_truncation_notice" then { kind: "truncated-read", text: ($a.banner | tostring | clip($w)) }
+		elif ($a.type | startswith("hook_")) then
+			{ kind: "hook", text: (($a.hookName // "") + " " + (($a.content // $a.stdout // "") | tostring) | clip($w)) }
+		elif $a.type == "thinking_drop" then { kind: "thinking-drop", text: ($a.newlyDropped.reason // "?") }
+		elif $a.type == "invoked_skills" then { kind: "skills", text: ($a | tostring | clip($w)) }
+		else empty end)
+	elif .type == "continued-in" then
+		{ t: .timestamp, kind: "continued-in", text: .continuedInSessionId }
+	else empty end;
+
+def say_rows($w):
+	.[] | select(.type == "assistant" and (.isApiErrorMessage | not))
+	| .timestamp as $t | .message.content[]? | select(.type == "text")
+	| { t: $t, kind: "agent", text: (.text | clip($w)) };
+
+# Footer: count each row kind this command left out.
+def footer($shown):
+	[ .[] | if .type == "attachment" then "attachment:\(.attachment.type)"
+	        elif .type == "system" then "system:\(.subtype)"
+	        else .type end ]
+	| group_by(.) | map({ k: .[0], n: length })
+	| map(select(.k as $k | $shown | index($k) | not))
+	| "# not shown: " + (map("\(.k)=\(.n)") | join(" "));
+'
 
 resolve() {
 	if [ -f "$1" ]; then
@@ -47,8 +200,16 @@ resolve() {
 			[ -f "$f" ] && { echo "$f"; return; }
 		done
 	done
-	echo "claude-log: no session matching $1" >&2
+	echo "claude-log: no session matching $1 under ${roots[*]}" >&2
 	exit 66
+}
+
+subagent_note() {
+	local d="${1%.jsonl}/subagents" n
+	[ -d "$d" ] || return 0
+	n=$(find "$d" -name '*.jsonl' | wc -l | tr -d ' ')
+	[ "$n" -gt 0 ] && echo "# $n subagent traces in $d"
+	return 0
 }
 
 cmd=${1:-}
@@ -58,62 +219,237 @@ shift
 case $cmd in
 sessions)
 	pat=${1:-}
-	for r in "${roots[@]}"; do
-		[ -f "$r/history.jsonl" ] && cat "$r/history.jsonl"
-	done | jq -rs --arg pat "$pat" --argjson w "$width" "$clip"'
-		map(select(.sessionId and ($pat == "" or (.project | test($pat; "i")))))
-		| group_by(.sessionId)
-		| map(sort_by(.timestamp)) | sort_by(.[0].timestamp) | .[]
-		| [ .[0].sessionId[0:8],
-		    (.[0].timestamp / 1000 | strftime("%Y-%m-%d %H:%M")),
-		    (.[-1].timestamp / 1000 | strftime("%m-%d %H:%M")),
-		    length, .[0].project, (.[0].display | clip($w)) ]
-		| @tsv'
+	{
+		for r in "${roots[@]}"; do
+			[ -f "$r/history.jsonl" ] && jq -c '{ src: "history", root: $r } + .' --arg r "$r" "$r/history.jsonl"
+			for f in "$r"/projects/*/*.jsonl; do
+				[ -f "$f" ] || continue
+				id=$(basename "$f" .jsonl)
+				sub="${f%.jsonl}/subagents"
+				jq -nc --arg id "$id" --arg f "$f" --arg r "$r" \
+					--arg first "$(rg -m1 -o '"timestamp":"[^"]*"' "$f" | head -1 | cut -d'"' -f4)" \
+					--arg last "$(tail -c 65536 "$f" | rg -o '"timestamp":"[^"]*"' | tail -1 | cut -d'"' -f4)" \
+					--arg cwd "$(rg -m1 -o '"cwd":"[^"]*"' "$f" | head -1 | cut -d'"' -f4)" \
+					--arg title "$({ rg -N '"type":"ai-title"' "$f" || true; } | tail -1 | jq -r '.aiTitle // empty')" \
+					--arg cont "$({ rg -N '"type":"continued-in"' "$f" || true; } | tail -1 | jq -r '.continuedInSessionId // empty')" \
+					--argjson subs "$( [ -d "$sub" ] && find "$sub" -name '*.jsonl' | wc -l | tr -d ' ' || echo 0)" \
+					--argjson bytes "$(wc -c < "$f" | tr -d ' ')" \
+					'{ src: "file", sessionId: $id, root: $r, path: $f, first: $first, last: $last,
+					   cwd: $cwd, title: $title, cont: $cont, subs: $subs, bytes: $bytes }'
+			done
+		done
+	} | jq -rs --arg pat "$pat" --argjson w "$width" "$lib"'
+		(map(select(.src == "history")) | group_by(.sessionId)
+		 | map({ key: .[0].sessionId, value: (sort_by(.timestamp)
+		         | { prompts: length, project: .[0].project, firstPrompt: .[0].display,
+		             hfirst: (.[0].timestamp / 1000 | todate), hlast: (.[-1].timestamp / 1000 | todate) }) })
+		 | from_entries) as $h
+		| (map(select(.src == "file")) | map({ key: .sessionId, value: . }) | from_entries) as $f
+		| [ ($h | keys[]), ($f | keys[]) ] | unique
+		| map(. as $id | ($f[$id] // {}) as $x | ($h[$id] // {}) as $y
+		      | { id: $id[0:8],
+		          start: ($x.first // $y.hfirst // ""), end: ($x.last // $y.hlast // ""),
+		          prompts: ($y.prompts // 0), subs: ($x.subs // 0),
+		          mb: (if $x.bytes then ($x.bytes / 1048576 * 10 | floor / 10) else null end),
+		          project: ($x.cwd // $y.project // ""),
+		          what: ((if ($x.title // "") != "" then $x.title else ($y.firstPrompt // "") end) | clip($w)),
+		          note: ([ (if $x.path == null then "no trace" else empty end),
+		                   (if $y.prompts == null then "not in history" else empty end),
+		                   (if ($x.cont // "") != "" then "continued in \($x.cont[0:8])" else empty end) ]
+		                 | join("; ")) })
+		| map(select($pat == "" or (.project | test($pat; "i"))))
+		| sort_by(.start)
+		| (["id", "start", "end", "prompts", "subagents", "MB", "project", "title or first prompt", "note"] | @tsv),
+		  (.[] | [ .id, (.start | hm), (.end | hm), .prompts, .subs, .mb, .project, .what, .note ] | @tsv)'
 	;;
 prompts)
 	f=$(resolve "$1")
-	jq -r --argjson w "$width" "$clip"'
-		select(.type == "user" and (.isMeta | not))
-		| .timestamp as $t
-		| (.message.content
-		   | if type == "string" then .
-		     else map(select(.type == "text") | .text) | join(" ") end) as $s
-		| select($s != "")
-		| "\($t[0:16])\t\($s | clip($w))"' "$f"
+	jq -rs --argjson w "$width" "$lib"'
+		([ prompt_rows($w) ] | sort_by(.t)) as $rows
+		| (["time", "kind", "text"] | @tsv),
+		  ($rows[] | [ (.t | hm), .kind, .text ] | @tsv),
+		  "# assistant text, tools, and events: use timeline"' "$f"
 	;;
 tools)
 	f=$(resolve "$1")
-	jq -rs --argjson w "$width" "$clip"'
-		( map(select(.type == "user") | .message.content
-		      | if type == "array" then .[] else empty end
-		      | select(.type == "tool_result"))
-		  | map({ key: .tool_use_id,
-		          value: (.content
-		                  | if type == "string" then { chars: length, img: 0 }
-		                    else { chars: (map(select(.type == "text") | .text | length) | add // 0),
-		                           img: (map(select(.type == "image")) | length) } end) })
-		  | from_entries ) as $res
-		| map(select(.type == "assistant") | .timestamp as $t
-		      | .message.content[]? | select(.type == "tool_use") | . + { t: $t })
-		| unique_by(.id) | sort_by(.t) | .[]
-		| ($res[.id] // { chars: 0, img: 0 }) as $r
-		| [ .t[0:16], .name, ($r.chars / 4 | floor),
-		    (if $r.img > 0 then "img=\($r.img)" else "" end),
-		    (.input | (.command // .file_path // .pattern // .skill // .description // .prompt // tostring)
-		            | tostring | clip(if $w > 0 then 160 else 0 end)) ]
-		| @tsv' "$f"
+	jq -rs --argjson w "$width" "$lib"'
+		(["time", "tool", "result_tokens", "flags", "input", "error"] | @tsv),
+		(tool_rows($w) | [ (.t | hm), .name, (.tokens // "-"), .flags, .input, .error ] | @tsv),
+		"# result_tokens ~ chars/4 of returned text; images and persisted output are flagged apart"' "$f"
+	subagent_note "$f"
+	;;
+events)
+	f=$(resolve "$1")
+	jq -rs --argjson w "$width" "$lib"'
+		(["time", "kind", "text"] | @tsv),
+		([ event_rows($w) ] | sort_by(.t // "") | .[] | [ (.t | hm), .kind, .text ] | @tsv),
+		footer(["user", "assistant", "system:compact_boundary", "system:turn_duration",
+		        "system:local_command", "system:away_summary", "system:informational",
+		        "attachment:instructions", "attachment:queued_command",
+		        "attachment:read_truncation_notice", "attachment:thinking_drop",
+		        "attachment:invoked_skills", "attachment:hook_system_message",
+		        "attachment:hook_additional_context", "continued-in"])' "$f"
+	subagent_note "$f"
+	;;
+timeline)
+	f=$(resolve "$1")
+	jq -rs --argjson w "$width" "$lib"'
+		[ prompt_rows($w),
+		  say_rows($w),
+		  (tool_rows($w) | .text = "\(.name): \(.input) [\(.tokens // "-") tok\(if .flags != "" then ", " + .flags else "" end)]\(if .error != "" then " => " + .error else "" end)"),
+		  (event_rows($w) | select(.kind != "turn")) ]
+		| sort_by(.t // "")
+		| (["time", "kind", "text"] | @tsv),
+		  (.[] | [ (.t | hm), .kind, .text ] | @tsv),
+		  "# turn durations: use events; thinking blocks are not shown"' "$f"
+	subagent_note "$f"
 	;;
 usage)
 	f=$(resolve "$1")
-	jq -s --arg from "${2:-}" --arg to "${3:-~}" '
-		map(select(.type == "assistant" and .timestamp >= $from and .timestamp < $to))
-		| unique_by(.message.id) | sort_by(.timestamp)
-		| map(.message.usage) as $u
-		| ($u | map((.input_tokens // 0) + (.cache_read_input_tokens // 0)
-		            + (.cache_creation_input_tokens // 0))) as $ctx
-		| { messages: length,
-		    output_tokens: ($u | map(.output_tokens // 0) | add),
-		    peak_context: ($ctx | max), final_context: ($ctx | last) }' "$f"
+	from=${2:-}
+	to=${3:-9999}
+	one() {
+		jq -s --arg name "$2" --arg from "$from" --arg to "$to" '
+			map(select((.timestamp // "") >= $from and (.timestamp // "") < $to)) as $rows
+			| ($rows | map(select(.type == "assistant" and (.isApiErrorMessage | not)))
+			   | group_by(.message.id)
+			   | map(max_by(.message.usage.output_tokens // 0)) | sort_by(.timestamp)) as $msgs
+			| ($msgs | map(.message.usage // {})) as $u
+			| ($u | map((.input_tokens // 0) + (.cache_read_input_tokens // 0)
+			            + (.cache_creation_input_tokens // 0))) as $ctx
+			| ($rows | map(select(.timestamp)) | sort_by(.timestamp)) as $timed
+			# Each row holds one content block, so sum rows, not messages.
+			| ($rows | map(select(.type == "assistant") | .message.content[]?
+			               | select(.type == "text" or .type == "tool_use")
+			               | (.text // (.input | tostring)) | length)
+			   | add // 0 | . / 4 | floor) as $visible
+			| ($u | map(.output_tokens // 0) | add // 0) as $out
+			| if ($rows | length) == 0 then { trace: $name, rows_in_window: 0 } else
+			  { trace: $name,
+			    messages: ($msgs | length),
+			    models: ($msgs | map(.message.model) | group_by(.) | map({ (.[0]): length }) | add),
+			    output_tokens: $out,
+			    visible_output_tokens_est: $visible,
+			    caveat: (if $visible > $out then
+			               "logged output_tokens is below the visible text; this trace logged usage mid-stream"
+			             else null end),
+			    cache_write_tokens: ($u | map(.cache_creation_input_tokens // 0) | add),
+			    cache_read_tokens: ($u | map(.cache_read_input_tokens // 0) | add),
+			    peak_context: ($ctx | max), final_context: ($ctx | last),
+			    compactions: ($rows | map(select(.subtype == "compact_boundary")) | length),
+			    api_errors: ($rows | map(select(.isApiErrorMessage == true)) | length),
+			    turn_seconds: ($rows | map(select(.subtype == "turn_duration") | .durationMs) | add // 0 | . / 1000 | floor),
+			    first: ($timed | first | .timestamp), last: ($timed | last | .timestamp) } end' "$1"
+	}
+	{
+		one "$f" main
+		d="${f%.jsonl}/subagents"
+		if [ -d "$d" ]; then
+			for s in "$d"/*.jsonl; do
+				[ -f "$s" ] && one "$s" "subagent $(basename "$s" .jsonl)"
+			done
+		fi
+	} | jq -s '{ session: .[0], subagents: .[1:],
+	             total_output_tokens: (map(.output_tokens // 0) | add),
+	             total_visible_output_tokens_est: (map(.visible_output_tokens_est // 0) | add) }
+	           | del(.. | nulls)'
+	;;
+outliers)
+	pat=${1:-}
+	since=${2:-}
+	n=${CLAUDE_LOG_TOP:-15}
+	skipped=0
+	subs=0
+	{
+		for r in "${roots[@]}"; do
+			for f in "$r"/projects/*/*.jsonl; do
+				[ -f "$f" ] || continue
+				cwd=$(rg -m1 -o '"cwd":"[^"]*"' "$f" | head -1 | cut -d'"' -f4)
+				first=$(rg -m1 -o '"timestamp":"[^"]*"' "$f" | head -1 | cut -d'"' -f4)
+				if { [ -n "$pat" ] && ! echo "$cwd" | rg -qi -- "$pat"; } \
+					|| [[ "$first" < "$since" ]]; then
+					skipped=$((skipped + 1))
+					continue
+				fi
+				[ -d "${f%.jsonl}/subagents" ] \
+					&& subs=$((subs + $(find "${f%.jsonl}/subagents" -name '*.jsonl' | wc -l)))
+				jq -sc --arg id "$(basename "$f" .jsonl)" --arg cwd "$cwd" "$lib"'
+					results as $res
+					# Parenthesize each binding source: `a | b as $x | c` feeds c the output
+					# of a, not the original input.
+					| ([ .[] | select(.type == "assistant") | .timestamp as $t
+					     | .message.content[]? | select(.type == "tool_use") | . + { t: $t } ]
+					   | unique_by(.id)) as $calls
+					| ($calls | map(. as $c | ($res[$c.id] // { chars: 0, missing: true })
+					                + { t: $c.t, name: $c.name, input: ($c | input_of),
+					                    raw: ($c.input | tostring) })) as $cr
+					| [ prompt_rows(0) ] as $p
+					| ([ $p[] | select(.kind == "prompt" or .kind == "command") ] | length) as $asks
+					| [ .[] | select(.type == "assistant" and (.isApiErrorMessage | not))
+					    | .message.usage // {}
+					    | (.input_tokens // 0) + (.cache_read_input_tokens // 0)
+					      + (.cache_creation_input_tokens // 0) ] as $ctx
+					| { id: $id[0:8], cwd: $cwd,
+					    start: ([ .[] | .timestamp // empty ] | min // ""),
+					    prompts: $asks,
+					    mid_turn: ([ $p[] | select(.kind == "mid-turn") ] | length),
+					    interrupts: ([ $p[] | select(.kind == "interrupt") ] | length),
+					    calls: ($cr | length),
+					    calls_per_prompt: (($cr | length) / ([$asks, 1] | max) | . * 10 | floor / 10),
+					    errors: ([ $cr[] | select(.err) ] | length),
+					    result_tok_per_prompt: (($cr | map(.chars) | add // 0) / 4 / ([$asks, 1] | max) | floor),
+					    result_ktok: (($cr | map(.chars) | add // 0) / 4000 | floor),
+					    max_result_tok: (($cr | map(.chars) | max // 0) / 4 | floor),
+					    persisted: ([ $cr[] | select((.persisted // "") != "") ] | length),
+					    repeats: ($cr | group_by([.name, .raw]) | map(length - 1) | add // 0),
+					    compactions: ([ .[] | select(.subtype == "compact_boundary") ] | length),
+					    api_errors: ([ .[] | select(.isApiErrorMessage == true) ] | length),
+					    peak_ktok: (($ctx | max // 0) / 1000 | floor),
+					    turn_min: (([ .[] | select(.subtype == "turn_duration") | .durationMs ] | add // 0) / 60000 | floor),
+					    heavy: ($cr | sort_by(-.chars) | .[0:5]
+					            | map({ t, name, tok: (.chars / 4 | floor), input,
+					                    flags: ([ (if .err then "error" else empty end),
+					                              (if (.persisted // "") != "" then "persisted=\(.persisted)" else empty end) ]
+					                            | join(",")) })),
+					    repeated: ($cr | group_by([.name, .raw]) | map(select(length >= 3))
+					               | map({ name: .[0].name, input: .[0].input, count: length,
+					                       tok: (map(.chars) | add / 4 | floor) })) }' "$f"
+			done
+		done
+		echo "{\"skipped\": $skipped, \"subagents\": $subs}"
+	} | jq -rs --argjson w "$width" --argjson n "$n" "$lib"'
+		def pct($p): sort | .[(length - 1) * $p | floor] // 0;
+		(map(select(has("skipped"))) | first) as $meta
+		| map(select(has("id"))) as $s
+		# Flag rates and rare events; session size alone is not struggle.
+		| ["calls_per_prompt", "result_tok_per_prompt", "errors", "repeats", "mid_turn",
+		   "interrupts", "max_result_tok", "persisted", "compactions", "api_errors"] as $m
+		| ($m | map(. as $k | { key: $k, value: { p50: ($s | map(.[$k]) | pct(0.5)),
+		                                          p90: ($s | map(.[$k]) | pct(0.9)) } })
+		      | from_entries) as $st
+		| ($s | map(. as $x | . + { flags: [ $m[] as $k
+		      | select($x[$k] > 0 and $x[$k] >= $st[$k].p90 and $x[$k] >= 2 * $st[$k].p50)
+		      | "\($k)=\($x[$k])" ] })) as $s
+		| ($s | map(select(.flags | length > 0)) | sort_by(-(.flags | length), .start)) as $out
+		| "# \($s | length) sessions compared; baseline p50/p90: "
+		  + ($m | map("\(.)=\($st[.].p50)/\($st[.].p90)") | join(" ")),
+		  (if ($s | length) < 5 then "# fewer than 5 sessions: percentiles are weak; widen PATTERN or SINCE" else empty end),
+		  "",
+		  (["id", "start", "prompts", "calls", "result_ktok", "peak_ktok", "turn_min", "project", "stands out on"] | @tsv),
+		  ($out[] | [ .id, (.start | hm), .prompts, .calls, .result_ktok, .peak_ktok, .turn_min, .cwd,
+		              (.flags | join(" ")) ] | @tsv),
+		  "",
+		  "# heaviest tool results",
+		  (["session", "time", "tool", "result_tokens", "flags", "input"] | @tsv),
+		  ([ $s[] | .id as $id | .heavy[] | . + { id: $id } ] | sort_by(-.tok) | .[0:$n][]
+		   | [ .id, (.t | hm), .name, .tok, .flags, (.input | clip(if $w > 0 then 200 else 0 end)) ] | @tsv),
+		  "",
+		  "# calls repeated 3+ times with identical input",
+		  (["session", "count", "tool", "result_tokens", "input"] | @tsv),
+		  ([ $s[] | .id as $id | .repeated[] | . + { id: $id } ] | sort_by(-.count) | .[0:$n][]
+		   | [ .id, .count, .name, .tok, (.input | clip(if $w > 0 then 200 else 0 end)) ] | @tsv),
+		  "",
+		  "# \($s | length - ($out | length)) sessions stood out on nothing (see sessions); \($meta.skipped) traces filtered out by PATTERN or SINCE; \($meta.subagents) subagent traces not compared (inspect with usage or tools); lists cap at CLAUDE_LOG_TOP=\($n)"'
 	;;
 *)
 	usage

@@ -43,8 +43,12 @@ then its support.
   Give a reader new to the code enough context to judge each finding. A
   restated report carries the current state of every open finding.
 - **Change.** What changes for this reader: users get the visible effect,
-  deployers the steps and risks that fall to them, reviewers the why, what it
-  does, how it was verified, the risks, and where to look.
+  deployers the steps and risks that fall to them. Reviewers get the why
+  first, in a sentence; the change in the views that carry it; the one fact
+  its safety rests on and how far it is proven; undo, meaning how to back it
+  out and what cannot be undone; the blast radius; and what to watch:
+  deliberate omissions, surprises, migrations. Never a file-by-file
+  changelog.
 - **Decision.** Status first: proposed, with the decision requested and any
   deadline, or accepted, with its date. Then the recommendation or decision,
   the problem and its pressures, the alternatives and their consequences (in
@@ -58,7 +62,7 @@ like the task or the object, not like an argument.
   expected failures and how to recover from each.
 - **Work item** (ticket, spec). The outcome and its observable behavior, why
   it matters, scope and non-goals, how acceptance is judged, and the open
-  decisions that block it. Leave the method to the owner unless a constraint
+  decisions that block it. Acceptance names signals the reader can observe. Leave the method to the owner unless a constraint
   forces it.
 - **Reference** (architecture, design doc). A map of the system: where the
   sources live and who owns them, contracts and invariants, lifecycle and
@@ -78,6 +82,7 @@ it. The destination sets the rest:
 | Changelog | one line per visible change, in the user's words |
 | Ticket | a title that names the outcome in plain words |
 | Repository document | a date or status where it can go stale; supersede a decision instead of rewriting it |
+| Text that leaves the repo | permalinks, never relative paths; `path:line` is for chat |
 
 Set rendered output (HTML, formatted documents) by `$typesetting`.
 
@@ -85,13 +90,19 @@ Set rendered output (HTML, formatted documents) by `$typesetting`.
 
 - **Answer first.** Lead the text, each section, and each paragraph with its
   conclusion; the support follows.
+- **Lead with the difference.** When the reader expects a default, open with
+  where this departs from it.
 - **Linear.** The text reads in one pass from top to bottom and stands alone.
-  A new version restates what the reader needs; it does not point back to
-  earlier messages.
+  Introduce each concept before the text leans on it. A new version restates
+  what the reader needs; it does not point back to earlier messages.
 - **Headings state the claim**, with the information-bearing words first:
   "Promotion can fork the archive", not "Hazard".
 - **Chunks.** Keep paragraphs short, with one idea each. Parallel items read
-  best as a list, and compared items as a table.
+  best as a list; compared items and condition → action branches as a table.
+  Items that are not parallel stay in prose.
+- **Views.** Show structure, flow, ownership, code, or a change as a view
+  when it carries the point faster than prose; load
+  [`references/views.md`](references/views.md).
 - **Three layers, kept apart.** What to absorb, where it comes from (source
   links), and what people said about it (threads, stated intent, open
   questions) each have their own place.
@@ -99,6 +110,10 @@ Set rendered output (HTML, formatted documents) by `$typesetting`.
 - **Evidence.** Anchor material claims to code, tests, history,
   measurements, or primary sources. Mark fact, inference, contradiction, and
   open uncertainty apart; keep causal claims no stronger than the evidence.
+  Say how far each material claim is proven: stated, cited line, walked
+  failure, ran it, or reproduced in the running system. When an example or
+  value is missing, ask for it or cut the point; never invent one. State
+  known limits and weaknesses where they apply.
 
 ## Register
 
