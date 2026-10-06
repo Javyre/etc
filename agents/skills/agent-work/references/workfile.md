@@ -58,6 +58,8 @@ S2 behavioral D4 (report on cause)                 waits on D3
 - **Supersede, don't rewrite.** When the user changes a settled decision, add
   a new line and shrink the old one to `Dn superseded by Dm`. Slices and Now
   are rewritten in place, with finished slices pruned to one line.
+- **Slices.** Before planning or revising Slices, load `$code-work` and its
+  slices reference.
 - **Self-describing references.** Wherever you cite a `Dn` or `Sn`, in the
   file or outside it, add its gist: "D1 (stop on fill)", not "D1".
 - **Cross-references.** Point to another workfile only where it changes a

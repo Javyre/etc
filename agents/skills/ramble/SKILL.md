@@ -24,7 +24,9 @@ Say "Starting ramble." in your first reply.
   confidence they did not express: this list becomes their decisions.
 - **Inferred.** What you read into it, marked as yours to confirm or kill.
 - **Open.** A few threads worth rambling on next, phrased as prompts.
-  Recommend an answer where you have a view.
+  Recommend an answer where you have a view. Each item stands alone: one
+  decision, in concrete terms. A label from an earlier turn, such as an
+  option letter or a question number, repeats its gist.
 
 Answer what code, docs, or live state can answer yourself, and report it as
 fact; keep the user's turns for intent and judgment. When the talk turns to

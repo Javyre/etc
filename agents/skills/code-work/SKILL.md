@@ -1,8 +1,7 @@
 ---
 name: code-work
 description: >-
-  Use when designing or changing code or tests, reviewing or cleaning up a diff, or
-  explaining how code works or why it has its current shape.
+  Use for any work on or about code.
 ---
 
 # Code Work

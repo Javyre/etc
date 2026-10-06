@@ -4,6 +4,8 @@ A **slice** is one implementation step the user reviews: one or two jj
 changes, not a PR. Slices exist so the user can keep up and stays
 accountable for every line. Each slice limits the **surprise**: the
 difference between what the user decided and what they find in the diff.
+Surprise counts in each diff the user reviews, and in the end-to-end diff
+they sign off. Lead with the end-to-end one.
 Lower end-to-end time and user effort is the goal; planning that costs more
 than it saves is waste.
 
