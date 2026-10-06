@@ -41,9 +41,12 @@ Goal: resolve the choice, control context use, and grow a reusable evidence inde
   `./references/mara-bos.md`
 - Agent verification: `./references/poteto.md`,
   `./references/simon-willison.md`
+- Human review of agent code: what to understand before shipping
+  `./references/mitchell-hashimoto.md`; slicing a change for audit
+  `./references/kent-beck.md`
 - Agent loops and context: `./references/poteto.md`, `./references/matt-pocock.md`, `./references/simon-willison.md`, `./references/birgitta-boeckeler.md`, `./references/mitchell-hashimoto.md`, `./references/armin-ronacher.md`, `./references/anthropic-engineering.md`, `./references/nuno-campos.md`, `./references/kief-morris.md`
 - Evals and trust: `./references/poteto.md`, `./references/hamel-husain.md`, `./references/anthropic-engineering.md`, `./references/simon-willison.md`, `./references/birgitta-boeckeler.md`
-- Explanation and briefing: `./references/poteto.md`, `./references/matt-pocock.md`, `./references/simon-willison.md`
+- Explanation and briefing: `./references/poteto.md`, `./references/matt-pocock.md`, `./references/simon-willison.md`, `./references/daniele-procida.md`
 - Writing for human readers: `./references/poteto.md`, `./references/matt-pocock.md`, `./references/anthropic-engineering.md`
 
 ## Flow

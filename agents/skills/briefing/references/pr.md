@@ -21,6 +21,14 @@ A PR brief usually does the jobs below. Shape them to the change: a job can
 take a section, spread across several, fold into another, or shrink to
 nothing when the change does not need it.
 
+- **Decision ledger.** When the reader has made decisions this change
+  expresses, stated in chat, in a workfile, or in review threads, list one
+  row per decision: its gist, a diff link to where it lands, and whether it
+  lands as decided, deviates, or is new to the reader. Deviations and new
+  decisions come first. When it exists, this ledger usually leads the brief.
+  It adds to the review preparation below and does not replace it: the
+  review is the reader's main decision, so every PR in scope they have not
+  yet reviewed gets its own shape, reading tour, and questions.
 - **Since your review.** When the reader has already reviewed the PR, lead
   with the interdiff from the revision their review threads sit on (the
   threads' `original_commit_id`) to head. Check that both share a base before

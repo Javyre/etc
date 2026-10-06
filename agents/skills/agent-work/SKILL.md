@@ -3,8 +3,8 @@ name: agent-work
 description: >-
   Agent work through loop shape, context, mining, tools, verification, trust,
   traces, and evals. Use for agent-system design, work-history mining,
-  handoffs and task specs for another agent, or when another skill names it
-  as a dependency.
+  handoffs and task specs for another agent, workfiles that carry a
+  workstream across sessions, or when another skill names it as a dependency.
 ---
 
 # Agent Work
@@ -57,6 +57,10 @@ When mining Codex history, instructions, or machine state, load
 - Handing work to another agent or a fresh session: write a handoff
   ([`references/handoff.md`](references/handoff.md)) or a task contract
   ([`references/task-contract.md`](references/task-contract.md)).
+- Workfile: when a workstream spans sessions, or `.agents/work/` holds a file
+  for the current work, load [`references/workfile.md`](references/workfile.md).
+  It holds the user's decisions and the work state; a handoff for that work
+  updates it.
 - Tool boundaries shape reasoning. Bad tools make the model recreate missing
   interface logic on every run.
 - Expose state and interfaces. Use deterministic checks and reproducible

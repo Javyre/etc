@@ -19,6 +19,7 @@ let
     "grilling"
     "hindsight-prompt"
     "jv-review"
+    "ramble"
     "role-models"
     "standup"
     "typesetting"

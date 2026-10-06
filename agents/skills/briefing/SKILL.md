@@ -11,16 +11,17 @@ description: >-
 
 A brief brings a reader to judge a target on their own. The **seed**
 (report, PR, URL, spec, question) names the target. It does not define the
-content: teach what the reader needs to judge it, from the mechanism up, and
-treat each seed claim as a hypothesis to test.
+content: a brief ends in the reader's decisions, so teach only what those
+decisions need, and treat each seed claim as a hypothesis to test.
 
 ## Ends
 
 The communication succeeds when the reader is:
 
-- **Oriented in a minute.** From the metadata, the bottom line, and the
-  headings alone, they know what the target is, what the brief concludes,
-  and where the risk sits.
+- **Deciding first.** The first screen, read in about a minute, gives the
+  bottom line and the decisions: open forks and deviations from what the
+  reader already decided come first. With the headings, it tells them what
+  the target is and where the risk sits.
 - **Able to judge.** After one linear read, they can explain the mechanisms
   and decide the decision questions without the brief.
 - **Able to check.** Every claim reaches its primary source in one click,
@@ -38,10 +39,18 @@ when the brief in hand is better served another way.
 ## Invocation
 
 - **Seed.** Optional. With only a question, the question is the target.
-- **Scale.** Fit the set to the gap between the reader and the target: one
-  page (`index.html` only) when one mechanism closes it, an index plus one
-  page per mechanism otherwise. "lite", "quick", or "one page" in the request
-  forces one page; "full" or "deep" forces a set.
+- **Depth.** Set teaching depth by how well the reader knows the target
+  system. For their own or their team's system, put a refresher at each
+  decision covering what that decision depends on, and skip what they work
+  with daily. For an external or new system, the brief replaces the upstream
+  material the reader would otherwise study, which is often long and of
+  doubtful quality. Teach each mechanism the decisions rest on, from the
+  ground up, in study layers that lead to the decisions.
+- **Locality.** Put each explanation where the reader first needs it. A
+  separate page earns its place when several later points share it or it is
+  too large to sit inline. Locality decides where teaching goes, not how much
+  the reader gets. "lite", "quick", or "one page" in the request forces one
+  page; "full" or "deep" forces a set.
 - **Seed audit.** On when the seed makes claims: each claim gets a verdict.
   Off when the request says so in any words ("no audit", "just teach", "skip
   verdicts").
@@ -50,9 +59,12 @@ when the brief in hand is better served another way.
 
 ## A finished set
 
-- **Framed.** The index states the **frame**: a metadata block of what the
-  reader acts on, in terse values (the seed and its state, the pins, the date
-  checked, and the assumed reader baseline), and a few decision questions.
+- **Framed.** The index states the **frame**: the decisions first (each with
+  its gist, its state, and the page that informs it), then a terse metadata
+  block of what the reader acts on (the seed and its state, the pins, the
+  date checked, and the assumed reader baseline). When a workfile exists for
+  the work, its decisions are the source: cite them with their gist and
+  state. A brief settles no decision; it lists new ones as proposed.
   The baseline (from `$writing-for-humans`) sets what pages skip, the
   vocabulary, the prose style, and which code is the reader's own. When the
   seed is pinned older than the repository head, the index lists the later
@@ -133,8 +145,9 @@ needs it next.
 
 ## Page contract
 
-- Open with the metadata and the bottom line: the claim the page proves, as
-  briefly as it allows. Then the contents list.
+- Open with the bottom line, the claim the page proves, as briefly as it
+  allows. On the index, the decisions follow it, then the metadata, then the
+  contents list.
 - A section usually works as claim, evidence (an excerpt, trace, table, or
   figure), then the general rule.
 - With the audit on, the seed verdicts come last, then the source list and
@@ -152,6 +165,12 @@ Load `$typesetting`; set the pages by it and build them with its page kit.
 Write the set to `${XDG_DATA_HOME:-$HOME/.local/share}/briefs/<YYYY-MM-DD>-<slug>/`:
 `index.html`, `NN-<slug>.html` per page, `facts.md`, and the page kit's
 files copied so the set stands alone.
+
+When the brief forms its own report, for example by replacing or
+superseding the seed's, also write `report.html`. It is a standalone
+findings document the reader can hand on, with each finding stated as its
+claim, impact, evidence, and fix, and the index links to it. The brief walks
+the reader through the report, so the two overlap.
 
 Open the index in the default browser. Report the location, the bottom line,
 the verdicts with wrong and partly first, what stays unverified, and what you

@@ -7,12 +7,17 @@ Reach for when:
 - studying task shaping and the planning/execution split
 - studying harness-first pragmatism
 - studying when to trust background autonomy and when not to
+- deciding what a human must understand before shipping agent-written code
 
 Transferable patterns:
 - stop using chat as the default coding interface
 - reproduce your own work first
 - give agents strong verification paths
 - repeated misses should graduate into harness improvements
+- whiteboard defense: for shipped work, the human can explain how it works
+  and defend its decisions (why X over Y, where it fails, what a malicious
+  actor does) without the agent; line-level recall is not the bar, and
+  throwaway work is exempt
 
 Watch:
 - narrower corpus than Simon or Birgitta
@@ -21,6 +26,8 @@ Watch:
 Orientation reads:
 - https://mitchellh.com/writing/my-ai-adoption-journey
 - https://mitchellh.com/writing/non-trivial-vibing
+- https://x.com/mitchellh/status/2100249348345057389 (whiteboard defense)
+- https://github.com/ghostty-org/ghostty/blob/main/AI_POLICY.md
 
 ## Zig context
 

@@ -5,6 +5,8 @@ Reach for when:
 - pruning context load, duplication, and no-op prose
 - separating workflow steps from reference
 - delegating primary-source research into a cited repo artifact
+- designing a small per-workstream record of decisions and open questions
+  (the `wayfinder` map)
 - designing teaching or explanation workflows (the `teach` skill)
 - scoping writing guidance for human readers
 
@@ -16,6 +18,9 @@ Transferable patterns:
 - keep skills small, adaptable, and composable
 - send reading legwork to a background agent; keep results in one cited Markdown file
 - anchor every choice to one mission, with an explicit out-of-scope list
+- `wayfinder` map: "an index, not a store; a decision lives in exactly one
+  place"; one line per decision, with sections for decisions so far, not yet
+  specified, and out of scope; detail lives in tickets
 - never trust parametric knowledge: cite each claim, one primary source per unit
 - keep no general human-prose skill: each workflow skill that produces a
   deliverable (`pr`, `to-spec`, `to-tickets`, `handoff`) holds its template
@@ -40,4 +45,5 @@ Orientation reads:
 - https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md
 - https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md
 - https://github.com/mattpocock/skills/blob/main/skills/engineering/pr/SKILL.md
+- https://github.com/mattpocock/skills/tree/main/skills/engineering/wayfinder
 - https://github.com/mattpocock/skills/blob/main/skills/in-progress/writing-shape/SKILL.md

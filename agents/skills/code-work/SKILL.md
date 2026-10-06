@@ -54,15 +54,21 @@ Establish the semantic shape before implementation. Use authorized edits and tes
 to refine it. Readiness requires Coherence and, after contract or
 model changes, completed Fallout.
 
+Slices: before implementing work that needs more than one reviewable step,
+or when the user asks how to split it, load
+[`references/slices.md`](references/slices.md).
+
 ## Sketch
 
 When semantic shape remains unresolved, sketch caller usage, core data,
 ownership, seams, key signatures, and control flow in commentary. Derive each
 shape from first principles: the system's own state, invariants, and costs.
 Precedent checks the derivation for missed constraints; it never justifies the
-shape on its own. Compare at most two credible shapes and recommend
-one. Proceed on reversible engineering
-choices. Ask when product values or irreversible contracts decide the fork.
+shape on its own. Compare at most two credible shapes and recommend one.
+Proceed on reversible engineering choices. Ask when product values or
+irreversible contracts decide the fork. Before an abstraction others rely on
+lands, preview its call sites in chat, even as a rough or fake snippet, so
+the diff holds no design surprise.
 
 ## Experiments
 
