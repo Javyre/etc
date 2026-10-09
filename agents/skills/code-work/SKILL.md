@@ -1,7 +1,8 @@
 ---
 name: code-work
 description: >-
-  Use for any work on or about code.
+  Use whenever the subject is code, including its names and comments,
+  alongside any other skill the task loads.
 ---
 
 # Code Work
@@ -152,28 +153,58 @@ with its scope and impact.
 
 ## Names and imports
 
-- Scope: naming grows with scope. Use short local names when nearby context
-  supplies the meaning; use descriptive names across wider scopes.
-- Domain language: call a thing what its source of truth (upstream tool, docs,
-  domain) calls it, with established abbreviations. Shorten only while
-  distinctions survive.
-- Call site: a name reads right where callers write it, qualifier included;
-  `testing.parse` does not say what it parses. Operations are imperative
-  verbs, and API names match the user-facing names for the same action.
-  Accessors and very local helpers may bend this, as names grow with scope.
-- Plain words: prefer short, familiar names. Avoid jargon, vague nouns, two
-  names for one act, and words with a different meaning where the same reader
-  meets both. Separate modules or namespaces keep meanings apart. A word that
-  fits better and overlaps nothing still wins.
-- Precedent names: a precedent's name shows what people who know it will
-  expect. Weigh that expectation against fit with this system's meaning and
-  vocabulary; it is evidence, not a default to copy or avoid.
-- Honest names: names reveal waits, retries, allocation, fallback, normalization, and policy.
-- Contract drift: treat naming changes that alter the model or hide behaviour as contract changes.
-- New concepts: require a distinct meaning. Run names by the user.
-- Names as proof: state units and index spaces. Use base-first qualifiers and
-  symmetric duals when they expose bad expressions: `source`, `source_words`,
-  `source_index`; `source` and `target`.
+A name is the first explanation a reader gets, and they trust it. A good name
+gives them the right model of the thing and of how it relates to its
+neighbors. A wrong one sends them building the wrong model, which costs more
+than no hint at all, so fix a false name first.
+
+Name the system, not the word. Names make sense as a set: see the flow they
+live in, name each part for what defines it, and let neighbors confirm each
+word. A name chosen alone, against a checklist, fits locally, clashes
+globally, and does not stay accepted.
+
+Several pressures act on every name and often pull apart. Weigh them for the
+name at hand:
+
+- Defining property: name what the thing is, not one use it serves: a queue
+  that holds any item is `Queue`, not `JobQueue`. Name its role rather than
+  its type or container: `open_files`, not `registry: Registry` or
+  `files_vec`. Pick the least surprising word whose associations hold:
+  "group" suggests members chosen ad hoc; "literal" suggests a source-code
+  literal.
+- Relationships: give related concepts related words so the relation shows
+  (`Find`/`Found`, `Cache`/`Caching`, `Parser.Error`), and unrelated concepts
+  distinct ones. Hiding a real relation misleads as much as suggesting a false
+  one. A brand-new word announces a brand-new concept; save it for one.
+  Separate modules keep meanings apart.
+- Call site: a name reads right where callers write it, qualifier included:
+  `testing.parse` leaves the reader asking "parse what?". Operations are
+  imperative verbs; API names match the user-facing names for the same action.
+- Familiarity: use what the domain, upstream tool, or docs call it, with its
+  established abbreviations. A precedent's word carries its precedent's
+  expectations; borrow it when they hold here.
+- Brevity: short, plain words, kept while the distinctions survive.
+- Proof: state units and index spaces; base-first qualifiers and duals
+  expose bad expressions: `source`, `source_words`, `source_index`; `source`
+  and `target`.
+- Honesty: names reveal waits, retries, allocation, fallback, normalization,
+  and policy.
+
+Reach sets the weights: how far a name travels from the code that explains
+it. Inside a ten-line loop, `i`, `r`, and `p01` are clear and brevity wins. A
+field read three files away carries its meaning alone: `span.style` reads
+there, while `span.patch` needs the patch's target in view. A short verb like
+`apply` or `run` is clear on a well-named receiver beside its arguments, and
+opaque elsewhere.
+
+Opposites: duals help when both sides are peers (`source`, `target`). When
+one case is ordinary and the other special, the ordinary one keeps the plain
+name: `items` and `pinned_items`, not `normal_items`.
+
+- Contract drift: a rename that changes the model or hides behaviour is a
+  contract change. Run new concept names by the user.
+- Naming work: for a rename, a naming review, or naming a new design, load
+  [`references/naming.md`](references/naming.md).
 - Imports: prefer scoped local imports, then go-style imports. Use qualified paths
   when import blocks get noisy.
 

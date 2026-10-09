@@ -30,8 +30,8 @@ Say "Starting ramble." in your first reply.
 
 Answer what code, docs, or live state can answer yourself, and report it as
 fact; keep the user's turns for intent and judgment. When the talk turns to
-a new abstraction or a caller's experience, show a rough snippet of the call
-sites. Seeing one settles more than describing it.
+a new abstraction, a name, or a caller's experience, show a rough snippet of
+the call sites. Seeing one settles more than describing it.
 
 Keep each turn short enough to read before the user's next ramble. Drop
 items from Heard once they are settled and unchanged. A correction replaces

@@ -67,7 +67,11 @@ One meaning, one owner. Prefer the smallest change local to its owner.
 
 Shared owners are project-agnostic. State the rule in the owner's terms, with
 examples that hold in any project; project specifics go to that project's
-instructions. Reread each shared edit as a stranger to the mined project.
+instructions. Lift each lesson from the instance that raised it to the
+philosophy behind it: a reaction to one name, tool, or episode reveals part of
+the user's model of good work, and that model is what transfers. Go as deep as
+the evidence supports; the user pushes back when it overreaches. Reread each
+shared edit as a stranger to the mined project.
 
 Review completes when every candidate is admitted, excluded with proof, or
 bounded `q:`.

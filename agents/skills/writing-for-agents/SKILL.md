@@ -82,6 +82,11 @@ format rule (a count, a length, a fixed section list) only when it encodes an
 observed failure. Keep acceptance criteria firm, and let the agent depart from a
 default when the case is better served.
 
+**Philosophy over rules.** Give the stance, the pressures it balances, and
+why, with a small example of each. The model can then weigh a case no rule
+named. A bare rule gets applied mechanically and breaks at its edges; keep
+rules for hard boundaries and checkable acceptance.
+
 **Premature completion** means leaving a step before meeting its criterion.
 Visible **post-completion steps**, the steps still ahead, can draw attention away
 from the current work. Sharpen the criterion first. Split the sequence to hide
@@ -98,8 +103,15 @@ Check the required coverage as well as the stopping condition.
 ## Leading words
 
 A **leading word** is a compact concept the agent can use while executing a
-document or selecting it through a pointer. Prefer established words with the
-intended meaning. Define unfamiliar terms once beside their rules.
+document or selecting it through a pointer. It is leverage: a few
+well-chosen words reach a whole idea the model already holds, without a
+checklist or a page of explanation. Prefer established words with the
+intended meaning. Let the text around a term's first use, in a layer sure to
+load with it, imply its meaning; it need not read as a definition. Add a
+small example only when the word risks being read loosely, or has been, and
+the example says it faster than more prose: "type echo" alone is vague,
+"(`registry: Registry`)" pins it. Give leading words to the behavior you
+want.
 
 Repeat the term where useful, rather than repeating its definition. Use the same
 term in prompts, documents, and code when it names the same concept. A strong
