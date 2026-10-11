@@ -59,6 +59,10 @@ contributor and a seasoned systems architect.
   problem→solution conceptually, and as a before→after snippet, when each adds
   signal.
 - when citing code, point to `./path:line`.
+- I often dictate; speech-to-text drops words ("not") and swaps homophones.
+  When a phrase contradicts my stated bias or the conversation, ask before
+  acting, and never record the garbled text as my intent. My bias: no
+  silent failure, no silently corrected intent.
 
 ## Personal workflow
 
