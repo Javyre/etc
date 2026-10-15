@@ -6,39 +6,6 @@
   ...
 }:
 let
-  # HACK: codex-nix omits the voice runtime. No upstream issue or PR exists yet.
-  #       Remove this override once codex-nix includes the complete package.
-  #       Keep the CLI, voice helper, and native libraries from one release;
-  #       voice discovery requires the package's physical layout and metadata.
-  codexBin =
-    let
-      codex = inputs'.codex-nix.packages.default;
-      version = "0.162.1";
-      platform = pkgs.stdenv.hostPlatform;
-      hashes = {
-        "0.162.1" = {
-          aarch64-darwin = "sha256-iON8zd9aD06p3BvhPGaiqU+cLRoE86zpBT1xs5OeiF0=";
-        };
-      };
-      target = "${platform.parsed.cpu.name}-apple-darwin";
-    in
-    if !platform.isDarwin then
-      codex
-    else
-      codex.overrideAttrs (_: {
-        inherit version;
-        src = pkgs.fetchurl {
-          url = "https://github.com/openai/codex/releases/download/rust-v${version}/codex-package-${target}.tar.gz";
-          hash = hashes.${version}.${platform.system};
-        };
-        codeModeHostSrc = null;
-        installPhase = ''
-          runHook preInstall
-          mkdir -p "$out"
-          cp -R bin codex-package.json codex-path codex-resources "$out/"
-          runHook postInstall
-        '';
-      });
   ln = config.lib.jv.ln;
 in
 {
@@ -63,7 +30,6 @@ in
     git
     gh
     jujutsu
-    codexBin
     wget
     htop
     jq
@@ -143,18 +109,6 @@ in
     nerd-fonts.intone-mono
     nerd-fonts.commit-mono
   ];
-
-  # The daemon resolves current/bin/codex. Keep CLI and daemon on the Nix
-  # package; Codex's updater only owns selections under standalone/releases.
-  # Replace any current link left by the standalone installer.
-  home.file.".codex/packages/standalone/current" = {
-    source = codexBin;
-    force = true;
-  };
-  home.file.".codex-personal/packages/standalone/current" = {
-    source = codexBin;
-    force = true;
-  };
 
   home.sessionVariables = {
     EDITOR = "hx";

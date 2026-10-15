@@ -11,7 +11,7 @@ let
     dir: skills:
     lib.mapAttrs' (name: source: lib.nameValuePair "${dir}/${name}" { inherit source; }) skills;
 
-  configDirFiles =
+  homeFiles =
     {
       dir,
       agentsMd,
@@ -21,11 +21,11 @@ let
     { "${dir}/CLAUDE.md".source = agentsMd; } // linkSkills "${dir}/skills" skills;
 
   wrapClaude =
-    package: bin: configDir:
+    package: bin: claudeHome:
     pkgs.runCommand bin { nativeBuildInputs = [ pkgs.makeBinaryWrapper ]; } ''
       mkdir -p $out/bin
       makeBinaryWrapper ${lib.getExe package} $out/bin/${bin} \
-        --set CLAUDE_CONFIG_DIR ${lib.escapeShellArg configDir}
+        --set CLAUDE_CONFIG_DIR ${lib.escapeShellArg claudeHome}
     '';
 
   # If ~/.claude reappears, something bypassed this.
@@ -42,11 +42,11 @@ let
       '';
     };
 
-  configDirModule = {
+  homeModule = {
     options = {
       bin = lib.mkOption {
         type = lib.types.str;
-        description = "Wrapper that runs Claude Code with this config dir.";
+        description = "Wrapper that runs Claude Code with this home.";
       };
       dir = lib.mkOption {
         type = lib.types.str;
@@ -65,29 +65,29 @@ let
 in
 {
   options.jv.claude = {
-    enable = lib.mkEnableOption "Claude Code config dirs";
+    enable = lib.mkEnableOption "Claude Code homes";
     package = lib.mkOption {
       type = lib.types.package;
     };
-    refuseDefaultConfigDir = lib.mkOption {
+    refuseDefaultHome = lib.mkOption {
       type = lib.types.bool;
       description = "Install a `claude` that exits unless CLAUDE_CONFIG_DIR is set.";
     };
-    # Each config dir has its own login, sessions and history.
-    configDirs = lib.mkOption {
-      type = lib.types.attrsOf (lib.types.submodule configDirModule);
+    # Each home has its own login, sessions and history.
+    homes = lib.mkOption {
+      type = lib.types.attrsOf (lib.types.submodule homeModule);
     };
   };
 
   config = lib.mkIf cfg.enable {
     home.packages =
-      lib.optional cfg.refuseDefaultConfigDir (guardClaude cfg.package)
+      lib.optional cfg.refuseDefaultHome (guardClaude cfg.package)
       ++ lib.mapAttrsToList (
-        _: d: wrapClaude cfg.package d.bin "${config.home.homeDirectory}/${d.dir}"
-      ) cfg.configDirs;
+        _: h: wrapClaude cfg.package h.bin "${config.home.homeDirectory}/${h.dir}"
+      ) cfg.homes;
 
-    # Give each config dir its own dir. Two that share one, with the same
+    # Each home needs its own dir. Two that share one, with the same
     # sources, merge silently into one login and history.
-    home.file = lib.mkMerge (lib.mapAttrsToList (_: configDirFiles) cfg.configDirs);
+    home.file = lib.mkMerge (lib.mapAttrsToList (_: homeFiles) cfg.homes);
   };
 }
