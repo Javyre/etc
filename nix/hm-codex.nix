@@ -32,8 +32,8 @@ let
         --set CODEX_SQLITE_HOME ${lib.escapeShellArg codexHome}
     '';
 
-  # Without CODEX_HOME, codex falls back to ~/.codex, so a bare `codex`
-  # would silently run in whichever home that is.
+  # Without CODEX_HOME, codex falls back to ~/.codex, so a bare `codex` would
+  # silently start a home of its own beside the wrapped ones.
   guardCodex = pkgs.writeShellApplication {
     name = "codex";
     text = ''

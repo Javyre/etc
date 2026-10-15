@@ -83,7 +83,7 @@ in
     };
     homes.work = {
       bin = "codex-work";
-      dir = ".codex";
+      dir = ".codex-work";
       inherit agentsMd;
     };
   };
