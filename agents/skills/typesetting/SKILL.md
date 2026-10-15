@@ -78,6 +78,24 @@ its shape, so each choice either helps the meaning or gets in its way
   Tables size to their content between a minimum and a maximum, and nothing
   widens the page on a phone.
 
+## Interaction
+
+A page is static by default. Interaction earns its place as any visible
+difference does: it lets the reader test their model against the real one,
+which a static view cannot. A control that only reveals or hides text is a
+static page with extra clicks.
+
+Interaction costs tokens, wall time, and the user's attention while it gets
+tuned, so its scope is the user's call:
+
+- **Inline.** Cheap and one-shot, built in the same pass as the page, with
+  no state beyond the page: hover linking a trace step to its code line, a
+  toggle between two views. Build it.
+- **Proposed.** A sandbox, simulation, tuner, or anything likely to take
+  rounds: name what the reader would do with it and its rough cost, and
+  build it only when the user signs off. Then load
+  [`references/interactive.md`](references/interactive.md).
+
 ## HTML pages
 
 Build HTML output with the page kit in [`kit/`](kit/). Its

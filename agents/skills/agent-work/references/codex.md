@@ -10,6 +10,8 @@ installation and the matching version of
 ## Roots
 
 - Codex root: `$CODEX_HOME` when set; `~/.codex` otherwise.
+- A machine can run several roots, each with its own history. The user's
+  instructions name them and say which ones you may read.
 - Global skill root: `~/.agents/skills`.
 
 ## Truth

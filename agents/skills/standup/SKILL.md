@@ -1,6 +1,6 @@
 ---
 name: standup
-description: Synthesize recent company work from Codex sessions into compact morning standup notes.
+description: Synthesize recent company work from agent sessions into compact morning standup notes.
 disable-model-invocation: true
 ---
 
@@ -21,7 +21,9 @@ window contains relevant progress.
 
 ## Mine
 
-Mine every relevant Codex session in the window. Group related sessions by
+Mine every relevant agent session in the window, Codex and Claude Code, in
+each root your instructions let you read, and the workfiles under
+`.agents/work/`. Name any root you could not read. Group related sessions by
 workstream before judging them.
 
 ```text

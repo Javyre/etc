@@ -76,14 +76,14 @@
   border-radius: 4px; vertical-align: 1px; white-space: nowrap;
 }
 .tag.ok    { background: <mark>var(--fill-ok)</mark>;      color: var(--label-ok); }</pre></figure>
-<figure class="excerpt"><figcaption><a href="page.js">page.js:145-151</a> · a finished page reopens at the top</figcaption><pre>  function initScroll() {
+<figure class="excerpt"><figcaption><a href="page.js">page.js:145-151</a> · a finished page reopens at the top</figcaption><pre data-lang="js">  function initScroll() {
     var main = document.querySelector("main");
     var pager = document.querySelector(".pager");
     var curName = document.querySelector(".topbar .cur &gt; span");
     var saved = +get("y:" + page);
     // Resume only unfinished pages; a finished page reopens at the top.
     if (!location.hash &amp;&amp; saved &gt; 0 &amp;&amp; <mark>!get("done:" + page)</mark>) window.scrollTo(0, saved);</pre></figure>
-<p>Syntax colors share one lightness and differ by hue: keywords in the accent hue, then strings, numbers, types, and macros; comments are muted. The highlighter only wraps text nodes, so <code>&lt;mark&gt;</code> and links inside the code survive.</p>
+<p>Syntax colors share one lightness and differ by hue: keywords in the accent hue, then strings, numbers, types, and macros; comments are muted. A block is highlighted only when it names its language, as in <code>&lt;pre data-lang="js"&gt;</code>; without it, the block shows as written. The highlighter only wraps text nodes, so <code>&lt;mark&gt;</code> and links inside the code survive.</p>
 
 <h2 id="trace"><span class="n">4</span>Pseudo stack traces</h2>
 <p>Use a trace when the point is control flow or causality. Hand-annotate with <code>.k</code> (frame), <code>.c</code> (aside), <code>.w</code> (cost), <code>.b</code> (failure), <code>.o</code> (success). Traces are never syntax-colored.</p>

@@ -129,6 +129,9 @@ code rather than a run.
 - **Keep it together.** Put each explanation next to what it explains: the
   excerpt beside its claim, the label on the figure (spatial
   contiguity).
+- **In their hands.** When the lesson is how a mechanism behaves across
+  inputs (a cache eviction policy, a rate limiter), a sandbox of the real model
+  teaches faster than prose. Propose one under typesetting's Interaction.
 - **Cut decoration.** Each sentence, figure, and emphasis must change the
   reader's understanding (coherence).
 

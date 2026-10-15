@@ -297,13 +297,15 @@
 
 // Minimal syntax highlighting for code blocks.
 //
+// A block is highlighted only when it names its language:
+// <pre data-lang="rust">. The value is a language (rust, c, js, go, hash,
+// json) or a file extension (rs, zig, ts, sh, nix, ...). Blocks without it are
+// left as written, so author markup is never repainted. An unknown value warns
+// and is skipped.
+//
 // It wraps tokens in text nodes only, so existing markup (<mark>, <a>, trace
 // and diff spans) survives. Trace spans (.c .k .w .b .o .add .del) are left
-// untouched. Blocks opt out with class "plain" or "trace"; a block outside an
-// excerpt whose first child is span.k is treated as a trace too.
-//
-// Language comes from data-lang on the <pre>, else from the file extension of
-// the excerpt's source link, else from a guess.
+// untouched.
 (function () {
   var KW = {
     rust: "as async await break const continue crate dyn else enum extern false fn for if impl in let loop match mod move mut pub ref return self Self static struct super trait true type unsafe use where while None Some Ok Err",
@@ -316,24 +318,16 @@
     rs: "rust", c: "c", h: "c", cc: "c", cpp: "c", hpp: "c", zig: "c",
     js: "js", mjs: "js", ts: "js", tsx: "js", jsx: "js",
     go: "go", sh: "hash", bash: "hash", fish: "hash", toml: "hash", nix: "hash",
-    yml: "hash", yaml: "hash", typ: "hash", py: "hash", json: "json", md: null, css: null, html: null, txt: null
+    yml: "hash", yaml: "hash", typ: "hash", py: "hash", json: "json"
   };
   var TRACE = /(^|\s)(c|k|w|b|o|add|del|t-[a-z])(\s|$)/;
 
   function langOf(pre) {
-    if (pre.dataset.lang) return pre.dataset.lang === "none" ? null : pre.dataset.lang;
-    var fig = pre.closest("figure.excerpt");
-    var a = fig && fig.querySelector("figcaption a");
-    if (a) {
-      var m = a.getAttribute("href").split(/[?#]/)[0].match(/\.([a-z]+)$/);
-      if (m && m[1] in EXT) return EXT[m[1]];
-    }
-    var t = pre.textContent.replace(/^\s+/, "");
-    if (/^(\$ |curl |# |jq |for |export )/.test(t) || /\bjq\b/.test(t)) return "hash";
-    if (/^[{\[]"?/.test(t)) return "json";
-    if (/\b(fn|impl|let mut|pub struct)\b/.test(t)) return "rust";
-    if (/\b(function|const|=>|interface)\b/.test(t)) return "js";
-    return "c";
+    var v = pre.dataset.lang;
+    var own = Object.prototype.hasOwnProperty;
+    var lang = own.call(KW, v) || v === "json" ? v : own.call(EXT, v) ? EXT[v] : null;
+    if (!lang) console.warn("page.js: unknown data-lang", v, pre);
+    return lang;
   }
 
   function build(lang) {
@@ -399,12 +393,9 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
-    var pres = document.querySelectorAll("pre");
+    var pres = document.querySelectorAll("pre[data-lang]");
     for (var k = 0; k < pres.length; k++) {
       var pre = pres[k];
-      if (pre.classList.contains("plain") || pre.classList.contains("trace")) continue;
-      var first = pre.firstElementChild;
-      if (!pre.closest("figure.excerpt") && first && first === pre.firstChild && first.matches("span.k")) continue;
       var lang = langOf(pre);
       if (!lang) continue;
       try { walk(pre, build(lang), lang, { open: null }); } catch (e) {}

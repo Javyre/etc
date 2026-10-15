@@ -30,6 +30,7 @@ current CSS and JavaScript where they remove code. Pages still read without
 | Run-in head | `span.rh` | sans only |
 | Source line | `span.cite` inside a block, or `p.cite` after a `pre`, table, or figure | muted mono |
 | Excerpt | `figure.excerpt` | the caption links the lines |
+| Highlighted code | `pre data-lang="rust"` (a language or file extension) | without `data-lang`, a `pre` shows as written |
 | Trace, diff | `pre.trace` with `.k` frame, `.c` aside, `.w` cost, `.b` failure, `.o` success, `.add`, `.del` | colored notes name kinds |
 | Before/after | `.flow` with two `.box` and an `.arrow` | |
 | Proportions | `.strip`, `.bars`, inline SVG | fills by kind |

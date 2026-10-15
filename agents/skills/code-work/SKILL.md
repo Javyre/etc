@@ -219,6 +219,13 @@ name: `items` and `pinned_items`, not `normal_items`.
   first becomes necessary; let later parallel cases use that context.
 - Voice: prefer terse, direct language. Preserve an apt phrase or candid
   note when it helps. State uncertainty as uncertainty.
+- Audience: a comment speaks to whoever reads this code later, at any
+  revision, with only the code in front of them: what holds and why it
+  must, in the register of documentation. A doc comment speaks to callers
+  who will not read the body: the contract, not the implementation. What
+  the code replaced and why belongs to the commit message, read against
+  its diff. Talk with the user stays in chat; a question for their review
+  is a SPONGE.
 - Placement: keep the explanation with the decision or representation
   it explains.
 - Maintenance: when changing the relevant code, check that its comments

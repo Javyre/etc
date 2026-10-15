@@ -6,7 +6,9 @@ disable-model-invocation: true
 
 # Dream
 
-Load `$agent-work` and `$jv-review`; Dream is jv-review's Governing skill.
+Load `$agent-work`, `$jv-review`, and `$writing-for-agents`. Dream is
+jv-review's Governing skill; writing-for-agents judges where each skill or
+instruction edit goes and how it reads.
 
 Goal: turn friction into the smallest durable change: a check, tool, access
 path, or skill or instruction edit.
@@ -45,7 +47,6 @@ first:
 mechanical → check, test, hook, or tool
 access gap → expose logs, state, or a read-only service
 judgment   → skill or instruction edit, placed by progressive disclosure
-             (`$writing-for-agents`)
 ```
 
 A mechanical cause gets a mechanism, not prose. An existing check that did
@@ -86,7 +87,7 @@ proof, expected relief, and regression risk. Merge repeated episodes by cause.
 
 ## Fix Delta
 
-Propose first. After user approval, load `$writing-for-agents` and fix.
+Propose first. After user approval, fix.
 
 Update the owner in place, remove superseded truth, validate routing, and
 rereview the friction seam.

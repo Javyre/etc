@@ -27,6 +27,12 @@ Settle the reader before drafting.
   memory. Internal teammates default to experts. Users and operators get only
   the prerequisites the text names. External decision makers get domain
   detail only where it moves the decision.
+- **Writing as the user.** Readers take text in the user's voice or under
+  their name (a reply, a commit, a record of their decisions) as the user's
+  own claims and words. An estimate, a dependency, a requirement, or
+  phrasing they did not use is your inference: put it beside the draft for
+  them to confirm. Leave in only what is so close to what they said that
+  they would settle it in a normal read.
 
 ## Shape
 
@@ -103,6 +109,9 @@ For rendered output (HTML, formatted documents), load `$typesetting`.
 - **Views.** Show structure, flow, ownership, code, or a change as a view
   when it carries the point faster than prose; load
   [`references/views.md`](references/views.md).
+- **Values at a glance.** Every number carries its unit where it sits, and
+  is scaled and grouped so magnitudes compare by eye: "28.5k tok", "$1.2k",
+  "3.4 ms", not "28512" in a column headed "tokens".
 - **Three layers, kept apart.** What to absorb, where it comes from (source
   links), and what people said about it (threads, stated intent, open
   questions) each have their own place.
