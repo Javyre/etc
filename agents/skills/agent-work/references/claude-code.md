@@ -9,24 +9,24 @@ stamp.
 
 ## Roots
 
-- Config root: `$CLAUDE_CONFIG_DIR` when set; `~/.claude` otherwise.
+- Claude Code root: `$CLAUDE_CONFIG_DIR` when set; `~/.claude` otherwise.
 - A machine can run several roots, each with its own history. The user's
   instructions name them and say which ones you may read.
 
 ## Truth
 
-- `<root>/CLAUDE.md`: user instructions.
-- `<root>/skills/`: user skills.
-- `<root>/settings.json`: hooks, permissions, and environment.
-- `<root>/projects/<slug>/memory/MEMORY.md`: auto-memory, when enabled.
+- `<claude-root>/CLAUDE.md`: user instructions.
+- `<claude-root>/skills/`: user skills.
+- `<claude-root>/settings.json`: hooks, permissions, and environment.
+- `<claude-root>/projects/<slug>/memory/MEMORY.md`: auto-memory, when enabled.
 - Current project instructions and docs: project truth.
 
 ## History
 
-- `<root>/history.jsonl`: cheap index. One row per prompt: `display`,
+- `<claude-root>/history.jsonl`: cheap index. One row per prompt: `display`,
   `timestamp` (epoch ms), `project`, `sessionId`.
-- `<root>/projects/<slug>/<session>.jsonl`: exact traces. `<slug>` is the
-  working directory with `/` and `.` replaced by `-`.
+- `<claude-root>/projects/<slug>/<session>.jsonl`: exact traces. `<slug>` is
+  the working directory with `/` and `.` replaced by `-`.
 - `<session>/subagents/*.jsonl`: subagent traces.
 - `<session>/tool-results/`: tool output too large to inline.
 
@@ -50,7 +50,12 @@ Trace hazards for new queries (the script handles each):
 
 ## Machine state
 
-Never read, copy, summarize, or expose credentials or auth state. Treat
-`settings.json`, `daemon*`, `sessions/`, `session-env/`, `shell-snapshots/`,
-and `file-history/` as supporting evidence. Edit them only with explicit
-authority.
+Never read, copy, summarize, or expose credentials or auth state. Edit
+anything in the root only with explicit authority. Treat these as supporting
+evidence:
+
+- `daemon*`
+- `sessions/`
+- `session-env/`
+- `shell-snapshots/`
+- `file-history/`

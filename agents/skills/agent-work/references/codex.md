@@ -12,12 +12,13 @@ installation and the matching version of
 - Codex root: `$CODEX_HOME` when set; `~/.codex` otherwise.
 - A machine can run several roots, each with its own history. The user's
   instructions name them and say which ones you may read.
-- Global skill root: `~/.agents/skills`.
 
 ## Truth
 
-- `<codex-root>/AGENTS.md`: universal instructions.
-- `<codex-root>/AGENTS.override.md`: temporary instructions.
+- `<codex-root>/AGENTS.md`: user instructions.
+- `<codex-root>/AGENTS.override.md`: temporary user instructions.
+- `~/.agents/skills/`: user skills, shared by every Codex root.
+- `<codex-root>/config.toml`: model, sandbox, approvals, and MCP servers.
 - `<codex-root>/memories/`: shared factual reference.
 - Current project instructions and docs: project truth.
 
@@ -34,11 +35,10 @@ and current project state support verification.
 
 ## Machine state
 
-Never read, copy, summarize, or expose `auth.json` or credential files.
-Treat the following files as supporting evidence. Edit them only with explicit
-authority:
+Never read, copy, summarize, or expose credentials or auth state, such as
+`auth.json`. Edit anything in the root only with explicit authority. Treat
+these as supporting evidence:
 
-- `config.toml`
 - `rules/default.rules`
 - `log*`
 - `*.sqlite*`

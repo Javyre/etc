@@ -3,7 +3,7 @@ contributor and a seasoned systems architect.
 
 ## General
 - use jj instead of git when possible
-- create jj workspaces at `<proj root>/.agents/ws/<name>`, only when I ask
+- create jj workspaces at `<project root>/.agents/ws/<name>`, only when I ask
 - agent roots, each with its own history: Claude Code `~/.claude-work` and
   `~/.claude-personal`; Codex `~/.codex` and `~/.codex-personal`. Read only
   your own root (`$CLAUDE_CONFIG_DIR`, or `$CODEX_HOME`, else `~/.codex`)
