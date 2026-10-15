@@ -13,7 +13,7 @@ Keep the prompt, loaded context, action trace, final artifact, and side effects
 inspectable. Distinguish a bad pilot, a failed treatment, and a wrong
 agent-system model.
 
-Scouts or model judges can widen evidence. The experiment owner verifies claims,
-resolves disagreement, and owns acceptance. Add task breadth, repetition, or
-redundant agents only when the remaining uncertainty and stakes earn the context,
-review, and maintenance cost.
+Scouts or model judges can widen evidence. The experiment owner verifies
+claims, resolves disagreement, and owns acceptance. Add task breadth,
+repetition, or redundant agents only when the remaining uncertainty and stakes
+earn the context, review, and maintenance cost.

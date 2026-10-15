@@ -2,7 +2,7 @@
 
 Claude Code source layout for Agent Work mining.
 
-Layout checked on 2026-10-05 with Claude Code 2.1.284. After upgrades, root
+Layout checked on 2026-10-15 with Claude Code 2.1.300. After upgrades, root
 changes, or missing paths or fields, refresh affected entries from the
 installation and [the docs](https://code.claude.com/docs). Then update this
 stamp.
@@ -24,11 +24,15 @@ stamp.
 ## History
 
 - `<claude-root>/history.jsonl`: cheap index. One row per prompt: `display`,
-  `timestamp` (epoch ms), `project`, `sessionId`.
+  `timestamp` (epoch ms), `project`, `sessionId`. Pasted text shows in
+  `display` as a placeholder; its text is inline in `pastedContents` or in
+  `<claude-root>/paste-cache/<contentHash>.txt`.
 - `<claude-root>/projects/<slug>/<session>.jsonl`: exact traces. `<slug>` is
   the working directory with `/` and `.` replaced by `-`.
-- `<session>/subagents/*.jsonl`: subagent traces.
+- `<session>/subagents/agent-<id>.jsonl`: subagent traces. The
+  `.meta.json` beside each gives its type, model, and task.
 - `<session>/tool-results/`: tool output too large to inline.
+- `<claude-root>/plans/`: plans written in plan mode.
 
 Start with [`scripts/claude-log`](../scripts/claude-log); `-h` lists its views.
 A view that leaves something out says so in a `#` footer. Write a new query
@@ -41,7 +45,8 @@ Trace hazards for new queries (the script handles each):
 - Subagent traces can log `usage` mid-stream, below the visible output.
 - Tool results can hold base64 images. Count them apart from text.
 - A message the user sends mid-turn is an `attachment` row of type
-  `queued_command` with `origin.kind == "human"`, not a `user` row.
+  `queued_command` with `origin.kind == "human"`, not a `user` row. Kind
+  `peer` is a subagent's report handed back.
 - `isMeta` user rows are harness-injected: skill loads, agent messages,
   scheduled prompts, image notes.
 - A failed `capture` or other empty jq expression drops its whole row.
@@ -50,11 +55,12 @@ Trace hazards for new queries (the script handles each):
 
 ## Machine state
 
-Never read, copy, summarize, or expose credentials or auth state. Edit
-anything in the root only with explicit authority. Treat these as supporting
-evidence:
+Never read, copy, summarize, or expose credentials or auth state, such as
+`*.key` files. Edit anything in the root only with explicit authority. Treat
+these as supporting evidence:
 
 - `daemon*`
+- `jobs/`: background session state
 - `sessions/`
 - `session-env/`
 - `shell-snapshots/`
